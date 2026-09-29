@@ -1,0 +1,36 @@
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# Local data and generated runtime artifacts
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+logs/
+tmp/
+
+# dbt / Airflow / IDE / OS
+target/
+dbt_packages/
+logs/
+airflow.db
+airflow-webserver.pid
+.idea/
+.vscode/
+.DS_Store
