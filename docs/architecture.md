@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 1 implements only local acquisition, contracts, profiling, validation, and design. The cloud and analytics components remain unprovisioned.
+Milestone 2 implements batch creation, manifests, object-store validation, a local S3 substitute, and the boto3 S3 adapter. AWS remains unprovisioned and unverified; downstream analytics components remain unimplemented.
 
 ## Snowflake organization
 
@@ -56,11 +56,11 @@ Access will use separate least-privilege roles for loading, transformation, orch
 The public dataset is a fixed snapshot, not an event feed. Historical simulation therefore uses deterministic logical windows rather than pretending files arrived on dates they did not.
 
 1. Hash each untouched source file with SHA-256 and record its byte size, row count, and source version in a manifest.
-2. Define half-open monthly windows `[window_start, window_end)` over `orders.order_purchase_timestamp`.
-3. Assign order items, payments, and reviews to the window of their parent order. Load customer, product, seller, category, and geography reference snapshots under the same source version.
+2. Define half-open monthly windows `[window_start, window_end)` over `orders.order_purchase_timestamp`. Only the 25 nonempty months are emitted.
+3. Assign customers, order items, payments, and reviews to the window of their parent order. Load product, seller, category, and geography tables once in a separate reference snapshot under the same source version.
 4. Derive `batch_id = sha256(source_version | manifest_hash | window_start | window_end | pipeline_contract_version)`.
-5. Write immutable S3 keys containing source version, table, window, and batch ID. Never overwrite a different checksum at an existing key.
-6. Enforce one successful `AUDIT.FILE_LOAD` record per `(target_table, file_sha256)`. A retry with the same checksum is a no-op; a checksum conflict fails closed.
+5. Write immutable S3 keys containing source, logical ingestion date, batch ID, and table. Never overwrite a different checksum at an existing key.
+6. Upload data objects first and the manifest last as the batch commit marker. A retry with the same checksum validates and skips objects; a checksum conflict fails closed. Future `AUDIT.FILE_LOAD` records will enforce the same invariant in Snowflake.
 7. `COPY` into a transient landing table, validate counts/types, then merge or append atomically into RAW. Publish marts only after all tasks and blocking tests pass.
 8. dbt incremental models use declared unique keys and the Airflow-supplied batch window. A full refresh must reproduce the same result from the immutable manifest.
 
@@ -109,4 +109,4 @@ orders         = orders left join item_totals left join payment_totals
 
 ## Resource and cleanup estimate
 
-No cloud resources exist. A later proof-of-concept should fit in a small S3 footprint (well under 1 GB including replay copies) and an auto-suspending Snowflake X-Small warehouse. Cleanup must remove versioned S3 objects, Snowflake database/roles created for the project, local Airflow metadata/containers, and BI credentials only after evidence is retained and explicit approval is obtained.
+No cloud resources exist. The measured local S3 payload is 124,509,854 bytes across 155 objects. An initial AWS copy should therefore remain below 130 MB before bucket versioning overhead. A later warehouse proof-of-concept should use an auto-suspending Snowflake X-Small warehouse. Cleanup must remove versioned S3 objects, Snowflake database/roles created for the project, local Airflow metadata/containers, and BI credentials only after evidence is retained and explicit approval is obtained.

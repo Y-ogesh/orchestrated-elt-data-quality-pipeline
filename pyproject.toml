@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olist-elt-pipeline"
-version = "0.1.0"
+version = "0.2.0"
 description = "Orchestrated ELT and data-quality pipeline for the Olist public dataset"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -25,6 +25,7 @@ cloud = [
 [project.scripts]
 olist-profile = "olist_pipeline.profiling:main"
 olist-validate = "olist_pipeline.validation:main"
+olist-ingest = "olist_pipeline.ingestion:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -35,3 +35,20 @@ Unit coverage includes the nine-file registry, null/duplicate detection, UTF-8 B
 - The Kaggle endpoint and future cloud integrations require network access; this environment required explicit network permission for the download.
 - Coordinate bounding-box checks are broad anomaly signals, not authoritative geocoding.
 - Monetary reconciliation differences are identified but not causally classified in Milestone 1.
+
+## Milestone 2 result
+
+**Implemented and validated locally on 2026-09-30; real AWS execution unverified.** No approved bucket, AWS credential environment, AWS CLI, boto3, or moto was available, so the opt-in AWS integration test was correctly skipped.
+
+| Command/check | Result |
+|---|---|
+| `make test` | PASS — 8 discovered: 7 passed, 1 real-AWS test skipped |
+| First `make ingest-local` | PASS — 26 batches, 1,550,922 records, 155/155 objects uploaded and verified |
+| Repeated `make ingest-local` | PASS — identical 26 batch IDs, 0 uploaded, 155/155 validated and skipped |
+| Batch reconciliation | PASS — 129 data files reconcile exactly to all nine source row counts |
+| Local payload | 124,509,854 bytes in 129 data files and 26 manifests |
+| Conflict test | PASS — mismatched immutable checksum rejected |
+| Retry test | PASS — transient failures retried with 0.25s then 0.5s test backoff |
+| AWS integration | SKIPPED — requires explicit flag, approved existing bucket, and credentials |
+
+No AWS resources were provisioned, no IAM policy was changed, and no remote mutation was performed.

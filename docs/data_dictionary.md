@@ -132,3 +132,23 @@ The official file begins with a UTF-8 BOM. Two product categories have no transl
 | `delivered_gmv` | Item merchandise value for delivered orders | Label as GMV, not recognized revenue |
 | `average_order_value` | Delivered GMV / distinct delivered orders | Never average item rows |
 | `late_delivery` | Delivered timestamp after estimated date | Null when not delivered |
+
+## Ingestion metadata contract
+
+Every batch manifest uses schema version 1 and contains:
+
+| Field | Grain | Meaning |
+|---|---|---|
+| `batch_id` | Batch | SHA-256 of canonical batch identity and file metadata |
+| `batch_kind` | Batch | `transaction_month` or `reference_snapshot` |
+| `source` / `source_version` | Batch | Olist source and immutable Kaggle snapshot version |
+| `contract_version` | Batch | Version of partition/manifest rules |
+| `logical_ingestion_date` | Batch | Deterministic partition date; month-end boundary or reference release date |
+| `logical_ingestion_timestamp_utc` | Batch | UTC timestamp used for deterministic replay |
+| `window_start_utc` / `window_end_utc` | Batch | Half-open purchase window; null for reference snapshot |
+| `files` | Batch | Ordered file entries; order is canonicalized before hashing |
+| `table` / `filename` / `relative_path` | File | Contracted source table and object location |
+| `sha256` / `byte_count` / `row_count` | File | Generated artifact integrity and record count |
+| `source_filename` / `source_sha256` / `source_row_count` | File | Lineage to the untouched official CSV |
+
+Future Snowflake RAW tables will add `_batch_id`, `_source_file`, `_file_sha256`, and `_loaded_at`; these are pipeline metadata, not changes to source values.

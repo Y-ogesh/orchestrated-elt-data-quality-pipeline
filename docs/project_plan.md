@@ -5,7 +5,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | Milestone | Scope | Status | Exit evidence |
 |---|---|---|---|
 | 1. Foundation and profiling | Project scaffold, official data acquisition, source contracts, profiling, architecture, dimensional design, replay design, tests, documentation | **Completed and validated** | Four unit tests pass; nine sources and six FKs validate; aggregate profile committed |
-| 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Not started** | Idempotent local/AWS integration tests and S3 evidence |
+| 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Implemented but unverified** | Local full-data replay and rerun passed; real AWS test awaits an approved bucket/credentials |
 | 3. Snowflake RAW | Least-privilege SQL, stages/file formats, COPY/MERGE, load audit | **Not started** | Executed load counts/checksums and rerun proof |
 | 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Not started** | `dbt build` output and warehouse reconciliation |
 | 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |

@@ -41,3 +41,15 @@ Because the dataset does not expose ingestion arrival times, historical batches 
 **Status:** Accepted, 2026-09-29
 
 Quality issues are recorded, not edited in RAW. Typed staging, exception flags, and deterministic reductions happen downstream. A candidate reporting build becomes visible only when required loads, reconciliations, and tests pass, preserving the last validated publication on failure.
+
+## ADR-008 — Use a manifest-last commit protocol
+
+**Status:** Accepted, 2026-09-30
+
+Data objects are uploaded and verified before `manifest.json`. The manifest acts as the immutable batch commit marker. A committed batch is accepted only if every object still matches its manifest metadata; partial attempts can safely resume, and checksum conflicts fail rather than overwrite.
+
+## ADR-009 — Treat ingestion dates as logical replay dates
+
+**Status:** Accepted, 2026-09-30
+
+The public snapshot has no arrival timestamps. Monthly transaction batches use the exclusive window end as `logical_ingestion_date`; the reference snapshot uses the published source date. Actual execution time appears in structured logs, not the content identity, so rebuilding on another day produces the same batch IDs and keys.

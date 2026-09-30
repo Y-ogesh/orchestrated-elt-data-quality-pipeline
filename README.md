@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestone 1 is completed and locally validated. Dataset acquisition, profiling, source contracts, warehouse design, and project conventions are implemented. No AWS, Snowflake, dbt, Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestone 1 is completed and validated. Milestone 2 ingestion is implemented and validated against a local S3-compatible object-store abstraction; real AWS execution is pending an approved bucket and credentials. No Snowflake, dbt, Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Completed in Milestone 1:
+Completed and locally validated through Milestone 2:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -54,8 +54,11 @@ Completed in Milestone 1:
 - Explicit fact/dimension grains and order-level monetary reconciliation rules.
 - Unit tests runnable on the repository's baseline Python 3.9 environment.
 - Secret-safe configuration template and raw-data exclusions.
+- Deterministic monthly transaction batches and a versioned reference snapshot.
+- Canonical manifests with content-derived batch IDs, source/output checksums, byte counts, row counts, and logical timestamps.
+- Idempotent local/S3 object uploads, manifest-last commit semantics, integrity checks, conflict detection, exponential retry, structured logs, and server-side encryption requests.
 
-Planned—not yet implemented: S3 ingestion, Snowflake loading, dbt models/tests, Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+Implemented but not yet verified against real AWS: S3 upload through boto3 and the opt-in integration test. Planned—not yet implemented: Snowflake loading, dbt models/tests, Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
 ## Warehouse design
 
@@ -73,9 +76,10 @@ make download
 make test
 make profile
 make validate
+make ingest-local
 ```
 
-No credentials are required for the public download. Cloud credentials are not needed in this milestone. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
+No credentials are required for the public download or local ingestion. Real S3 execution requires an approved existing bucket and credentials from the standard AWS provider chain. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
 
 ## Repository structure
 
@@ -99,6 +103,7 @@ tests/                 # fast unit tests
 - [Architecture](docs/architecture.md)
 - [Data dictionary](docs/data_dictionary.md)
 - [Dataset profiling](docs/dataset_profiling.md)
+- [Ingestion and S3 runbook](docs/ingestion.md)
 - [Decisions](docs/decisions.md)
 - [Setup guide](docs/setup_guide.md)
 - [Validation report](docs/validation_report.md)

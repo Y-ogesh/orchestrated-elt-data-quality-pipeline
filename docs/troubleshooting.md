@@ -31,3 +31,19 @@ Run Make targets from the repository root; they set `PYTHONPATH=src`. For direct
 ## Why payment and item totals differ
 
 The source contains different child grains and 303 shared orders differ by more than R$0.01. Always aggregate each child to `order_id` separately. The difference is a quality/reconciliation output, not permission to fan out or force values equal.
+
+## S3 mode says boto3 is missing
+
+Install only the declared cloud extras in an activated environment: `python -m pip install -e '.[cloud]'`. Local ingestion and all default tests remain dependency-free.
+
+## S3 mode says an approved bucket is required
+
+Pass `--bucket` or export `S3_BUCKET`. The pipeline deliberately does not create a bucket or infer one. Confirm authorization and prefix ownership before running.
+
+## Immutable object conflict
+
+An object already exists at a deterministic key with a different checksum or byte count. Do not overwrite it. Verify the source version, manifest, prefix, and bucket; use a new reviewed source/contract version only when the content legitimately changed.
+
+## A prior upload stopped before the manifest
+
+Rerun the same batch. Matching data objects are validated and skipped, missing objects are uploaded, and the manifest is written last. If the manifest already exists, every referenced object is rechecked.

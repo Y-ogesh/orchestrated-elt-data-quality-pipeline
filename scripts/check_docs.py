@@ -12,6 +12,7 @@ REQUIRED = (
     "docs/architecture.md",
     "docs/data_dictionary.md",
     "docs/dataset_profiling.md",
+    "docs/ingestion.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",
