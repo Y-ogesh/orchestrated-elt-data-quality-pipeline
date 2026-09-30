@@ -13,6 +13,7 @@ REQUIRED = (
     "docs/data_dictionary.md",
     "docs/dataset_profiling.md",
     "docs/ingestion.md",
+    "docs/snowflake_warehouse.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",

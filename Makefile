@@ -1,4 +1,4 @@
-.PHONY: download test profile validate ingest-local docs clean
+.PHONY: download test profile validate ingest-local warehouse-validate docs clean
 
 download:
 	PYTHONPATH=src python3 scripts/download_dataset.py --output-dir data/raw
@@ -14,6 +14,9 @@ validate:
 
 ingest-local:
 	PYTHONPATH=src python3 -m olist_pipeline.ingestion --backend local
+
+warehouse-validate:
+	PYTHONPATH=src python3 -m olist_pipeline.warehouse validate-local
 
 docs:
 	python3 scripts/check_docs.py

@@ -47,3 +47,19 @@ An object already exists at a deterministic key with a different checksum or byt
 ## A prior upload stopped before the manifest
 
 Rerun the same batch. Matching data objects are validated and skipped, missing objects are uploaded, and the manifest is written last. If the manifest already exists, every referenced object is rechecked.
+
+## Snowflake execution refuses to start
+
+Real execution requires `OLIST_RUN_SNOWFLAKE_INTEGRATION=1` plus every required Snowflake/S3 variable. This guard prevents accidental resource creation or warehouse usage. Run `make warehouse-validate` for an offline plan check.
+
+## Snowflake connector is missing
+
+Activate a virtual environment and install `python -m pip install -e '.[cloud]'`. Do not install or configure it merely to run offline unit tests.
+
+## Stage creation succeeds but files cannot be read
+
+Snowflake does not verify stage credentials during `CREATE STAGE`. Confirm the pre-existing storage integration allows the exact `s3://bucket/prefix/`, the Snowflake IAM principal can read the objects, and the configured stage URL matches `S3_RAW_PREFIX`.
+
+## Batch has uncommitted RAW rows
+
+The loader fails closed when rows exist without a successful reconciled batch audit record. Do not delete them automatically. Inspect COPY query history and audit records, then perform any cleanup only with explicit approval.

@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 2 implements batch creation, manifests, object-store validation, a local S3 substitute, and the boto3 S3 adapter. AWS remains unprovisioned and unverified; downstream analytics components remain unimplemented.
+Milestone 3 adds version-controlled Snowflake infrastructure, source-shaped RAW tables, audit/reconciliation objects, and a manifest-driven loader. AWS and Snowflake remain unprovisioned and unverified; downstream dbt analytics components remain unimplemented.
 
 ## Snowflake organization
 
@@ -48,6 +48,8 @@ Planned database: `OLIST_ANALYTICS`.
 | `INTERMEDIATE` | Deduplicate geolocation, resolve categories, order-grain aggregates and reconciliation | dbt-managed and rebuildable |
 | `MARTS` | Facts, dimensions, conformed metrics for reporting | dbt-managed; incremental where justified |
 | `AUDIT` | Batch manifests, task/run status, row counts, test outcomes, exceptions, publication state | Append events; controlled status transitions |
+
+The RAW layer stores source fields as `VARCHAR` so ingestion does not silently coerce source values. Each row also carries batch ID, staged filename, artifact checksum, source version, logical ingestion date, staged row number, load run ID, and load timestamp. Typing belongs in STAGING.
 
 Access will use separate least-privilege roles for loading, transformation, orchestration, and read-only BI. Exact grants are deferred until the cloud milestone.
 
@@ -71,6 +73,8 @@ This permits chronological demos, reruns, isolated backfills, and failure inject
 - Download or checksum failure: no manifest is finalized.
 - Partial S3 upload: the batch stays uncommitted and is safe to retry.
 - Snowflake validation failure: landing data is discarded; previously loaded RAW data remains.
+- CSV pre-validation failure: rejected-record details are written to `AUDIT.LOAD_ERRORS`; no RAW COPY begins.
+- COPY or row-count mismatch: the current batch transaction rolls back and a failed batch audit record is committed separately.
 - dbt/test failure: reporting views are not advanced to the candidate build.
 - Power BI reads only the last validated publication identifier.
 - Every retry reuses the logical Airflow data interval and batch ID.

@@ -52,3 +52,20 @@ Unit coverage includes the nine-file registry, null/duplicate detection, UTF-8 B
 | AWS integration | SKIPPED — requires explicit flag, approved existing bucket, and credentials |
 
 No AWS resources were provisioned, no IAM policy was changed, and no remote mutation was performed.
+
+## Milestone 3 result
+
+**Implemented and validated locally on 2026-09-30; real Snowflake execution unverified.** No Snowflake connector, account configuration, key pair, approved warehouse, approved storage integration, or confirmed S3 objects were available.
+
+| Command/check | Result |
+|---|---|
+| `make test` | PASS — 16 discovered: 14 passed, AWS and Snowflake integration tests skipped |
+| `make warehouse-validate` | PASS — 5 SQL modules, 26 batches, 129 data files, 1,550,922 expected rows |
+| SQL rendering safety | PASS — invalid identifiers and S3 URL injection rejected |
+| Mock first load | PASS — COPY count reconciled to manifest and audit state committed |
+| Mock rerun | PASS — completed batch validated and skipped without duplicate rows |
+| Mock count mismatch | PASS — batch rolled back and failure recorded |
+| Mock rejected record | PASS — error audited and COPY prevented |
+| Real Snowflake bootstrap/load | SKIPPED — explicit opt-in and approved resources unavailable |
+
+Actual Snowflake objects created: **0**. Actual warehouse rows loaded: **0**. No schema existence, warehouse count, key uniqueness, or relationship result is claimed from a real Snowflake account. Those checks are implemented as SQL views and must be recorded after authorized execution.

@@ -53,3 +53,15 @@ Data objects are uploaded and verified before `manifest.json`. The manifest acts
 **Status:** Accepted, 2026-09-30
 
 The public snapshot has no arrival timestamps. Monthly transaction batches use the exclusive window end as `logical_ingestion_date`; the reference snapshot uses the published source date. Actual execution time appears in structured logs, not the content identity, so rebuilding on another day produces the same batch IDs and keys.
+
+## ADR-010 — Preserve source values as VARCHAR in RAW
+
+**Status:** Accepted, 2026-09-30
+
+All source fields load into RAW as `VARCHAR`; source spelling and null behavior remain observable, while lineage metadata is added in separate columns. Casting, renaming, and business rules belong in STAGING so malformed values cannot be silently coerced during ingestion.
+
+## ADR-011 — Pre-validate before metadata-enriched COPY
+
+**Status:** Accepted, 2026-09-30
+
+Snowflake validation mode does not support transformed COPY statements. Each staged CSV is therefore validated first against a temporary source-shaped table with `RETURN_ALL_ERRORS`. Only error-free files enter the transactional COPY that adds metadata. Rejected records are audited, and any COPY/count mismatch rolls back the complete batch.

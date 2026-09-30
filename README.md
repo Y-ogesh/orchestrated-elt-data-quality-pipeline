@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestone 1 is completed and validated. Milestone 2 ingestion is implemented and validated against a local S3-compatible object-store abstraction; real AWS execution is pending an approved bucket and credentials. No Snowflake, dbt, Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestone 1 is completed and validated. Milestones 2 and 3 are implemented and locally validated, including deterministic S3 ingestion and manifest-driven Snowflake RAW loading. Real AWS/Snowflake execution is pending approved resources and credentials. No dbt, Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Completed and locally validated through Milestone 2:
+Completed and locally validated through Milestone 3:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -57,12 +57,14 @@ Completed and locally validated through Milestone 2:
 - Deterministic monthly transaction batches and a versioned reference snapshot.
 - Canonical manifests with content-derived batch IDs, source/output checksums, byte counts, row counts, and logical timestamps.
 - Idempotent local/S3 object uploads, manifest-last commit semantics, integrity checks, conflict detection, exponential retry, structured logs, and server-side encryption requests.
+- Version-controlled Snowflake schemas, CSV format, external stage, nine source-shaped RAW tables, audit tables, and validation views.
+- Parameterized two-phase COPY loading with rejected-record capture, source/batch lineage, transactional reconciliation, duplicate prevention, and no-op reruns.
 
-Implemented but not yet verified against real AWS: S3 upload through boto3 and the opt-in integration test. Planned—not yet implemented: Snowflake loading, dbt models/tests, Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+Implemented but not yet verified against real cloud services: S3 upload and Snowflake loading through their optional Python connectors. Planned—not yet implemented: dbt models/tests, Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
 ## Warehouse design
 
-The planned `OLIST_ANALYTICS` database separates `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. Core marts will include `fct_orders`, `fct_order_items`, `fct_order_payments`, `fct_order_reviews`, `dim_customer`, `dim_order_customer`, `dim_product`, `dim_seller`, `dim_category`, `dim_geography`, and `dim_date`. Every model's grain and key are defined in the [data dictionary](docs/data_dictionary.md).
+The implemented warehouse SQL separates `OLIST_ANALYTICS` into `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. RAW and AUDIT objects are implemented; transformation schemas are currently empty boundaries for Milestone 4. Planned marts include `fct_orders`, `fct_order_items`, `fct_order_payments`, `fct_order_reviews`, `dim_customer`, `dim_order_customer`, `dim_product`, `dim_seller`, `dim_category`, `dim_geography`, and `dim_date`. Every model's grain and key is defined in the [data dictionary](docs/data_dictionary.md).
 
 `item_total = SUM(price) + SUM(freight_value)` and `payment_total = SUM(payment_value)` are computed independently at order grain before joining. Payment value is not labeled accounting revenue; commission, refund, and seller-payout data are absent.
 
@@ -77,6 +79,7 @@ make test
 make profile
 make validate
 make ingest-local
+make warehouse-validate
 ```
 
 No credentials are required for the public download or local ingestion. Real S3 execution requires an approved existing bucket and credentials from the standard AWS provider chain. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
@@ -92,8 +95,8 @@ docker/                # planned container definitions
 docs/                  # architecture, plans, runbooks, evidence
 reports/               # committed aggregate profiling evidence
 scripts/               # operator entry points
-sql/                   # planned warehouse bootstrap SQL
-src/olist_pipeline/    # Python contracts, profiler, validation
+sql/snowflake/         # versioned warehouse and RAW loading infrastructure
+src/olist_pipeline/    # Python contracts, ingestion, warehouse loading, validation
 tests/                 # fast unit tests
 ```
 
@@ -104,6 +107,7 @@ tests/                 # fast unit tests
 - [Data dictionary](docs/data_dictionary.md)
 - [Dataset profiling](docs/dataset_profiling.md)
 - [Ingestion and S3 runbook](docs/ingestion.md)
+- [Snowflake warehouse and loading](docs/snowflake_warehouse.md)
 - [Decisions](docs/decisions.md)
 - [Setup guide](docs/setup_guide.md)
 - [Validation report](docs/validation_report.md)

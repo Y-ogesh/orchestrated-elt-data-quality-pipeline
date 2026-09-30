@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+*.p8
+private_key*.pem
 
 # Python
 __pycache__/

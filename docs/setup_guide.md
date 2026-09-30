@@ -20,6 +20,7 @@ make test
 make profile
 make validate
 make ingest-local
+make warehouse-validate
 ```
 
 The public API download currently requires no Kaggle credentials. If Kaggle changes that policy, install/configure its CLI without committing `~/.kaggle/kaggle.json`, then place the official nine CSVs directly in `data/raw/`.
@@ -46,6 +47,7 @@ Credentialed S3 integration can install `.[cloud]`. dbt, Airflow, and Docker dep
 | `make profile` | Recompute aggregate evidence | `reports/data_profile.json` |
 | `make validate` | Validate all rows, contracts, keys, and FKs | Console only |
 | `make ingest-local` | Build deterministic batches and upload to the local S3 substitute | Ignored `data/processed/` |
+| `make warehouse-validate` | Render all infrastructure/COPY plans and reconcile every manifest locally | Console only |
 | `make clean` | Remove Python bytecode caches | Cache directories only |
 
 ## Configuration and secrets
@@ -65,6 +67,19 @@ PYTHONPATH=src python -m olist_pipeline.ingestion --backend s3
 ```
 
 To run the self-cleaning integration test against that approved prefix, additionally export `OLIST_RUN_AWS_INTEGRATION=1` and run `make test`. Keep it unset for normal tests.
+
+## Optional approved Snowflake execution
+
+Milestone 3 requires an existing warehouse, least-privilege role/user, key-pair authentication, an existing S3 storage integration, and the actual Milestone 2 objects in the configured bucket/prefix. After approval, install `.[cloud]`, export the variables documented in `.env.example`, and explicitly opt in:
+
+```bash
+export OLIST_RUN_SNOWFLAKE_INTEGRATION=1
+PYTHONPATH=src python -m olist_pipeline.warehouse bootstrap
+PYTHONPATH=src python -m olist_pipeline.warehouse load
+PYTHONPATH=src python -m olist_pipeline.warehouse validate-remote
+```
+
+`bootstrap` can create the configured database/schemas and therefore must not be run against an unapproved account. The project never creates storage integrations or alters AWS IAM.
 
 ## Updating the source snapshot
 

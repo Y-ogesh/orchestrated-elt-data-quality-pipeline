@@ -24,3 +24,13 @@
 ### Git history reconciliation
 
 The first local Milestone 2 commit directly parented the initial repository commit and contained both milestone trees, consistent with amending Milestone 1 while Milestone 2 changes were staged. The remote Milestone 1 commit remained valid. Reconciliation retained `origin/main` as the baseline, computed the exact remote-to-local tree delta, and reapplied only those 20 Milestone 2 files as a new child commit. Unchanged Milestone 1 files were verified byte-identical before reconstruction.
+
+## 2026-09-30 — Milestone 3
+
+- Inspected the clean Milestone 2 baseline and 26 generated manifests: 129 files and 1,550,922 expected RAW rows.
+- Found no Snowflake connector, key-pair configuration, account variables, approved warehouse, storage integration, or AWS configuration. No cloud connection or DDL/COPY execution was attempted.
+- Verified current Snowflake guidance for external stages, storage integrations, COPY transformations/metadata, validation-mode limitations, and key-pair connector authentication.
+- Added five ordered SQL modules defining the database boundaries, five schemas, CSV format, S3 stage, nine source-shaped RAW tables, four audit tables, and four reconciliation/validation views.
+- Implemented safe identifier/literal rendering, environment-only key-pair configuration, infrastructure bootstrap, pre-load rejected-record capture, transactional COPY, manifest/audit duplicate prevention, row reconciliation, rollback, and opt-in connection testing.
+- Local warehouse-plan validation rendered every SQL module and both COPY phases for all 129 files across 26 batches, reconciling 1,550,922 expected rows.
+- Real Snowflake outcome: **not run** because approved resources and credentials were unavailable. Actual loaded rows: **0**; this is an environment limitation, not a successful cloud-load claim.

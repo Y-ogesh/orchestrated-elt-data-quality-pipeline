@@ -151,4 +151,21 @@ Every batch manifest uses schema version 1 and contains:
 | `sha256` / `byte_count` / `row_count` | File | Generated artifact integrity and record count |
 | `source_filename` / `source_sha256` / `source_row_count` | File | Lineage to the untouched official CSV |
 
-Future Snowflake RAW tables will add `_batch_id`, `_source_file`, `_file_sha256`, and `_loaded_at`; these are pipeline metadata, not changes to source values.
+Snowflake RAW tables add pipeline metadata without changing source values.
+
+## Snowflake RAW metadata columns
+
+All nine RAW tables preserve their source columns as `VARCHAR` and add:
+
+| Column | Type | Meaning |
+|---|---|---|
+| `_batch_id` | VARCHAR | Deterministic manifest batch ID |
+| `_source_file` | VARCHAR | `METADATA$FILENAME` from the external stage |
+| `_file_sha256` | VARCHAR(64) | Generated batch artifact checksum |
+| `_source_version` | VARCHAR | Immutable Olist snapshot version |
+| `_logical_ingestion_date` | DATE | Deterministic replay partition date |
+| `_source_row_number` | NUMBER | `METADATA$FILE_ROW_NUMBER` from Snowflake |
+| `_load_run_id` | VARCHAR | UUID linking rows to `AUDIT.LOAD_RUNS` |
+| `_loaded_at` | TIMESTAMP_TZ | Snowflake load timestamp |
+
+`AUDIT.LOAD_RUNS`, `BATCH_LOADS`, `FILE_LOADS`, and `LOAD_ERRORS` record execution state, expected/actual counts, COPY query IDs, failures, and rejected records. `BATCH_RECONCILIATION`, `RAW_TABLE_COUNTS`, `RAW_KEY_VIOLATIONS`, and `RAW_RELATIONSHIP_VIOLATIONS` expose load and source-contract checks.
