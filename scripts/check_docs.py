@@ -14,6 +14,8 @@ REQUIRED = (
     "docs/dataset_profiling.md",
     "docs/ingestion.md",
     "docs/snowflake_warehouse.md",
+    "docs/dbt_transformations.md",
+    "docs/dimensional_model.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",

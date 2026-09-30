@@ -2,12 +2,12 @@
 
 ## Prerequisites
 
-- Python 3.9 or newer.
+- Python 3.9 or newer for the dependency-free pipeline; Python 3.10 or newer for dbt.
 - Git and Make.
 - Internet access to Kaggle's public dataset endpoint.
 - Approximately 170 MB free disk space during download and extraction.
 
-Cloud accounts and credentials are not required for Milestone 1 or local Milestone 2 validation.
+Cloud accounts and credentials are not required for local validation or source-derived dbt expectations.
 
 ## Bootstrap
 
@@ -27,7 +27,7 @@ The public API download currently requires no Kaggle credentials. If Kaggle chan
 
 ## Optional virtual environment
 
-The Milestone 1 and local ingestion commands have no third-party runtime dependencies.
+The profiling, local ingestion, warehouse-plan, and source-derived dimensional checks have no third-party runtime dependencies.
 
 ```bash
 python3 -m venv .venv
@@ -36,7 +36,7 @@ python -m pip install --upgrade pip
 python -m pip install -e '.[dev]'
 ```
 
-Credentialed S3 integration can install `.[cloud]`. dbt, Airflow, and Docker dependencies will be introduced in their own milestones with compatible version constraints; they are intentionally absent now.
+Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separate `.[transform]` group and Python 3.10+; Airflow and Docker dependencies remain deferred.
 
 ## Commands
 
@@ -48,6 +48,10 @@ Credentialed S3 integration can install `.[cloud]`. dbt, Airflow, and Docker dep
 | `make validate` | Validate all rows, contracts, keys, and FKs | Console only |
 | `make ingest-local` | Build deterministic batches and upload to the local S3 substitute | Ignored `data/processed/` |
 | `make warehouse-validate` | Render all infrastructure/COPY plans and reconcile every manifest locally | Console only |
+| `make dbt-expectations` | Derive per-model acceptance counts from the committed source profile | Console only |
+| `make dbt-parse` | Parse dbt configuration, descriptions, tests, and lineage | Ignored `dbt/target/` |
+| `make dbt-compile` | Compile dbt SQL; requires an approved configured Snowflake profile | Ignored `dbt/target/` and warehouse metadata reads |
+| `make dbt-docs-local` | Generate initial lineage/docs artifacts with an explicitly empty catalog | Ignored `dbt/target/` |
 | `make clean` | Remove Python bytecode caches | Cache directories only |
 
 ## Configuration and secrets
@@ -80,6 +84,39 @@ PYTHONPATH=src python -m olist_pipeline.warehouse validate-remote
 ```
 
 `bootstrap` can create the configured database/schemas and therefore must not be run against an unapproved account. The project never creates storage integrations or alters AWS IAM.
+
+## dbt setup and approved execution
+
+Use the available Python 3.10+ interpreter and keep the rendered profile ignored:
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e '.[transform]'
+cp dbt/profiles.yml.example dbt/profiles.yml
+```
+
+Set the Snowflake variables in `.env` or the shell. Set `DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE` even when the approved private key has an empty passphrase; dbt redacts variables with this prefix from logs. Development builds use `DBT_DEV_<layer>` schemas by default.
+
+Offline/source-derived checks:
+
+```bash
+dbt parse --project-dir dbt --no-partial-parse
+dbt ls --project-dir dbt --resource-type model
+make dbt-expectations
+```
+
+After Milestone 3 has actually loaded and reconciled RAW in an approved account:
+
+```bash
+dbt debug --project-dir dbt
+dbt compile --project-dir dbt
+dbt build --project-dir dbt --selector source_to_marts
+dbt docs generate --project-dir dbt
+```
+
+Record the generated relation counts and test results before changing the project status to completed. Do not use `--target prod` without release approval.
 
 ## Updating the source snapshot
 

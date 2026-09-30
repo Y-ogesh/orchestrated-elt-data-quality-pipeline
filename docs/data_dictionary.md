@@ -1,6 +1,6 @@
 # Data dictionary
 
-The source spelling is retained in RAW, including Olist's `*_lenght` fields. STAGING will expose corrected `*_length` aliases. Blank CSV values become SQL `NULL`; identifiers and postal prefixes remain strings.
+The source spelling is retained in RAW, including Olist's `*_lenght` fields. dbt STAGING exposes corrected `*_length` aliases. Blank CSV values become SQL `NULL`; identifiers and postal prefixes remain strings.
 
 ## Source contracts
 
@@ -23,7 +23,7 @@ The source spelling is retained in RAW, including Olist's `*_lenght` fields. STA
 | `geolocation_city` | string | Observed city spelling |
 | `geolocation_state` | string | State code |
 
-There is no source natural key. Exact duplicates exist. `dim_geography` will use one deterministic representative per postal prefix (median valid coordinate, normalized modal city/state), while retaining exception counts.
+There is no source natural key. Exact duplicates exist. `dim_geography` uses one deterministic representative per postal prefix (median valid coordinate, normalized modal city/state), while retaining exception counts.
 
 ### `olist_orders_dataset.csv` — one row per `order_id`
 
@@ -72,7 +72,7 @@ There is no source natural key. Exact duplicates exist. `dim_geography` will use
 | `review_creation_date` | timestamp | Review creation time |
 | `review_answer_timestamp` | timestamp | Answer/submission timestamp |
 
-The staged record key is a hash of all normalized source fields. Exact duplicate future records will be quarantined because the source provides no stable occurrence identifier.
+The staged record key is a hash of all normalized source fields. Exact duplicate future records fail a blocking uniqueness test because the source provides no stable occurrence identifier; they are not silently dropped.
 
 ### `olist_products_dataset.csv` — one row per `product_id`
 
@@ -119,6 +119,18 @@ The official file begins with a UTF-8 BOM. Two product categories have no transl
 | `dim_category` | One Portuguese category plus unknown | `product_category_name` | English label, translation-status flag |
 | `dim_geography` | One postal prefix plus unknown | postal prefix | deterministic representative coordinate/city/state, observation counts |
 | `dim_date` | One calendar date | date | day/week/month/quarter/year attributes |
+
+The implemented dbt project materializes all nine staging and four intermediate models as views, seven dimensions as rebuildable tables, and four facts as incremental Snowflake merges. Fact surrogate keys are deterministic SHA-256 hashes; the natural keys above remain visible and tested.
+
+## Source-derived mart acceptance counts
+
+| Model group | Relations | Expected rows | Actual Snowflake rows |
+|---|---:|---:|---:|
+| Dimensions | 7 | 251,987 | 0 — not built |
+| Facts | 4 | 415,201 | 0 — not built |
+| MARTS total | 11 | 667,188 | 0 — not built |
+
+Expected counts are derived from the committed aggregate source profile and model grains. They are reconciliation targets, not substitutes for a real `dbt build` result. Per-model counts are documented in [the dimensional model](dimensional_model.md).
 
 ## Metric contracts
 

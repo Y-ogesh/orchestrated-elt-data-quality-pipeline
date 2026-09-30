@@ -1,0 +1,72 @@
+version: 2
+
+sources:
+  - name: olist_raw
+    description: Source-shaped Olist tables loaded and reconciled by the Milestone 3 loader.
+    database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+    schema: "{{ env_var('SNOWFLAKE_RAW_SCHEMA', 'RAW') }}"
+    tables:
+      - name: customers
+        identifier: CUSTOMERS
+        description: One order-specific customer record per customer_id.
+        columns:
+          - name: customer_id
+            data_tests: [not_null, unique]
+          - name: customer_unique_id
+            data_tests: [not_null]
+      - name: geolocation
+        identifier: GEOLOCATION
+        description: Non-unique coordinate and locality observations by postal prefix.
+        columns:
+          - name: geolocation_zip_code_prefix
+            data_tests: [not_null]
+      - name: order_items
+        identifier: ORDER_ITEMS
+        description: One merchandise line per order_id and order_item_id.
+        columns:
+          - name: order_id
+            data_tests: [not_null]
+          - name: order_item_id
+            data_tests: [not_null]
+      - name: order_payments
+        identifier: ORDER_PAYMENTS
+        description: One payment component per order_id and payment_sequential.
+        columns:
+          - name: order_id
+            data_tests: [not_null]
+          - name: payment_sequential
+            data_tests: [not_null]
+      - name: order_reviews
+        identifier: ORDER_REVIEWS
+        description: Review records; neither review_id nor order_id is unique.
+        columns:
+          - name: review_id
+            data_tests: [not_null]
+          - name: order_id
+            data_tests: [not_null]
+      - name: orders
+        identifier: ORDERS
+        description: One lifecycle record per order_id.
+        columns:
+          - name: order_id
+            data_tests: [not_null, unique]
+          - name: customer_id
+            data_tests: [not_null]
+      - name: products
+        identifier: PRODUCTS
+        description: One product record per product_id.
+        columns:
+          - name: product_id
+            data_tests: [not_null, unique]
+      - name: sellers
+        identifier: SELLERS
+        description: One seller record per seller_id.
+        columns:
+          - name: seller_id
+            data_tests: [not_null, unique]
+      - name: category_translation
+        identifier: CATEGORY_TRANSLATION
+        description: Portuguese-to-English product category mapping.
+        columns:
+          - name: product_category_name
+            data_tests: [not_null, unique]

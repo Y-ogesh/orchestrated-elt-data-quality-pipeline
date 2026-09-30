@@ -63,3 +63,23 @@ Snowflake does not verify stage credentials during `CREATE STAGE`. Confirm the p
 ## Batch has uncommitted RAW rows
 
 The loader fails closed when rows exist without a successful reconciled batch audit record. Do not delete them automatically. Inspect COPY query history and audit records, then perform any cleanup only with explicit approval.
+
+## dbt is missing or refuses the Python version
+
+The current transform dependency group requires Python 3.10 or newer. Create the dbt environment with an available newer interpreter such as `python3.11 -m venv .venv`, activate it, and install `python -m pip install -e '.[transform]'`. The dependency-free commands continue to support Python 3.9.
+
+## dbt cannot find `profiles.yml`
+
+Copy `dbt/profiles.yml.example` to ignored `dbt/profiles.yml` and set `DBT_PROFILES_DIR=dbt`, or place it at `~/.dbt/profiles.yml` and unset the override. Never add rendered credentials or private-key material to Git.
+
+## dbt compile stops at a private key or connection error
+
+`dbt parse` can validate project structure without connecting, but compilation and execution may initialize the adapter connection. Confirm that `SNOWFLAKE_PRIVATE_KEY_PATH` points to the approved key, the public key is assigned to the configured user, the passphrase secret is set, and the account/role/warehouse variables are correct. Do not substitute a production credential merely to make an offline check pass.
+
+## dbt builds into an unexpected schema
+
+The `dev` target intentionally prefixes custom layers as `<DBT_DEV_SCHEMA>_STAGING`, `_INTERMEDIATE`, and `_MARTS`. The `prod` target uses the unprefixed governed schemas. Check `target.name`, `DBT_DEV_SCHEMA`, and the custom `generate_schema_name` macro before running; do not bypass isolation by hardcoding schemas in model SQL.
+
+## Order totals multiply after a model change
+
+Never join item-detail and payment-detail models directly. Preserve `int_order_item_totals` and `int_order_payment_totals` as separate order-grain inputs to `int_orders_enriched`, then run the two singular monetary reconciliation tests. A genuine item/payment difference is an exception flag, not evidence of join fanout.

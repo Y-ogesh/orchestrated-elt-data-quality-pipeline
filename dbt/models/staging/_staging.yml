@@ -1,0 +1,136 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Standardized order-specific customer records; grain is one customer_id.
+    columns:
+      - name: customer_id
+        description: Natural key for an order-specific delivery customer.
+        data_tests: [not_null, unique]
+      - name: customer_unique_id
+        description: Person-level customer identifier shared across repeat orders.
+        data_tests: [not_null]
+  - name: stg_geolocation
+    description: Typed postal coordinate observations; source duplicates remain visible.
+    columns:
+      - name: geolocation_zip_code_prefix
+        description: Five-character Brazilian postal prefix.
+        data_tests: [not_null]
+      - name: geolocation_latitude
+        data_tests: [not_null]
+      - name: geolocation_longitude
+        data_tests: [not_null]
+  - name: stg_order_items
+    description: Standardized merchandise lines; grain is order_id plus order_item_id.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_id, order_item_id]
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: order_item_id
+        data_tests: [not_null]
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+      - name: seller_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sellers')
+                field: seller_id
+      - name: item_price
+        data_tests: [not_null]
+      - name: freight_value
+        data_tests: [not_null]
+  - name: stg_order_payments
+    description: Standardized payment components; grain is order_id plus payment_sequential.
+    data_tests:
+      - unique_combination_of_columns:
+          arguments:
+            combination_of_columns: [order_id, payment_sequential]
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: payment_sequential
+        data_tests: [not_null]
+      - name: payment_value
+        data_tests: [not_null]
+  - name: stg_order_reviews
+    description: Standardized review records with a full-record deterministic key.
+    columns:
+      - name: review_record_key
+        description: SHA-256 of all normalized source review fields.
+        data_tests: [not_null, unique]
+      - name: order_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: review_score
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5]
+  - name: stg_orders
+    description: Standardized order lifecycle records; grain is one order_id.
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: order_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - approved
+                  - canceled
+                  - created
+                  - delivered
+                  - invoiced
+                  - processing
+                  - shipped
+                  - unavailable
+      - name: order_purchase_timestamp
+        data_tests: [not_null]
+  - name: stg_products
+    description: Standardized product attributes; grain is one product_id.
+    columns:
+      - name: product_id
+        data_tests: [not_null, unique]
+  - name: stg_sellers
+    description: Standardized seller attributes; grain is one seller_id.
+    columns:
+      - name: seller_id
+        data_tests: [not_null, unique]
+  - name: stg_category_translation
+    description: Standardized Portuguese-to-English category map.
+    columns:
+      - name: product_category_name
+        data_tests: [not_null, unique]

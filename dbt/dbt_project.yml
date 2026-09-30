@@ -1,0 +1,37 @@
+name: olist_analytics
+version: 1.0.0
+config-version: 2
+
+profile: olist_analytics
+require-dbt-version: [">=1.12.0", "<1.13.0"]
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  olist_analytics:
+    +database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +materialized: view
+      +schema: STAGING
+      +tags: [staging]
+    intermediate:
+      +materialized: view
+      +schema: INTERMEDIATE
+      +tags: [intermediate]
+    marts:
+      +materialized: table
+      +schema: MARTS
+      +tags: [marts]
+
+tests:
+  +store_failures: false
+
+vars:
+  payment_reconciliation_tolerance: 0.01

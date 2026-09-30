@@ -7,7 +7,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 1. Foundation and profiling | Project scaffold, official data acquisition, source contracts, profiling, architecture, dimensional design, replay design, tests, documentation | **Completed and validated** | Four unit tests pass; nine sources and six FKs validate; aggregate profile committed |
 | 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Implemented but unverified** | Local full-data replay and rerun passed; real AWS test awaits an approved bucket/credentials |
 | 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Implemented but unverified** | Five SQL modules and all 26 batches validate locally; real Snowflake load awaits approved resources/credentials |
-| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Not started** | `dbt build` output and warehouse reconciliation |
+| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Implemented but unverified** | dbt 1.12 parses 24 models/143 tests; real build and warehouse reconciliation await approved Snowflake access |
 | 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
 | 6. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Injected-failure evidence and audit history |
 | 7. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
@@ -34,6 +34,18 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Mock validation proves clean load, rerun skip, rollback, rejected-record capture, and reconciliation behavior.
 - [x] Secrets remain external; real execution requires explicit opt-in and a pre-approved storage integration.
 - [ ] Real schemas, stage access, row totals, keys, relationships, and rerun behavior verified in Snowflake. Blocked only by unavailable approved resources/credentials.
+
+## Milestone 4 acceptance criteria
+
+- [x] Current dbt Core and Snowflake adapter dependencies are declared for Python 3.10+.
+- [x] Secure environment-driven dev/prod profiles and isolated development schemas are defined.
+- [x] Nine staging, four intermediate, seven dimension, and four fact models are implemented and documented.
+- [x] Item and payment totals are independently aggregated before the order-grain join.
+- [x] Four transaction facts use merge-based incremental materializations and deterministic unique keys.
+- [x] Source, grain, key, relationship, accepted-value, and monetary reconciliation tests are defined.
+- [x] Full dbt parsing generated lineage metadata for 24 models, 9 sources, and 143 tests; initial docs artifacts generated with an empty catalog.
+- [x] Source-derived acceptance counts cover every model and 667,188 expected mart rows.
+- [ ] `dbt compile`, `dbt build`, `dbt test`, catalog introspection, and actual warehouse counts verified against Snowflake. Awaiting approved resources/credentials.
 
 ## Delivery conventions
 

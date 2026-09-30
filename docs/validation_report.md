@@ -69,3 +69,25 @@ No AWS resources were provisioned, no IAM policy was changed, and no remote muta
 | Real Snowflake bootstrap/load | SKIPPED — explicit opt-in and approved resources unavailable |
 
 Actual Snowflake objects created: **0**. Actual warehouse rows loaded: **0**. No schema existence, warehouse count, key uniqueness, or relationship result is claimed from a real Snowflake account. Those checks are implemented as SQL views and must be recorded after authorized execution.
+
+## Milestone 4 result
+
+**Implemented and validated structurally on 2026-09-30; Snowflake compilation/build unverified.** dbt was installed into the ignored Python 3.11 virtual environment. No approved Snowflake account, private key, populated RAW relations, or warehouse was available.
+
+| Command/check | Result |
+|---|---|
+| dbt dependency install | PASS — dbt Core 1.12.5, `dbt-snowflake` 1.12.1 |
+| `dbt parse --no-partial-parse` | PASS — full parse with no warning/error |
+| `dbt ls --resource-type model` | PASS — 24 models: 9 staging, 4 intermediate, 7 dimensions, 4 facts |
+| Parsed tests and sources | PASS — 143 data tests and 9 RAW sources |
+| Development schema routing | PASS — models resolve to three isolated `DBT_DEV_*` schemas |
+| `make dbt-expectations` | PASS — all 24 source-derived model counts; 667,188 expected mart rows |
+| `make test` | PASS — 22 discovered: 20 passed, AWS and Snowflake integration tests skipped |
+| Ruff on new Milestone 4 Python | PASS — E/F/import checks clean |
+| Repository-wide Ruff advisory | FAIL — 115 inherited formatting/typing-style findings remain outside Milestone 4 scope |
+| `dbt compile --no-introspect` | BLOCKED — stopped at missing key file before warehouse connection/SQL compilation |
+| `dbt build` / warehouse tests | NOT RUN — approved Snowflake resources unavailable |
+| `dbt docs generate --empty-catalog --no-compile` | PASS — ignored documentation artifacts generated without warehouse metadata |
+| Warehouse catalog introspection | NOT RUN — approved Snowflake access unavailable |
+
+Expected mart acceptance counts are 251,987 dimension rows and 415,201 fact rows. These values come from the committed source profile and declared grains; they are not actual warehouse output. Actual dbt-created relations: **0**. Actual mart rows: **0**. No model SQL execution, incremental rerun, relationship result, monetary SQL reconciliation, or generated warehouse catalog is claimed.

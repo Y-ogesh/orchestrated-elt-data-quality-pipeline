@@ -30,6 +30,8 @@ tmp/
 # dbt / Airflow / IDE / OS
 target/
 dbt_packages/
+dbt/profiles.yml
+dbt/logs/
 logs/
 airflow.db
 airflow-webserver.pid

@@ -65,3 +65,15 @@ All source fields load into RAW as `VARCHAR`; source spelling and null behavior 
 **Status:** Accepted, 2026-09-30
 
 Snowflake validation mode does not support transformed COPY statements. Each staged CSV is therefore validated first against a temporary source-shaped table with `RETURN_ALL_ERRORS`. Only error-free files enter the transactional COPY that adds metadata. Rejected records are audited, and any COPY/count mismatch rolls back the complete batch.
+
+## ADR-012 — Increment transaction facts, rebuild dimensions
+
+**Status:** Accepted, 2026-09-30
+
+The four transaction facts use merge-based incremental materializations keyed by deterministic SHA-256 surrogates and a `source_loaded_at` overlap. The seven dimensions rebuild as tables because the fixed source snapshot is small and a full deterministic rebuild is simpler than maintaining unnecessary slowly changing state.
+
+## ADR-013 — Use environment-isolated dbt schemas
+
+**Status:** Accepted, 2026-09-30
+
+Production models resolve to `STAGING`, `INTERMEDIATE`, and `MARTS`. Development models resolve to `<DBT_DEV_SCHEMA>_<layer>` through a controlled schema-name macro. This prevents one developer's run from replacing governed relations while keeping lineage names readable. Profile credentials remain external environment values and private-key passphrases use dbt's secret environment prefix.

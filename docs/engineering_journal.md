@@ -34,3 +34,14 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Implemented safe identifier/literal rendering, environment-only key-pair configuration, infrastructure bootstrap, pre-load rejected-record capture, transactional COPY, manifest/audit duplicate prevention, row reconciliation, rollback, and opt-in connection testing.
 - Local warehouse-plan validation rendered every SQL module and both COPY phases for all 129 files across 26 batches, reconciling 1,550,922 expected rows.
 - Real Snowflake outcome: **not run** because approved resources and credentials were unavailable. Actual loaded rows: **0**; this is an environment limitation, not a successful cloud-load claim.
+
+## 2026-09-30 — Milestone 4
+
+- Inspected the clean Milestone 3 baseline, nine RAW contracts, committed aggregate profile, and dimensional design. dbt was not initially installed; Python 3.9.6 and Python 3.11.14 were both available.
+- The first dependency attempt correctly exposed that current Snowflake adapters require Python 3.10+. Recreated the ignored virtual environment with Python 3.11 and installed dbt Core 1.12.5 plus `dbt-snowflake` 1.12.1, matching the active v1 support line.
+- Implemented secure environment-only dev/prod profiles, development schema isolation, nine source/staging models, four intermediate models, seven dimensions, four incremental facts, deterministic surrogate keys, and 143 parsed data tests.
+- Preserved independent item and payment grains: their detail models aggregate separately to order before meeting in `int_orders_enriched`. Added detail-to-order fact reconciliations rather than incorrectly requiring the genuine source totals to equal one another.
+- A clean `dbt parse --no-partial-parse` succeeded and `dbt ls` reported 24 models, 9 sources, and 143 tests. Generated `manifest.json` lineage remained in ignored `dbt/target/`.
+- Source-derived acceptance logic produced expected counts for all 24 models and 667,188 mart rows, including a 1,314-row date spine that preserves the 2020 shipping-limit outlier.
+- Offline `dbt compile --no-introspect` reached profile authentication and stopped because no private key/approved account was available. `dbt docs generate --empty-catalog --no-compile` succeeded and produced ignored local documentation/lineage artifacts without warehouse metadata. No SQL build, data tests, or catalog introspection was claimed.
+- Real dbt outcome: **not run**. Actual dbt-created relations: **0**; actual mart rows: **0**. No cloud resources or permissions were changed.

@@ -1,0 +1,8 @@
+selectors:
+  - name: source_to_marts
+    description: Build and test the complete Olist transformation lineage.
+    definition:
+      method: tag
+      value: marts
+      parents: true
+      children: true

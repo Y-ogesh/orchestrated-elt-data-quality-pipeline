@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: int_order_item_totals
+    description: Item measures aggregated independently to one row per order before payment joins.
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: item_total_value
+        data_tests: [not_null]
+  - name: int_order_payment_totals
+    description: Payment measures aggregated independently to one row per order before item joins.
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: payment_total_value
+        data_tests: [not_null]
+  - name: int_orders_enriched
+    description: One order joined only to already-aggregated item and payment measures.
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: payment_item_difference
+        description: Payment total minus item merchandise and freight total in BRL.
+        data_tests: [not_null]
+  - name: int_geography_deduplicated
+    description: One deterministic representative locality and median valid coordinate per postal prefix.
+    columns:
+      - name: geolocation_zip_code_prefix
+        data_tests: [not_null, unique]
