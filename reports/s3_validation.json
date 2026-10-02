@@ -1,0 +1,28 @@
+{
+  "authentication": "passed_using_standard_profile_chain_identity_not_recorded",
+  "batches": 26,
+  "data_objects": 129,
+  "integration_test_cleanup_remaining_objects": 0,
+  "manifest_objects": 26,
+  "manifest_schema_versions": [
+    1
+  ],
+  "metadata_verified_objects": 155,
+  "missing_objects": 0,
+  "objects": 155,
+  "prefix": "olist/raw/source=olist/",
+  "region": "us-east-1",
+  "remote_bytes": 124509854,
+  "rerun_skipped_objects": 155,
+  "rerun_uploaded_objects": 0,
+  "sha256_stream_verified_objects": 155,
+  "source_rows_from_remote_manifests": 1550922,
+  "source_versions": [
+    "kaggle-v2-2021-10-01"
+  ],
+  "sse_aes256_verified_objects": 155,
+  "status": "completed_and_validated_against_real_aws_s3",
+  "unexpected_objects": 0,
+  "validated_at_utc": "2026-10-02T20:29:19Z",
+  "validation_schema_version": 1
+}

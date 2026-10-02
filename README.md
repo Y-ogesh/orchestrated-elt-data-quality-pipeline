@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestone 1 is completed and validated. Milestones 2–4 are implemented and locally validated, including deterministic S3 ingestion, manifest-driven Snowflake RAW loading, and a parsed 24-model dbt dimensional DAG. Real AWS/Snowflake/dbt execution is pending approved resources and credentials. No Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestones 1 and 2 are completed and validated, including a real AWS S3 upload and idempotent rerun. Milestones 3 and 4 are implemented and locally validated, including manifest-driven Snowflake RAW loading and a parsed 24-model dbt dimensional DAG; real Snowflake/dbt execution remains pending. No Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Completed and locally validated through Milestone 4:
+Implemented through Milestone 4; Milestone 2 is additionally validated against AWS:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -57,12 +57,13 @@ Completed and locally validated through Milestone 4:
 - Deterministic monthly transaction batches and a versioned reference snapshot.
 - Canonical manifests with content-derived batch IDs, source/output checksums, byte counts, row counts, and logical timestamps.
 - Idempotent local/S3 object uploads, manifest-last commit semantics, integrity checks, conflict detection, exponential retry, structured logs, and server-side encryption requests.
+- Real S3 evidence for 26 batches and 155 objects: all remote keys, bytes, SHA-256 values, metadata, manifests, and AES-256 settings independently verified; the repeated full run uploaded zero objects.
 - Version-controlled Snowflake schemas, CSV format, external stage, nine source-shaped RAW tables, audit tables, and validation views.
 - Parameterized two-phase COPY loading with rejected-record capture, source/batch lineage, transactional reconciliation, duplicate prevention, and no-op reruns.
 - dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 143 parsed tests, secure targets, and generated lineage metadata.
 - Independent item/payment aggregation, deterministic surrogate keys, source-to-mart grain expectations, and reconciliation tests that prevent monetary fanout.
 
-Implemented but not yet verified against real cloud services: S3 upload, Snowflake loading, and dbt warehouse build/test/documentation generation. Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+Implemented but not yet verified against real cloud services: Snowflake loading and dbt warehouse build/test/documentation generation. Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
 ## Warehouse design
 
@@ -85,7 +86,7 @@ make warehouse-validate
 make dbt-expectations
 ```
 
-No credentials are required for the public download, local ingestion, or source-derived dbt expectations. Real S3/Snowflake/dbt execution requires approved resources and credentials. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
+No credentials are required for the public download, local ingestion, or source-derived dbt expectations. Repeating the validated S3 run and executing Snowflake/dbt require approved resources and credentials. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
 
 ## Repository structure
 
@@ -110,6 +111,7 @@ tests/                 # fast unit tests
 - [Data dictionary](docs/data_dictionary.md)
 - [Dataset profiling](docs/dataset_profiling.md)
 - [Ingestion and S3 runbook](docs/ingestion.md)
+- [Machine-readable S3 validation evidence](reports/s3_validation.json)
 - [Snowflake warehouse and loading](docs/snowflake_warehouse.md)
 - [dbt transformations](docs/dbt_transformations.md)
 - [Dimensional model](docs/dimensional_model.md)

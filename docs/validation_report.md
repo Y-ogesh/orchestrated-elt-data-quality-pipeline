@@ -38,20 +38,29 @@ Unit coverage includes the nine-file registry, null/duplicate detection, UTF-8 B
 
 ## Milestone 2 result
 
-**Implemented and validated locally on 2026-09-30; real AWS execution unverified.** No approved bucket, AWS credential environment, AWS CLI, boto3, or moto was available, so the opt-in AWS integration test was correctly skipped.
+**Completed and validated against real AWS S3 on 2026-10-02.** Authentication used the configured least-privilege profile through the standard AWS credential chain; no credentials or identity values were recorded.
 
 | Command/check | Result |
 |---|---|
-| `make test` | PASS — 8 discovered: 7 passed, 1 real-AWS test skipped |
+| Original local suite | PASS — deterministic batches, local idempotency, conflict handling, and retry behavior |
 | First `make ingest-local` | PASS — 26 batches, 1,550,922 records, 155/155 objects uploaded and verified |
 | Repeated `make ingest-local` | PASS — identical 26 batch IDs, 0 uploaded, 155/155 validated and skipped |
 | Batch reconciliation | PASS — 129 data files reconcile exactly to all nine source row counts |
 | Local payload | 124,509,854 bytes in 129 data files and 26 manifests |
 | Conflict test | PASS — mismatched immutable checksum rejected |
 | Retry test | PASS — transient failures retried with 0.25s then 0.5s test backoff |
-| AWS integration | SKIPPED — requires explicit flag, approved existing bucket, and credentials |
+| AWS authentication | PASS — STS call succeeded without displaying identity fields |
+| Scoped S3 access | PASS — prefix listing and required object operations succeeded |
+| AWS integration | PASS — synthetic upload, metadata validation, zero-upload rerun, and scoped cleanup |
+| Full repository suite with AWS enabled | PASS — 22 discovered; 21 passed; only the Snowflake integration test skipped |
+| First full S3 ingestion | PASS — 26 batches; 155 uploaded; 0 skipped; 1,550,922 rows |
+| Independent remote audit | PASS — 155 keys, sizes, streamed checksums, metadata, and AES-256 settings; zero missing/unexpected |
+| Remote manifests | PASS — 26 canonical manifests representing 129 files and 1,550,922 rows |
+| Remote payload | PASS — 124,509,854 bytes measured from S3 |
+| Full S3 rerun | PASS — 0 uploaded; all 155 objects validated and skipped |
+| Integration cleanup | PASS — zero objects remained under the raw-prefix integration-test path |
 
-No AWS resources were provisioned, no IAM policy was changed, and no remote mutation was performed.
+Bucket-level `HeadBucket` returned 403 because the least-privilege role does not grant that broad operation; this did not block scoped listing, upload, `HeadObject`/read, or authorized test cleanup. No bucket, IAM resource, policy, ACL, or remote branch was created or changed. Production ingestion objects remain in the approved raw prefix for Milestone 3.
 
 ## Milestone 3 result
 

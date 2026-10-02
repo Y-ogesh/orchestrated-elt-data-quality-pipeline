@@ -211,7 +211,8 @@ class AwsIntegrationTests(unittest.TestCase):
         region = os.getenv("AWS_REGION")
         profile = os.getenv("AWS_PROFILE") or None
         store = S3ObjectStore(bucket, region=region, profile=profile)
-        prefix = f"olist/integration-tests/{os.getpid()}"
+        raw_prefix = os.getenv("S3_RAW_PREFIX", "olist/raw").strip("/")
+        prefix = f"{raw_prefix}/integration-tests/{os.getpid()}"
         keys = []
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

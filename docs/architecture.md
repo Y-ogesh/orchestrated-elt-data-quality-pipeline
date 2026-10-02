@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 4 adds a parsed 24-model dbt DAG: nine staging views, four intermediate views, seven dimensions, four incremental facts, and 143 tests. AWS and Snowflake remain unprovisioned and unverified, so the transformation relations have not been built remotely.
+Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 4 adds a parsed 24-model dbt DAG: nine staging views, four intermediate views, seven dimensions, four incremental facts, and 143 tests. Snowflake remains unprovisioned and unverified, so transformation relations have not been built remotely.
 
 ## Snowflake organization
 
@@ -113,4 +113,4 @@ orders         = orders left join item_totals left join payment_totals
 
 ## Resource and cleanup estimate
 
-No cloud resources exist. The measured local S3 payload is 124,509,854 bytes across 155 objects. An initial AWS copy should therefore remain below 130 MB before bucket versioning overhead. A later warehouse proof-of-concept should use an auto-suspending Snowflake X-Small warehouse. Cleanup must remove versioned S3 objects, Snowflake database/roles created for the project, local Airflow metadata/containers, and BI credentials only after evidence is retained and explicit approval is obtained.
+The validated S3 prefix contains 124,509,854 bytes across 155 objects. No Snowflake objects exist. A later warehouse proof-of-concept should use an auto-suspending Snowflake X-Small warehouse. Cleanup must remove only explicitly approved project objects, including versioned S3 objects where applicable, and must occur only after evidence is retained and deletion is authorized.

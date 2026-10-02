@@ -2,7 +2,29 @@
 
 ## Scope and status
 
-The ingestion package covers all nine Olist source tables. Deterministic batch construction, manifests, retries, immutable uploads, local object-store execution, and no-op reruns are validated. The boto3 path and opt-in integration test are implemented but have not run against AWS because no approved bucket or credentials are configured.
+The ingestion package covers all nine Olist source tables and is validated locally and against real AWS S3. On 2026-10-02, the configured credential-chain profile uploaded the full deterministic snapshot to the approved `olist/raw` prefix. The same run was repeated without rewriting any valid object.
+
+## Real AWS validation
+
+Measured directly from S3 after the upload:
+
+| Check | Result |
+|---|---:|
+| Deterministic batches | 26 |
+| Data objects | 129 |
+| Manifest objects | 26 |
+| Total objects | 155 |
+| Rows represented by remote manifests | 1,550,922 |
+| Remote bytes | 124,509,854 |
+| Streamed SHA-256 checks | 155 passed |
+| Metadata checks | 155 passed |
+| SSE-S3 (`AES256`) checks | 155 passed |
+| Missing / unexpected keys | 0 / 0 |
+| Identical full rerun | 0 uploaded; 155 validated and skipped |
+
+The independent audit listed the S3 prefix, matched it to locally regenerated deterministic keys, streamed every remote object through SHA-256, compared every manifest with its canonical local form, and derived the row total from the remote manifest bodies. No AWS account ID, IAM identifier, credential, raw row, or secret was recorded.
+
+Aggregate machine-readable evidence is committed in [`reports/s3_validation.json`](../reports/s3_validation.json).
 
 ## Batch design
 
@@ -122,7 +144,7 @@ export OLIST_RUN_AWS_INTEGRATION=1
 export S3_BUCKET='<approved-existing-bucket>'
 ```
 
-It uploads tiny synthetic fixtures to `olist/integration-tests/<process-id>/`, verifies the rerun, and deletes those keys in `finally`. Do not enable it without permission to put, read metadata, and delete within that prefix.
+It uploads tiny synthetic fixtures to `<S3_RAW_PREFIX>/integration-tests/<process-id>/`, verifies the rerun, and deletes those keys in `finally`. The real validation confirmed that cleanup left zero test objects. Do not enable it without permission to put, read metadata, and delete within that prefix.
 
 ## Minimum AWS permissions
 
@@ -130,7 +152,7 @@ Scope permissions to the selected bucket prefix. Runtime ingestion needs `s3:Put
 
 ## Resource usage and cleanup
 
-Measured locally: 124,509,854 bytes of payload across 155 objects (129 CSVs and 26 manifests). Local batch artifacts plus the mock store use about 239 MiB; raw source files use about 120 MiB. CSVs are streamed, although order/customer routing maps are held in memory.
+Measured locally and independently in S3: 124,509,854 bytes across 155 objects (129 CSVs and 26 manifests). Local batch artifacts plus the mock store use about 239 MiB; raw source files use about 120 MiB. CSVs are streamed, although order/customer routing maps are held in memory.
 
 Local cleanup is recoverable by deleting ignored `data/processed/ingestion_batches/` and `data/processed/mock_s3/`; rerunning reconstructs both.
 

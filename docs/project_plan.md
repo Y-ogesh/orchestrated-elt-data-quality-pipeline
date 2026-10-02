@@ -5,7 +5,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | Milestone | Scope | Status | Exit evidence |
 |---|---|---|---|
 | 1. Foundation and profiling | Project scaffold, official data acquisition, source contracts, profiling, architecture, dimensional design, replay design, tests, documentation | **Completed and validated** | Four unit tests pass; nine sources and six FKs validate; aggregate profile committed |
-| 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Implemented but unverified** | Local full-data replay and rerun passed; real AWS test awaits an approved bucket/credentials |
+| 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Completed and validated** | Real AWS run verified 26 batches, 155 objects, 26 manifests, 1,550,922 rows, 155 streamed checksums, and a zero-upload rerun |
 | 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Implemented but unverified** | Five SQL modules and all 26 batches validate locally; real Snowflake load awaits approved resources/credentials |
 | 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Implemented but unverified** | dbt 1.12 parses 24 models/143 tests; real build and warehouse reconciliation await approved Snowflake access |
 | 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
@@ -25,6 +25,16 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Automated tests and source validation executed.
 - [x] Required documentation created and cross-linked.
 - [x] No cloud resources provisioned.
+
+## Milestone 2 acceptance criteria
+
+- [x] Deterministic batches and canonical manifests cover all nine source tables.
+- [x] Real AWS authentication and scoped access validated through the configured credential chain.
+- [x] Full ingestion uploaded 129 data objects and 26 manifests under the approved raw prefix.
+- [x] Remote keys, sizes, streamed SHA-256 values, metadata, manifest content, and AES-256 encryption validated for all 155 objects.
+- [x] Remote manifests reconcile to 1,550,922 source rows and 124,509,854 bytes.
+- [x] Identical rerun validated and skipped all 155 objects with zero uploads.
+- [x] Synthetic integration objects were created and deleted only below the approved raw-prefix test path.
 
 ## Milestone 3 acceptance criteria
 

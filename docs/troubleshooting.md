@@ -40,6 +40,10 @@ Install only the declared cloud extras in an activated environment: `python -m p
 
 Pass `--bucket` or export `S3_BUCKET`. The pipeline deliberately does not create a bucket or infer one. Confirm authorization and prefix ownership before running.
 
+## `HeadBucket` returns 403 but prefix operations are authorized
+
+A least-privilege policy may omit broad bucket-level `HeadBucket` access while allowing the exact project prefix operations. Do not broaden IAM only to make `HeadBucket` pass. Verify STS authentication without recording identity details, test scoped prefix listing if granted, and use the opt-in integration test to prove `PutObject`, metadata reads, idempotent reruns, and cleanup under `<S3_RAW_PREFIX>/integration-tests/`.
+
 ## Immutable object conflict
 
 An object already exists at a deterministic key with a different checksum or byte count. Do not overwrite it. Verify the source version, manifest, prefix, and bucket; use a new reviewed source/contract version only when the content legitimately changed.

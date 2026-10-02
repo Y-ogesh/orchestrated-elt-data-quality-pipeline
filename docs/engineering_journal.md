@@ -35,6 +35,16 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Local warehouse-plan validation rendered every SQL module and both COPY phases for all 129 files across 26 batches, reconciling 1,550,922 expected rows.
 - Real Snowflake outcome: **not run** because approved resources and credentials were unavailable. Actual loaded rows: **0**; this is an environment limitation, not a successful cloud-load claim.
 
+## 2026-10-02 — Milestone 2 AWS validation
+
+- Reused the existing ingestion implementation and configured the approved AWS profile, `us-east-1`, and raw prefix without reading or recording credentials or identity details.
+- AWS STS authentication succeeded. Bucket-level `HeadBucket` was denied by the least-privilege policy, while scoped prefix listing and the required object operations succeeded; no policy expansion was requested.
+- Moved the synthetic integration-test path beneath `<S3_RAW_PREFIX>/integration-tests/<process-id>` so its write/read/delete lifecycle remains inside the authorized raw prefix. All four ingestion tests passed against AWS, and cleanup left zero integration-test objects.
+- The first full S3 run uploaded 26 deterministic batches: 129 data objects plus 26 manifests, representing 1,550,922 source rows and 124,509,854 bytes.
+- An independent S3 audit matched all 155 keys, streamed and verified all 155 SHA-256 values, verified all metadata and SSE-S3 settings, parsed all 26 remote manifests, and found zero missing or unexpected objects.
+- The repeated full pipeline run uploaded zero objects and validated/skipped all 155 existing objects. The latest object modification time remained before the rerun began, confirming no unnecessary rewrite.
+- No bucket, IAM principal, policy, ACL, or remote branch was created or modified.
+
 ## 2026-09-30 — Milestone 4
 
 - Inspected the clean Milestone 3 baseline, nine RAW contracts, committed aggregate profile, and dimensional design. dbt was not initially installed; Python 3.9.6 and Python 3.11.14 were both available.
