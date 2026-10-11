@@ -77,3 +77,9 @@ The four transaction facts use merge-based incremental materializations keyed by
 **Status:** Accepted, 2026-09-30
 
 Production models resolve to `STAGING`, `INTERMEDIATE`, and `MARTS`. Development models resolve to `<DBT_DEV_SCHEMA>_<layer>` through a controlled schema-name macro. This prevents one developer's run from replacing governed relations while keeping lineage names readable. Profile credentials remain external environment values and private-key passphrases use dbt's secret environment prefix.
+
+## ADR-014 — Pre-provision Snowflake control-plane objects
+
+**Status:** Accepted, 2026-10-11
+
+The application service role must not hold account-level `CREATE DATABASE` or database-level `CREATE SCHEMA` privileges. Administrators pre-provision the database, five schemas, storage integration, external stage, service user, role, and warehouse. Bootstrap validates those prerequisites—including stage URL, integration, and object access—then creates or reuses only the project file format, RAW/audit tables, and views. This preserves least privilege and prevents the loader from becoming a competing infrastructure-management path.

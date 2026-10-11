@@ -6,8 +6,8 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 |---|---|---|---|
 | 1. Foundation and profiling | Project scaffold, official data acquisition, source contracts, profiling, architecture, dimensional design, replay design, tests, documentation | **Completed and validated** | Four unit tests pass; nine sources and six FKs validate; aggregate profile committed |
 | 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Completed and validated** | Real AWS run verified 26 batches, 155 objects, 26 manifests, 1,550,922 rows, 155 streamed checksums, and a zero-upload rerun |
-| 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Implemented but unverified** | Five SQL modules and all 26 batches validate locally; real Snowflake load awaits approved resources/credentials |
-| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Implemented but unverified** | dbt 1.12 parses 24 models/143 tests; real build and warehouse reconciliation await approved Snowflake access |
+| 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Completed and validated** | Real Snowflake load reconciled 26 batches, 129 files, and 1,550,922 rows; identical rerun skipped all 26 batches |
+| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Implemented but unverified** | dbt 1.12 parses 24 models/143 tests; real build and mart reconciliation have not been executed |
 | 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
 | 6. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Injected-failure evidence and audit history |
 | 7. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
@@ -38,12 +38,16 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 
 ## Milestone 3 acceptance criteria
 
-- [x] Version-controlled SQL defines five schemas, file format, external stage, nine RAW tables, audit tables, and validation views.
+- [x] Version-controlled SQL and preflight validation reuse the provisioned database, five schemas, storage integration, and external stage without account-level DDL.
 - [x] Source columns remain text while every RAW row receives traceable batch/file/load metadata.
 - [x] Manifest-driven COPY planning covers all 26 batches, 129 files, and 1,550,922 expected rows.
 - [x] Mock validation proves clean load, rerun skip, rollback, rejected-record capture, and reconciliation behavior.
 - [x] Secrets remain external; real execution requires explicit opt-in and a pre-approved storage integration.
-- [ ] Real schemas, stage access, row totals, keys, relationships, and rerun behavior verified in Snowflake. Blocked only by unavailable approved resources/credentials.
+- [x] Real stage access verified against 155 objects; bootstrap created/reused one file format, nine RAW tables, four audit tables, and four audit views.
+- [x] Real load reconciled 26 batches, 129 files, and 1,550,922 rows with zero file/row differences.
+- [x] Seven key checks and six relationship checks returned zero violations.
+- [x] Identical rerun loaded zero rows and reconciled/skipped all 26 completed batches.
+- [x] Validation-only malformed-record probe detected four errors and loaded zero temporary rows.
 
 ## Milestone 4 acceptance criteria
 
@@ -55,7 +59,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Source, grain, key, relationship, accepted-value, and monetary reconciliation tests are defined.
 - [x] Full dbt parsing generated lineage metadata for 24 models, 9 sources, and 143 tests; initial docs artifacts generated with an empty catalog.
 - [x] Source-derived acceptance counts cover every model and 667,188 expected mart rows.
-- [ ] `dbt compile`, `dbt build`, `dbt test`, catalog introspection, and actual warehouse counts verified against Snowflake. Awaiting approved resources/credentials.
+- [ ] `dbt compile`, `dbt build`, `dbt test`, catalog introspection, and actual mart counts verified against Snowflake. Milestone 3 RAW is ready, but these commands remain Milestone 4 work.
 
 ## Delivery conventions
 

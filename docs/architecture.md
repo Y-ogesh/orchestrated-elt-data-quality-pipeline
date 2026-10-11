@@ -35,11 +35,11 @@ flowchart TB
     H --> I
 ```
 
-Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 4 adds a parsed 24-model dbt DAG: nine staging views, four intermediate views, seven dimensions, four incremental facts, and 143 tests. Snowflake remains unprovisioned and unverified, so transformation relations have not been built remotely.
+Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 adds a parsed 24-model dbt DAG, but transformation relations have not yet been built remotely.
 
 ## Snowflake organization
 
-Planned database: `OLIST_ANALYTICS`.
+Deployed database: `OLIST_ELT`.
 
 | Schema | Responsibility | Mutation policy |
 |---|---|---|
@@ -51,7 +51,7 @@ Planned database: `OLIST_ANALYTICS`.
 
 The RAW layer stores source fields as `VARCHAR` so ingestion does not silently coerce source values. Each row also carries batch ID, staged filename, artifact checksum, source version, logical ingestion date, staged row number, load run ID, and load timestamp. Typing belongs in STAGING.
 
-Access will use separate least-privilege roles for loading, transformation, orchestration, and read-only BI. Exact grants are deferred until the cloud milestone.
+The `OLIST_ELT_ROLE` service role performs RAW loading through key-pair authentication and the pre-provisioned storage integration. It cannot create databases or schemas. Transformation, orchestration, and read-only BI privileges remain separate future concerns.
 
 ## Batch identity and deterministic replay
 
@@ -62,7 +62,7 @@ The public dataset is a fixed snapshot, not an event feed. Historical simulation
 3. Assign customers, order items, payments, and reviews to the window of their parent order. Load product, seller, category, and geography tables once in a separate reference snapshot under the same source version.
 4. Derive `batch_id = sha256(source_version | manifest_hash | window_start | window_end | pipeline_contract_version)`.
 5. Write immutable S3 keys containing source, logical ingestion date, batch ID, and table. Never overwrite a different checksum at an existing key.
-6. Upload data objects first and the manifest last as the batch commit marker. A retry with the same checksum validates and skips objects; a checksum conflict fails closed. Future `AUDIT.FILE_LOAD` records will enforce the same invariant in Snowflake.
+6. Upload data objects first and the manifest last as the batch commit marker. A retry with the same checksum validates and skips objects; a checksum conflict fails closed. `AUDIT.FILE_LOADS` records enforce the same invariant in Snowflake.
 7. `COPY` into a transient landing table, validate counts/types, then merge or append atomically into RAW. Publish marts only after all tasks and blocking tests pass.
 8. dbt incremental facts use declared surrogate unique keys and overlap on `source_loaded_at`; a full refresh reproduces the same result from immutable RAW batches. Future Airflow runs will supply the orchestration interval without changing those content keys.
 
@@ -113,4 +113,4 @@ orders         = orders left join item_totals left join payment_totals
 
 ## Resource and cleanup estimate
 
-The validated S3 prefix contains 124,509,854 bytes across 155 objects. No Snowflake objects exist. A later warehouse proof-of-concept should use an auto-suspending Snowflake X-Small warehouse. Cleanup must remove only explicitly approved project objects, including versioned S3 objects where applicable, and must occur only after evidence is retained and deletion is authorized.
+The validated S3 prefix contains 124,509,854 bytes across 155 objects. Snowflake RAW contains 1,550,922 rows in nine tables, loaded by an X-Small warehouse with a 60-second auto-suspend. Cleanup must remove only explicitly approved project objects, including versioned S3 objects where applicable, and must occur only after evidence is retained and deletion is authorized.

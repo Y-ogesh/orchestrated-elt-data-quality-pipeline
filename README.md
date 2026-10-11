@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1 and 2 are completed and validated, including a real AWS S3 upload and idempotent rerun. Milestones 3 and 4 are implemented and locally validated, including manifest-driven Snowflake RAW loading and a parsed 24-model dbt dimensional DAG; real Snowflake/dbt execution remains pending. No Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestones 1–3 are completed and validated, including real AWS S3 ingestion and a reconciled Snowflake RAW load. Milestone 4 is implemented and structurally validated as a parsed 24-model dbt DAG, but no dbt models have been built in Snowflake. No Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 4; Milestone 2 is additionally validated against AWS:
+Implemented through Milestone 4; Milestones 2 and 3 are validated against real cloud infrastructure:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -60,14 +60,15 @@ Implemented through Milestone 4; Milestone 2 is additionally validated against A
 - Real S3 evidence for 26 batches and 155 objects: all remote keys, bytes, SHA-256 values, metadata, manifests, and AES-256 settings independently verified; the repeated full run uploaded zero objects.
 - Version-controlled Snowflake schemas, CSV format, external stage, nine source-shaped RAW tables, audit tables, and validation views.
 - Parameterized two-phase COPY loading with rejected-record capture, source/batch lineage, transactional reconciliation, duplicate prevention, and no-op reruns.
+- Real Snowflake evidence for 26 batches, 129 files, and 1,550,922 RAW rows: exact batch/file reconciliation, zero key or relationship violations, and a 26-batch no-op rerun.
 - dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 143 parsed tests, secure targets, and generated lineage metadata.
 - Independent item/payment aggregation, deterministic surrogate keys, source-to-mart grain expectations, and reconciliation tests that prevent monetary fanout.
 
-Implemented but not yet verified against real cloud services: Snowflake loading and dbt warehouse build/test/documentation generation. Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+Implemented but not yet verified against real infrastructure: dbt warehouse build/test/documentation generation. Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
 ## Warehouse design
 
-The implemented warehouse separates `OLIST_ANALYTICS` into `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. dbt now defines the typed staging layer, reusable aggregates, and 11 dimensional marts: `fct_orders`, `fct_order_items`, `fct_order_payments`, `fct_order_reviews`, `dim_customer`, `dim_order_customer`, `dim_product`, `dim_seller`, `dim_category`, `dim_geography`, and `dim_date`. Every model's grain and key is defined in the [data dictionary](docs/data_dictionary.md).
+The deployed `OLIST_ELT` warehouse separates `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. RAW and AUDIT are populated and reconciled; dbt defines—but has not yet built—the typed staging layer, reusable aggregates, and 11 dimensional marts. Every model's grain and key is defined in the [data dictionary](docs/data_dictionary.md).
 
 `item_total = SUM(price) + SUM(freight_value)` and `payment_total = SUM(payment_value)` are computed independently at order grain before joining. Payment value is not labeled accounting revenue; commission, refund, and seller-payout data are absent.
 
@@ -86,7 +87,7 @@ make warehouse-validate
 make dbt-expectations
 ```
 
-No credentials are required for the public download, local ingestion, or source-derived dbt expectations. Repeating the validated S3 run and executing Snowflake/dbt require approved resources and credentials. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
+No credentials are required for the public download, local ingestion, or source-derived dbt expectations. Repeating the validated S3/Snowflake workflows or executing dbt requires approved resources and credentials. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
 
 ## Repository structure
 
@@ -113,6 +114,7 @@ tests/                 # fast unit tests
 - [Ingestion and S3 runbook](docs/ingestion.md)
 - [Machine-readable S3 validation evidence](reports/s3_validation.json)
 - [Snowflake warehouse and loading](docs/snowflake_warehouse.md)
+- [Machine-readable Snowflake validation evidence](reports/snowflake_validation.json)
 - [dbt transformations](docs/dbt_transformations.md)
 - [Dimensional model](docs/dimensional_model.md)
 - [Decisions](docs/decisions.md)

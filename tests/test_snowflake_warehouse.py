@@ -17,8 +17,10 @@ from olist_pipeline.snowflake_sql import (
 from olist_pipeline.warehouse import (
     CompletedBatch,
     CopyResult,
-    WarehouseLoadError,
+    SnowflakeSettings,
     WarehouseLoader,
+    WarehouseLoadError,
+    validate_bootstrap_prerequisites,
     validate_remote_warehouse,
 )
 
@@ -155,7 +157,11 @@ class SnowflakeSqlTests(unittest.TestCase):
         sql = "\n".join(text for _, text in rendered)
         self.assertEqual(5, len(rendered))
         self.assertNotIn("{{", sql)
-        for schema in ("RAW", "STAGING", "INTERMEDIATE", "MARTS", "AUDIT"):
+        self.assertIn('USE DATABASE "OLIST_ANALYTICS"', sql)
+        self.assertNotIn("CREATE DATABASE", sql)
+        self.assertNotIn("CREATE SCHEMA", sql)
+        self.assertNotIn("CREATE STAGE", sql)
+        for schema in ("RAW", "AUDIT"):
             self.assertIn(f'"{schema}"', sql)
         for table in (
             "CUSTOMERS",
@@ -189,6 +195,51 @@ class SnowflakeSqlTests(unittest.TestCase):
             quote_identifier("RAW; DROP DATABASE PROD")
         with self.assertRaises(ValueError):
             validate_s3_url("s3://bucket/path'; DROP STAGE x")
+
+    def test_bootstrap_validates_preprovisioned_schemas_and_stage(self):
+        class Cursor:
+            description = ()
+
+            def execute(self, sql, params=()):
+                if "INFORMATION_SCHEMA\".\"SCHEMATA" in sql:
+                    self.rows = [
+                        (value,)
+                        for value in ("RAW", "STAGING", "INTERMEDIATE", "MARTS", "AUDIT")
+                    ]
+                    self.description = (("SCHEMA_NAME",),)
+                elif sql.startswith("DESC STAGE"):
+                    self.description = (("property",), ("property_value",))
+                    self.rows = [
+                        ("URL", '["s3://approved-bucket/olist/raw/"]'),
+                        ("STORAGE_INTEGRATION", "OLIST_S3_INT"),
+                    ]
+                elif sql.startswith("LIST @"):
+                    self.description = (("name",),)
+                    self.rows = [("one",), ("two",)]
+                else:
+                    raise AssertionError(sql)
+                return self
+
+            def fetchall(self):
+                return self.rows
+
+        class Connection:
+            def cursor(self):
+                return Cursor()
+
+        settings = SnowflakeSettings(
+            account="test",
+            user="test",
+            role="test",
+            warehouse="test",
+            private_key_file="test",
+            private_key_file_pwd=None,
+            storage_integration="OLIST_S3_INT",
+            s3_bucket="approved-bucket",
+            s3_raw_prefix="olist/raw",
+            names=SnowflakeNames(),
+        )
+        self.assertEqual(2, validate_bootstrap_prerequisites(Connection(), settings))
 
 
 class WarehouseLoaderTests(unittest.TestCase):
@@ -244,7 +295,10 @@ class WarehouseLoaderTests(unittest.TestCase):
         class Cursor:
             def execute(self, sql, params=()):
                 if "INFORMATION_SCHEMA\".\"SCHEMATA" in sql:
-                    self.rows = [(value,) for value in ("RAW", "STAGING", "INTERMEDIATE", "MARTS", "AUDIT")]
+                    self.rows = [
+                        (value,)
+                        for value in ("RAW", "STAGING", "INTERMEDIATE", "MARTS", "AUDIT")
+                    ]
                 elif "INFORMATION_SCHEMA\".\"COLUMNS" in sql:
                     self.rows = [
                         (table.upper(), column.upper())
@@ -304,9 +358,16 @@ class SnowflakeIntegrationTests(unittest.TestCase):
         connection = connect_snowflake(settings)
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT CURRENT_ACCOUNT(), CURRENT_ROLE(), CURRENT_WAREHOUSE()")
-            row = cursor.fetchone()
-            self.assertTrue(all(row))
+            cursor.execute(
+                "SELECT CURRENT_USER(),CURRENT_ROLE(),CURRENT_WAREHOUSE(),"
+                "CURRENT_DATABASE(),CURRENT_REGION()"
+            )
+            user, role, warehouse, database, region = cursor.fetchone()
+            self.assertEqual(settings.user.upper(), str(user).upper())
+            self.assertEqual(settings.role.upper(), str(role).upper())
+            self.assertEqual(settings.warehouse.upper(), str(warehouse).upper())
+            self.assertEqual(settings.names.database.upper(), str(database).upper())
+            self.assertTrue(region)
         finally:
             connection.close()
 

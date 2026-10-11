@@ -60,9 +60,13 @@ Real execution requires `OLIST_RUN_SNOWFLAKE_INTEGRATION=1` plus every required 
 
 Activate a virtual environment and install `python -m pip install -e '.[cloud]'`. Do not install or configure it merely to run offline unit tests.
 
-## Stage creation succeeds but files cannot be read
+## Bootstrap reports `CREATE DATABASE` or `CREATE SCHEMA` privilege errors
 
-Snowflake does not verify stage credentials during `CREATE STAGE`. Confirm the pre-existing storage integration allows the exact `s3://bucket/prefix/`, the Snowflake IAM principal can read the objects, and the configured stage URL matches `S3_RAW_PREFIX`.
+Current bootstrap code never issues account-level database/schema DDL. If this error appears, update to the least-privilege implementation and confirm the database plus `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT` schemas were pre-provisioned. Do not grant `CREATE DATABASE` merely to run the application loader.
+
+## Existing stage cannot be validated or files cannot be read
+
+Confirm `SNOWFLAKE_STAGE` names the pre-provisioned stage, its storage integration allows the exact S3 prefix, and the Snowflake IAM principal can list/read the objects. Bootstrap compares the stage integration and normalized URL to configuration and requires at least one readable object before creating loader-owned objects.
 
 ## Batch has uncommitted RAW rows
 

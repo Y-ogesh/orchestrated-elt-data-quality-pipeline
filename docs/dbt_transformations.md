@@ -2,7 +2,7 @@
 
 ## Status
 
-The dbt project is implemented and parses successfully with dbt Core 1.12.5 and `dbt-snowflake` 1.12.1. The parse generated lineage metadata for 24 models, 9 sources, and 143 data tests. Initial documentation artifacts were generated with an explicitly empty catalog. No approved Snowflake connection or populated RAW schema was available, so `dbt compile`, `dbt build`, `dbt test`, catalog introspection, and warehouse reconciliation have not completed. Actual dbt-created relations and rows remain **0**.
+The dbt project is implemented and parses successfully with dbt Core 1.12.5 and `dbt-snowflake` 1.12.1. The parse generated lineage metadata for 24 models, 9 sources, and 143 data tests. Milestone 3 has since populated and reconciled Snowflake RAW, but no Milestone 4 dbt compile, build, test, or live catalog generation was run during that validation. Actual dbt-created relations and rows therefore remain **0**.
 
 ## Project inventory
 
@@ -96,9 +96,9 @@ dbt docs serve --project-dir dbt
 | Full dbt parse | PASS — 24 models, 9 sources, 143 tests |
 | Development schema routing | PASS — `DBT_DEV_STAGING`, `DBT_DEV_INTERMEDIATE`, `DBT_DEV_MARTS` |
 | Source-derived grain expectations | PASS — 24 model counts, 667,188 expected mart rows |
-| Offline `dbt compile --no-introspect` | BLOCKED — key file/approved connection unavailable |
+| Prior offline `dbt compile --no-introspect` | BLOCKED at the time — key file/approved connection was unavailable |
 | `dbt docs generate --empty-catalog --no-compile` | PASS — documentation site artifacts with no warehouse metadata |
-| Snowflake build/test/catalog introspection | NOT RUN |
+| Snowflake build/test/catalog introspection | NOT RUN — remains Milestone 4 work |
 | Actual mart relations / rows | 0 / 0 |
 
 Parsing validates project/YAML/Jinja structure and lineage, not Snowflake SQL execution. The expected counts are deterministic assertions derived from committed source profiling; they are not claimed warehouse results.

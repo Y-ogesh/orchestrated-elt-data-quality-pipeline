@@ -2,7 +2,7 @@
 
 ## Status
 
-The Snowflake infrastructure and manifest-driven loader are implemented and locally validated. No Snowflake account connection was available, so no database, schema, stage, table, or warehouse was created and no rows were loaded remotely. Real integration remains **implemented but unverified**.
+Milestone 3 is **completed and validated against real Snowflake** as of 2026-10-11. The loader authenticated with the key-pair service user, reused the approved `OLIST_ELT` database, five schemas, X-Small warehouse, storage integration, and external stage, then loaded and reconciled all 26 manifests. RAW contains 1,550,922 rows across nine tables. An identical rerun loaded zero rows and skipped all 26 batches after reconciliation.
 
 ## Warehouse organization
 
@@ -10,13 +10,13 @@ The ordered SQL modules under `sql/snowflake/` define:
 
 | Schema | Milestone 3 contents |
 |---|---|
-| `RAW` | CSV file format, external S3 stage, and nine source-shaped tables |
+| `RAW` | CSV file format, pre-provisioned external S3 stage, and nine source-shaped tables |
 | `STAGING` | Empty namespace reserved for typed/renamed dbt models |
 | `INTERMEDIATE` | Empty namespace reserved for reusable transformations |
 | `MARTS` | Empty namespace reserved for reporting facts and dimensions |
 | `AUDIT` | Load runs, batch/file loads, rejected records, reconciliation and source-contract views |
 
-The scripts are ordered as database/schemas, file format/stage, RAW tables, audit tables, and validation views. They use validated placeholders rather than hardcoded account, bucket, role, or integration names.
+The service role does not create control-plane objects. Administrators pre-provision the database, schemas, warehouse, storage integration, and stage. Bootstrap validates those prerequisites, then the five ordered modules select the database and create/reuse the file format, RAW tables, audit tables, and validation views. All identifiers remain parameterized.
 
 ## RAW preservation and lineage
 
@@ -31,7 +31,7 @@ RAW tables are append-oriented. Transformations, corrected names, types, dedupli
 
 ## External stage security
 
-The stage references an existing S3 location and existing Snowflake storage integration. No AWS keys are embedded in SQL. Snowflake recommends storage integrations because they delegate access without placing cloud credentials in stage definitions. Stage creation itself does not prove that its URL or credentials work, so successful creation must not be reported as an S3 integration success. See Snowflake's [CREATE STAGE documentation](https://docs.snowflake.com/en/sql-reference/sql/create-stage) and [S3 stage guide](https://docs.snowflake.com/en/user-guide/data-load-s3-create-stage).
+The stage references the existing S3 location through `OLIST_S3_INTEGRATION`; no AWS keys are embedded in SQL. Bootstrap runs `DESC STAGE`, compares its integration and normalized URL to configuration, and executes `LIST` before creating loader-owned objects. The real preflight returned exactly 155 readable objects. The project does not create storage integrations, stages, or IAM resources. See Snowflake's [CREATE STAGE documentation](https://docs.snowflake.com/en/sql-reference/sql/create-stage) and [S3 stage guide](https://docs.snowflake.com/en/user-guide/data-load-s3-create-stage).
 
 The project does not create storage integrations or alter IAM. An administrator must separately approve and configure a least-privilege integration whose allowed location matches the exact project prefix.
 
@@ -88,22 +88,43 @@ make warehouse-validate
 
 | Measure | Local result | Actual Snowflake result |
 |---|---:|---:|
-| Infrastructure SQL modules | 5 | Not executed |
-| Batches | 26 | Not loaded |
-| Data files | 129 | Not loaded |
-| Expected source rows | 1,550,922 | 0 loaded / unverified |
+| Infrastructure SQL modules | 5 | 5 executed successfully |
+| Batches | 26 | 26 loaded and reconciled |
+| Data files | 129 | 129 loaded and audited |
+| Expected source rows | 1,550,922 | 1,550,922 loaded |
 
-The mock suite proves clean load, no-op rerun, count-mismatch rollback, rejected-record capture, SQL injection rejection, and all schema/table rendering. It cannot prove account privileges, stage access, Snowflake SQL compilation, query cost, or actual warehouse counts.
+The mock suite still covers count-mismatch rollback and audited rejection paths. Real execution additionally proved authentication, stage access, Snowflake SQL validity, transactional loading, audit reconciliation, key/relationship validation, and no-op reruns.
+
+## Real validation results
+
+| RAW table | Rows |
+|---|---:|
+| `CATEGORY_TRANSLATION` | 71 |
+| `CUSTOMERS` | 99,441 |
+| `GEOLOCATION` | 1,000,163 |
+| `ORDER_ITEMS` | 112,650 |
+| `ORDER_PAYMENTS` | 103,886 |
+| `ORDER_REVIEWS` | 99,224 |
+| `ORDERS` | 99,441 |
+| `PRODUCTS` | 32,951 |
+| `SELLERS` | 3,095 |
+| **Total** | **1,550,922** |
+
+The first successful run loaded 26 batches and 129 files in 400,364 ms. `BATCH_RECONCILIATION` reports 129 expected/loaded files, 1,550,922 expected/loaded rows, and zero absolute differences. `FILE_LOADS` contains 129 distinct successful files and 129 distinct COPY query IDs. Seven natural-key checks and six relationship checks return zero violations; `LOAD_ERRORS` contains zero production-load errors.
+
+The identical second run completed in 24,042 ms with 0 batches loaded, 26 skipped, 0 files loaded, and 0 rows loaded. Remote validation after the rerun returned the same counts. A separate session-temporary malformed-schema probe returned four rejected-record errors and loaded zero rows; it did not write to RAW or persistent audit data.
+
+Machine-readable aggregate evidence is committed in [`reports/snowflake_validation.json`](../reports/snowflake_validation.json).
 
 ## Approved real execution
 
 Prerequisites:
 
-- existing Snowflake account, user, role, and auto-suspending warehouse;
+- existing Snowflake database, five schemas, user, role, and auto-suspending warehouse;
 - key-pair authentication configured for that user;
 - existing approved S3 bucket/prefix containing the Milestone 2 objects;
-- existing storage integration restricted to that location;
-- role privileges to use the warehouse/integration and create or use the configured database objects.
+- existing storage integration and external stage restricted to that location;
+- role privileges to use the warehouse/stage and create tables, views, and file formats in the configured schemas.
 
 The Python connector supports `SNOWFLAKE_JWT` with `private_key_file`; see Snowflake's [Python connector authentication guide](https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-connect). Keep the private key and optional passphrase outside Git.
 
@@ -127,25 +148,25 @@ PYTHONPATH=src python -m olist_pipeline.warehouse load
 PYTHONPATH=src python -m olist_pipeline.warehouse validate-remote
 ```
 
-`bootstrap` can create the configured database and schemas. The opt-in flag is mandatory for bootstrap/load but does not itself grant permission. Never point it at an unapproved account.
+`bootstrap` validates—but does not create—the database, schemas, storage integration, or stage. The opt-in flag is mandatory for bootstrap/load but does not itself grant permission. Never point it at an unapproved account.
 
 ## Expected post-load checks
 
 After a real successful load, record—not assume—the following:
 
 ```sql
-SELECT * FROM OLIST_ANALYTICS.AUDIT.BATCH_RECONCILIATION
+SELECT * FROM OLIST_ELT.AUDIT.BATCH_RECONCILIATION
 WHERE row_difference <> 0 OR file_difference <> 0;
 
-SELECT * FROM OLIST_ANALYTICS.AUDIT.RAW_TABLE_COUNTS ORDER BY table_name;
-SELECT * FROM OLIST_ANALYTICS.AUDIT.RAW_KEY_VIOLATIONS WHERE violation_count <> 0;
-SELECT * FROM OLIST_ANALYTICS.AUDIT.RAW_RELATIONSHIP_VIOLATIONS WHERE orphan_rows <> 0;
+SELECT * FROM OLIST_ELT.AUDIT.RAW_TABLE_COUNTS ORDER BY table_name;
+SELECT * FROM OLIST_ELT.AUDIT.RAW_KEY_VIOLATIONS WHERE violation_count <> 0;
+SELECT * FROM OLIST_ELT.AUDIT.RAW_RELATIONSHIP_VIOLATIONS WHERE orphan_rows <> 0;
 ```
 
-Expected values derive from Milestone 1, but remain unverified in Snowflake until these queries actually run.
+These queries were executed through the implemented validator and returned zero reconciliation, key, and relationship failures.
 
 ## Resource usage and cleanup
 
-The source payload is approximately 125 MB across 129 CSVs plus 26 manifests. A single X-Small warehouse with aggressive auto-suspend should be sufficient for a portfolio validation run, but duration and credits must be measured from query history rather than estimated as results.
+The source payload is 124,509,854 bytes across 129 CSVs plus 26 manifests. The real run used an X-Small warehouse with a 60-second auto-suspend. Audit timestamps measured 400,364 ms for the initial load and 24,042 ms for the reconciled rerun. Credit consumption was not queried and is not claimed.
 
 No cleanup is automated. After evidence is retained and destructive cleanup is explicitly approved, an owner may drop only the dedicated project database and separately remove project S3 objects. Storage integrations, IAM roles, shared warehouses, and users must not be dropped by this project.

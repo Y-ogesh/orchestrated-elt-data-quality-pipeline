@@ -55,3 +55,14 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Source-derived acceptance logic produced expected counts for all 24 models and 667,188 mart rows, including a 1,314-row date spine that preserves the 2020 shipping-limit outlier.
 - Offline `dbt compile --no-introspect` reached profile authentication and stopped because no private key/approved account was available. `dbt docs generate --empty-catalog --no-compile` succeeded and produced ignored local documentation/lineage artifacts without warehouse metadata. No SQL build, data tests, or catalog introspection was claimed.
 - Real dbt outcome: **not run**. Actual dbt-created relations: **0**; actual mart rows: **0**. No cloud resources or permissions were changed.
+
+## 2026-10-11 — Milestone 3 Snowflake validation
+
+- Loaded the ignored repository `.env` without printing values; confirmed the private key exists with mode `0600`. Key-pair authentication matched the expected service user, role, X-Small warehouse, database, and a non-empty Snowflake region.
+- Confirmed the warehouse auto-suspends after 60 seconds and the existing external stage lists 155 Milestone 2 objects through `OLIST_S3_INTEGRATION`.
+- The first two bootstrap attempts failed safely before object creation because `CREATE DATABASE IF NOT EXISTS` and `CREATE SCHEMA IF NOT EXISTS` still require elevated privileges. Removed those control-plane statements, added explicit schema/stage/integration/URL/access preflight checks, and retained the least-privilege service role.
+- Successful bootstrap reused the database, five schemas, storage integration, and stage, then created/reused one CSV file format, nine RAW tables, four audit tables, and four validation/reconciliation views.
+- The first real load completed in 400,364 ms: 26 batches, 129 files, and 1,550,922 rows. Batch and file audit totals reconcile exactly; 129 distinct COPY query IDs were recorded and no production load errors occurred.
+- Remote validation confirmed exact counts for all nine RAW tables, zero violations across seven key checks, and zero orphans across six relationships.
+- The identical rerun completed in 24,042 ms, loaded zero batches/files/rows, and reconciled/skipped all 26 batches. A temporary malformed-schema probe detected four rejected records and loaded zero rows without touching governed RAW.
+- Full validation discovered 23 tests: 22 passed and only the already-completed AWS integration test was intentionally skipped. Targeted lint, docs links, and whitespace checks passed. No dbt commands, S3 deletions, account-level DDL, IAM changes, or remote Git operations were performed.

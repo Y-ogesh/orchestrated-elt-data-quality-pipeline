@@ -64,24 +64,33 @@ Bucket-level `HeadBucket` returned 403 because the least-privilege role does not
 
 ## Milestone 3 result
 
-**Implemented and validated locally on 2026-09-30; real Snowflake execution unverified.** No Snowflake connector, account configuration, key pair, approved warehouse, approved storage integration, or confirmed S3 objects were available.
+**Completed and validated against real Snowflake on 2026-10-11.** Key-pair authentication succeeded with the expected service-user context. The X-Small warehouse retained a 60-second auto-suspend. No credentials, account identifiers, private-key material, or row-level source values were recorded.
 
 | Command/check | Result |
 |---|---|
-| `make test` | PASS — 16 discovered: 14 passed, AWS and Snowflake integration tests skipped |
+| Authentication/context | PASS — expected user, role, warehouse, database, and non-empty region |
+| Stage prerequisite | PASS — configured integration and URL; exactly 155 readable objects |
+| Least-privilege bootstrap | PASS — reused database/schemas/stage; five SQL modules executed without account-level DDL |
 | `make warehouse-validate` | PASS — 5 SQL modules, 26 batches, 129 data files, 1,550,922 expected rows |
 | SQL rendering safety | PASS — invalid identifiers and S3 URL injection rejected |
 | Mock first load | PASS — COPY count reconciled to manifest and audit state committed |
 | Mock rerun | PASS — completed batch validated and skipped without duplicate rows |
 | Mock count mismatch | PASS — batch rolled back and failure recorded |
 | Mock rejected record | PASS — error audited and COPY prevented |
-| Real Snowflake bootstrap/load | SKIPPED — explicit opt-in and approved resources unavailable |
+| Real first load | PASS — 26 batches, 129 files, 1,550,922 rows in 400,364 ms |
+| Batch/file reconciliation | PASS — zero row/file differences; 129 distinct COPY query IDs |
+| RAW contracts | PASS — 9 table/column contracts and exact per-table row counts |
+| Source keys/relationships | PASS — zero violations across 7 key and 6 relationship checks |
+| Real rerun | PASS — 0 loaded, 26 skipped, 0 duplicate rows in 24,042 ms |
+| Safe failure probe | PASS — 4 rejected-record errors detected; 0 temporary rows loaded |
+| Full repository suite | PASS — 23 discovered, 22 passed, only the AWS integration test skipped |
+| Targeted Ruff / docs / whitespace | PASS |
 
-Actual Snowflake objects created: **0**. Actual warehouse rows loaded: **0**. No schema existence, warehouse count, key uniqueness, or relationship result is claimed from a real Snowflake account. Those checks are implemented as SQL views and must be recorded after authorized execution.
+The deployed loader-owned inventory is one CSV file format, nine RAW tables, four audit tables, and four audit views. The database, five schemas, warehouse, storage integration, and external stage were pre-provisioned and reused. Production `LOAD_ERRORS` contains zero rows. Aggregate evidence is in [`reports/snowflake_validation.json`](../reports/snowflake_validation.json).
 
 ## Milestone 4 result
 
-**Implemented and validated structurally on 2026-09-30; Snowflake compilation/build unverified.** dbt was installed into the ignored Python 3.11 virtual environment. No approved Snowflake account, private key, populated RAW relations, or warehouse was available.
+**Implemented and validated structurally on 2026-09-30; dbt warehouse execution remains unverified.** Milestone 3 has now populated Snowflake RAW, but no dbt compile, build, test, or live catalog generation was executed during this Milestone 3 validation.
 
 | Command/check | Result |
 |---|---|
@@ -95,8 +104,8 @@ Actual Snowflake objects created: **0**. Actual warehouse rows loaded: **0**. No
 | Ruff on new Milestone 4 Python | PASS — E/F/import checks clean |
 | Repository-wide Ruff advisory | FAIL — 115 inherited formatting/typing-style findings remain outside Milestone 4 scope |
 | `dbt compile --no-introspect` | BLOCKED — stopped at missing key file before warehouse connection/SQL compilation |
-| `dbt build` / warehouse tests | NOT RUN — approved Snowflake resources unavailable |
+| `dbt build` / warehouse tests | NOT RUN — remains explicitly deferred to Milestone 4 |
 | `dbt docs generate --empty-catalog --no-compile` | PASS — ignored documentation artifacts generated without warehouse metadata |
-| Warehouse catalog introspection | NOT RUN — approved Snowflake access unavailable |
+| Warehouse catalog introspection | NOT RUN — remains explicitly deferred to Milestone 4 |
 
 Expected mart acceptance counts are 251,987 dimension rows and 415,201 fact rows. These values come from the committed source profile and declared grains; they are not actual warehouse output. Actual dbt-created relations: **0**. Actual mart rows: **0**. No model SQL execution, incremental rerun, relationship result, monetary SQL reconciliation, or generated warehouse catalog is claimed.

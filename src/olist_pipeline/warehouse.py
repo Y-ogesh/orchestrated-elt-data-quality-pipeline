@@ -17,7 +17,6 @@ from .snowflake_sql import (
     build_validation_sql,
     expected_raw_columns,
     quote_fqn,
-    quote_identifier,
     render_infrastructure,
     stage_relative_path,
     validation_table_sql,
@@ -135,12 +134,16 @@ class WarehouseLoader:
     def __init__(self, backend: WarehouseBackend) -> None:
         self.backend = backend
 
-    def load(self, batch_dirs: Sequence[Path], run_id: Optional[str] = None) -> WarehouseLoadSummary:
+    def load(
+        self, batch_dirs: Sequence[Path], run_id: Optional[str] = None
+    ) -> WarehouseLoadSummary:
         manifests = [load_manifest(path) for path in sorted(batch_dirs)]
         if not manifests:
             raise ValueError("No ingestion batches were provided")
         current_run = run_id or str(uuid.uuid4())
-        expected_rows = sum(sum(item.row_count for item in manifest.files) for manifest in manifests)
+        expected_rows = sum(
+            sum(item.row_count for item in manifest.files) for manifest in manifests
+        )
         loaded_batches = skipped_batches = loaded_files = loaded_rows = 0
         self.backend.start_run(current_run, len(manifests), expected_rows)
         try:
@@ -159,7 +162,8 @@ class WarehouseLoader:
                         )
                     if self.backend.count_batch_rows(manifest) != expected_batch_rows:
                         raise WarehouseLoadError(
-                            f"Warehouse rows do not reconcile for completed batch {manifest.batch_id}"
+                            "Warehouse rows do not reconcile for completed batch "
+                            f"{manifest.batch_id}"
                         )
                     skipped_batches += 1
                     continue
@@ -194,7 +198,8 @@ class WarehouseLoader:
                         if result.rows_loaded != item.row_count or actual_rows != item.row_count:
                             raise WarehouseLoadError(
                                 f"{manifest.batch_id}/{item.table}: expected {item.row_count}, "
-                                f"copy reported {result.rows_loaded}, warehouse contains {actual_rows}"
+                                f"copy reported {result.rows_loaded}, warehouse contains "
+                                f"{actual_rows}"
                             )
                         self.backend.record_file_success(
                             current_run, manifest, item, result
@@ -320,7 +325,57 @@ def connect_snowflake(settings: SnowflakeSettings, *, include_database: bool = T
     return snowflake.connector.connect(**parameters)
 
 
-def execute_infrastructure(connection: object, settings: SnowflakeSettings, sql_dir: Path) -> None:
+def validate_bootstrap_prerequisites(connection: object, settings: SnowflakeSettings) -> int:
+    cursor = connection.cursor()
+    expected_schemas = {
+        settings.names.raw_schema.upper(),
+        settings.names.staging_schema.upper(),
+        settings.names.intermediate_schema.upper(),
+        settings.names.marts_schema.upper(),
+        settings.names.audit_schema.upper(),
+    }
+    cursor.execute(
+        f"SELECT schema_name FROM "
+        f"{quote_fqn(settings.names.database, 'INFORMATION_SCHEMA', 'SCHEMATA')} "
+        "WHERE schema_name IN (%s,%s,%s,%s,%s)",
+        tuple(sorted(expected_schemas)),
+    )
+    actual_schemas = {str(row[0]).upper() for row in cursor.fetchall()}
+    if actual_schemas != expected_schemas:
+        raise WarehouseLoadError(
+            f"Missing pre-provisioned schemas: {sorted(expected_schemas - actual_schemas)}"
+        )
+
+    cursor.execute(f"DESC STAGE {settings.names.stage_fqn}")
+    columns = [str(value[0]).lower() for value in (cursor.description or ())]
+    properties = {
+        str(row.get("property", "")).upper(): row.get("property_value")
+        for row in (dict(zip(columns, values)) for values in cursor.fetchall())
+    }
+    integration = str(properties.get("STORAGE_INTEGRATION", "")).upper()
+    if integration != settings.storage_integration.upper():
+        raise WarehouseLoadError("External stage does not use the configured storage integration")
+
+    raw_url = str(properties.get("URL", "")).strip()
+    try:
+        decoded_url = json.loads(raw_url)
+    except json.JSONDecodeError:
+        decoded_url = raw_url
+    if isinstance(decoded_url, list):
+        decoded_url = decoded_url[0] if len(decoded_url) == 1 else ""
+    actual_url = str(decoded_url).strip().strip("'\"").rstrip("/") + "/"
+    if actual_url.lower() != settings.s3_url.lower():
+        raise WarehouseLoadError("External stage URL does not match the configured S3 prefix")
+
+    cursor.execute(f"LIST @{settings.names.stage_fqn}")
+    staged_objects = len(cursor.fetchall())
+    if not staged_objects:
+        raise WarehouseLoadError("External stage contains no readable objects")
+    return staged_objects
+
+
+def execute_infrastructure(connection: object, settings: SnowflakeSettings, sql_dir: Path) -> int:
+    staged_objects = validate_bootstrap_prerequisites(connection, settings)
     for _, sql in render_infrastructure(
         sql_dir,
         settings.names,
@@ -329,6 +384,7 @@ def execute_infrastructure(connection: object, settings: SnowflakeSettings, sql_
     ):
         connection.execute_string(sql)
     connection.commit()
+    return staged_objects
 
 
 def validate_local_plan(sql_dir: Path, batch_dirs: Sequence[Path]) -> WarehousePlanSummary:
@@ -446,7 +502,8 @@ def validate_remote_warehouse(
     relationship_violations = int(cursor.fetchone()[0])
     if key_violations or relationship_violations:
         raise WarehouseLoadError(
-            f"Source contract violations: keys={key_violations}, relationships={relationship_violations}"
+            f"Source contract violations: keys={key_violations}, "
+            f"relationships={relationship_violations}"
         )
     return {
         "schemas": len(actual_schemas),
@@ -708,12 +765,20 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
             return 0
         _require_integration_opt_in()
         if args.action == "bootstrap":
-            connection = connect_snowflake(settings, include_database=False)
+            connection = connect_snowflake(settings)
             try:
-                execute_infrastructure(connection, settings, args.sql_dir)
+                staged_objects = execute_infrastructure(connection, settings, args.sql_dir)
             finally:
                 connection.close()
-            print(json.dumps({"bootstrap_files": len(rendered), "status": "succeeded"}))
+            print(
+                json.dumps(
+                    {
+                        "bootstrap_files": len(rendered),
+                        "stage_objects": staged_objects,
+                        "status": "succeeded",
+                    }
+                )
+            )
             return 0
         connection = connect_snowflake(settings)
         try:

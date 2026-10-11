@@ -1,0 +1,75 @@
+{
+  "authentication": {
+    "context_matches_expected": true,
+    "key_pair": "passed_identity_not_recorded",
+    "region_present": true
+  },
+  "batch_reconciliation": {
+    "absolute_file_difference": 0,
+    "absolute_row_difference": 0,
+    "batches": 26,
+    "expected_files": 129,
+    "expected_rows": 1550922,
+    "loaded_files": 129,
+    "loaded_rows": 1550922
+  },
+  "first_load": {
+    "batches_loaded": 26,
+    "batches_skipped": 0,
+    "elapsed_ms": 400364,
+    "files_loaded": 129,
+    "rows_loaded": 1550922
+  },
+  "loader_owned_objects": {
+    "audit_tables": 4,
+    "audit_views": 4,
+    "file_formats": 1,
+    "raw_tables": 9
+  },
+  "preprovisioned_objects_reused": {
+    "database": 1,
+    "external_stages": 1,
+    "schemas": 5,
+    "storage_integrations": 1,
+    "warehouses": 1
+  },
+  "quality": {
+    "key_violations": 0,
+    "production_load_errors": 0,
+    "relationship_violations": 0,
+    "safe_failure_probe_rejected_records": 4,
+    "safe_failure_probe_rows_loaded": 0
+  },
+  "raw_table_rows": {
+    "category_translation": 71,
+    "customers": 99441,
+    "geolocation": 1000163,
+    "order_items": 112650,
+    "order_payments": 103886,
+    "order_reviews": 99224,
+    "orders": 99441,
+    "products": 32951,
+    "sellers": 3095
+  },
+  "rerun": {
+    "batches_loaded": 0,
+    "batches_skipped": 26,
+    "elapsed_ms": 24042,
+    "files_loaded": 0,
+    "rows_loaded": 0
+  },
+  "stage_objects": 155,
+  "status": "completed_and_validated_against_real_snowflake",
+  "tests": {
+    "discovered": 23,
+    "passed": 22,
+    "skipped": 1,
+    "skipped_reason": "AWS integration already completed separately"
+  },
+  "validated_at_utc": "2026-10-11T20:22:30Z",
+  "validation_schema_version": 1,
+  "warehouse": {
+    "auto_suspend_seconds": 60,
+    "size": "X-SMALL"
+  }
+}

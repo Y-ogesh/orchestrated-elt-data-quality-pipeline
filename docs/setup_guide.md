@@ -74,16 +74,19 @@ To run the self-cleaning integration test against that approved prefix, addition
 
 ## Optional approved Snowflake execution
 
-Milestone 3 requires an existing warehouse, least-privilege role/user, key-pair authentication, an existing S3 storage integration, and the actual Milestone 2 objects in the configured bucket/prefix. After approval, install `.[cloud]`, export the variables documented in `.env.example`, and explicitly opt in:
+Milestone 3 requires an existing database and five schemas, an auto-suspending warehouse, least-privilege role/user, key-pair authentication, an existing external stage backed by a storage integration, and the actual Milestone 2 objects. After approval, install `.[cloud]`, populate the ignored `.env`, and explicitly opt in:
 
 ```bash
+set -a
+source .env
+set +a
 export OLIST_RUN_SNOWFLAKE_INTEGRATION=1
 PYTHONPATH=src python -m olist_pipeline.warehouse bootstrap
 PYTHONPATH=src python -m olist_pipeline.warehouse load
 PYTHONPATH=src python -m olist_pipeline.warehouse validate-remote
 ```
 
-`bootstrap` can create the configured database/schemas and therefore must not be run against an unapproved account. The project never creates storage integrations or alters AWS IAM.
+`bootstrap` validates the configured database, all five schemas, stage URL, storage integration, and staged-object access. It does not create databases, schemas, stages, storage integrations, or IAM resources; it creates/reuses only the file format, RAW/audit tables, and validation views inside the approved database.
 
 ## dbt setup and approved execution
 
