@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 adds a parsed 24-model dbt DAG, but transformation relations have not yet been built remotely.
+Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 built and tested the complete 24-model dbt DAG in Snowflake: 9 staging views, 4 intermediate views, 7 dimensions, and 4 facts.
 
 ## Snowflake organization
 
@@ -113,4 +113,4 @@ orders         = orders left join item_totals left join payment_totals
 
 ## Resource and cleanup estimate
 
-The validated S3 prefix contains 124,509,854 bytes across 155 objects. Snowflake RAW contains 1,550,922 rows in nine tables, loaded by an X-Small warehouse with a 60-second auto-suspend. Cleanup must remove only explicitly approved project objects, including versioned S3 objects where applicable, and must occur only after evidence is retained and deletion is authorized.
+The validated S3 prefix contains 124,509,854 bytes across 155 objects. Snowflake RAW contains 1,550,922 rows in nine tables and MARTS contains 667,188 rows in 11 relations, built by an X-Small warehouse with a 60-second auto-suspend. Cleanup must remove only explicitly approved project objects, including versioned S3 objects where applicable, and must occur only after evidence is retained and deletion is authorized.

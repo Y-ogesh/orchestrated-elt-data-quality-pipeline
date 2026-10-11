@@ -82,7 +82,7 @@ Copy `dbt/profiles.yml.example` to ignored `dbt/profiles.yml` and set `DBT_PROFI
 
 ## dbt compile stops at a private key or connection error
 
-`dbt parse` can validate project structure without connecting, but compilation and execution may initialize the adapter connection. Confirm that `SNOWFLAKE_PRIVATE_KEY_PATH` points to the approved key, the public key is assigned to the configured user, the passphrase secret is set, and the account/role/warehouse variables are correct. Do not substitute a production credential merely to make an offline check pass.
+`dbt parse` can validate project structure without connecting, but compilation and execution may initialize the adapter connection. Confirm that `SNOWFLAKE_PRIVATE_KEY_PATH` points to the approved key, the public key is assigned to the configured user, an encrypted key has its secret passphrase configured, and the account/role/warehouse variables are correct. Do not substitute a production credential merely to make an offline check pass.
 
 ## dbt builds into an unexpected schema
 
@@ -91,3 +91,7 @@ The `dev` target intentionally prefixes custom layers as `<DBT_DEV_SCHEMA>_STAGI
 ## Order totals multiply after a model change
 
 Never join item-detail and payment-detail models directly. Preserve `int_order_item_totals` and `int_order_payment_totals` as separate order-grain inputs to `int_orders_enriched`, then run the two singular monetary reconciliation tests. A genuine item/payment difference is an exception flag, not evidence of join fanout.
+
+## dbt warns about carrier timestamps before purchase
+
+The validated source contains 166 orders whose carrier timestamp precedes purchase. The dedicated test is intentionally warning-level because dbt preserves this source anomaly rather than rewriting timestamps. Approval, customer-delivery, estimated-delivery, and review-answer ordering rules remain blocking and currently pass.

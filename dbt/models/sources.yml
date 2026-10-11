@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: olist_raw
     description: Source-shaped Olist tables loaded and reconciled by the Milestone 3 loader.
-    database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+    database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ELT') }}"
     schema: "{{ env_var('SNOWFLAKE_RAW_SCHEMA', 'RAW') }}"
     tables:
       - name: customers

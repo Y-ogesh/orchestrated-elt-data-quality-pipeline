@@ -21,7 +21,7 @@ erDiagram
 
 ## Dimensions
 
-| Model | Grain | Key | Source-derived expected rows |
+| Model | Grain | Key | Actual rows |
 |---|---|---|---:|
 | `dim_customer` | One person-level customer | `customer_key` from `customer_unique_id` | 96,096 |
 | `dim_order_customer` | One order-specific delivery customer | `order_customer_key` from `customer_id` | 99,441 |
@@ -39,14 +39,14 @@ Unknown category and geography members prevent nullable/orphaned surrogate keys 
 
 ## Facts
 
-| Model | Grain | Unique key | Source-derived expected rows |
+| Model | Grain | Unique key | Actual rows |
 |---|---|---|---:|
 | `fct_orders` | One order | `order_key` / `order_id` | 99,441 |
 | `fct_order_items` | One order line | `order_item_key` / (`order_id`, `order_item_id`) | 112,650 |
 | `fct_order_payments` | One payment component | `payment_key` / (`order_id`, `payment_sequential`) | 103,886 |
 | `fct_order_reviews` | One distinct normalized review record | `review_key` | 99,224 |
 
-The four expected facts total 415,201 rows. Dimensions total 251,987 rows, for 667,188 expected MARTS rows. These are acceptance expectations derived from source profiling. Actual warehouse counts remain zero until an authorized `dbt build` succeeds.
+The four facts contain 415,201 rows. Dimensions contain 251,987 rows, for 667,188 MARTS rows. Every actual count matched its source-derived acceptance expectation in the real Snowflake build.
 
 ## Monetary model
 
@@ -73,6 +73,8 @@ flowchart LR
 | `delivered_gmv` | Merchandise value where order status is delivered | Derived from `fct_orders`; not accounting revenue |
 
 Item and payment totals are tested independently against their detail facts. Their difference is retained because the source contains genuine mismatches; it is never forced to zero.
+
+Real reconciliation produced R$13,591,643.70 merchandise, R$2,251,909.54 freight, and R$16,008,872.12 payments in RAW, detail facts, and `fct_orders` respectively. A deliberately naive item-to-payment detail join produced 117,601 rows and inflated merchandise by R$617,471.64 (4.5430%) and payments by R$4,299,262.59 (26.8555%), demonstrating why the independent order-grain aggregates are required.
 
 ## Date and delivery logic
 

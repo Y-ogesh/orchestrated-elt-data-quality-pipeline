@@ -51,8 +51,10 @@ models:
                 to: ref('stg_sellers')
                 field: seller_id
       - name: item_price
-        data_tests: [not_null]
+        data_tests: [not_null, non_negative]
       - name: freight_value
+        data_tests: [not_null, non_negative]
+      - name: shipping_limit_timestamp
         data_tests: [not_null]
   - name: stg_order_payments
     description: Standardized payment components; grain is order_id plus payment_sequential.
@@ -70,8 +72,16 @@ models:
                 field: order_id
       - name: payment_sequential
         data_tests: [not_null]
+      - name: payment_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [boleto, credit_card, debit_card, not_defined, voucher]
+      - name: payment_installments
+        data_tests: [not_null, non_negative]
       - name: payment_value
-        data_tests: [not_null]
+        data_tests: [not_null, non_negative]
   - name: stg_order_reviews
     description: Standardized review records with a full-record deterministic key.
     columns:

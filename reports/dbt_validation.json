@@ -1,0 +1,111 @@
+{
+  "artifact_inventory": {
+    "catalog_models": 24,
+    "catalog_sources": 9,
+    "live_catalog_generated": true
+  },
+  "build": {
+    "elapsed_seconds": 22.72,
+    "errors": 0,
+    "passed": 178,
+    "skipped": 0,
+    "total": 179,
+    "warnings": 1
+  },
+  "connectivity": {
+    "dbt_debug": "passed",
+    "dbt_compile": "passed",
+    "expected_context_matched": true,
+    "raw_orders_accessible": true,
+    "raw_orders_rows": 99441
+  },
+  "fanout_demonstration": {
+    "item_inflation_amount": "617471.64",
+    "item_inflation_percent": "4.5430",
+    "naive_item_sum": "14209115.34",
+    "naive_join_rows": 117601,
+    "naive_payment_sum": "20308134.71",
+    "payment_inflation_amount": "4299262.59",
+    "payment_inflation_percent": "26.8555"
+  },
+  "inventory": {
+    "dimensions": 7,
+    "facts": 4,
+    "incremental_models": 4,
+    "intermediate_models": 4,
+    "models": 24,
+    "sources": 9,
+    "staging_models": 9,
+    "tests": 155
+  },
+  "model_rows": {
+    "intermediate": {
+      "int_geography_deduplicated": 19015,
+      "int_order_item_totals": 98666,
+      "int_order_payment_totals": 99440,
+      "int_orders_enriched": 99441
+    },
+    "marts": {
+      "dim_category": 74,
+      "dim_customer": 96096,
+      "dim_date": 1314,
+      "dim_geography": 19016,
+      "dim_order_customer": 99441,
+      "dim_product": 32951,
+      "dim_seller": 3095,
+      "fct_order_items": 112650,
+      "fct_order_payments": 103886,
+      "fct_order_reviews": 99224,
+      "fct_orders": 99441
+    },
+    "staging": {
+      "stg_category_translation": 71,
+      "stg_customers": 99441,
+      "stg_geolocation": 1000163,
+      "stg_order_items": 112650,
+      "stg_order_payments": 103886,
+      "stg_order_reviews": 99224,
+      "stg_orders": 99441,
+      "stg_products": 32951,
+      "stg_sellers": 3095
+    }
+  },
+  "monetary_reconciliation": {
+    "freight_detail_fact": "2251909.54",
+    "freight_order_fact": "2251909.54",
+    "freight_raw": "2251909.54",
+    "item_detail_fact": "13591643.70",
+    "item_order_fact": "13591643.70",
+    "item_raw": "13591643.70",
+    "payment_detail_fact": "16008872.12",
+    "payment_order_fact": "16008872.12",
+    "payment_raw": "16008872.12"
+  },
+  "source_conditions": {
+    "carrier_timestamp_before_purchase": 166,
+    "orders_missing_items": 775,
+    "orders_missing_payments": 1,
+    "payment_item_reconciliation_exceptions": 1076
+  },
+  "standalone_tests": {
+    "elapsed_seconds": 6.37,
+    "errors": 0,
+    "passed": 154,
+    "skipped": 0,
+    "total": 155,
+    "warnings": 1
+  },
+  "repository_tests": {
+    "discovered": 23,
+    "passed": 22,
+    "skipped": 1,
+    "skipped_reason": "AWS integration already completed separately"
+  },
+  "status": "completed_and_validated_against_real_snowflake",
+  "validated_at_utc": "2026-10-11T20:37:26Z",
+  "validation_schema_version": 1,
+  "versions": {
+    "dbt_core": "1.12.5",
+    "dbt_snowflake": "1.12.1"
+  }
+}

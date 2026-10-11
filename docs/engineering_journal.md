@@ -66,3 +66,14 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Remote validation confirmed exact counts for all nine RAW tables, zero violations across seven key checks, and zero orphans across six relationships.
 - The identical rerun completed in 24,042 ms, loaded zero batches/files/rows, and reconciled/skipped all 26 batches. A temporary malformed-schema probe detected four rejected records and loaded zero rows without touching governed RAW.
 - Full validation discovered 23 tests: 22 passed and only the already-completed AWS integration test was intentionally skipped. Targeted lint, docs links, and whitespace checks passed. No dbt commands, S3 deletions, account-level DDL, IAM changes, or remote Git operations were performed.
+
+## 2026-10-11 — Milestone 4 real dbt validation
+
+- Reused the existing 24-model project rather than recreating it. Added the ignored runtime profile from the environment-only template and made an empty private-key passphrase optional; no credentials entered version control.
+- `dbt debug` and compilation succeeded with dbt Core 1.12.5 and `dbt-snowflake` 1.12.1. RAW access returned the expected 99,441 orders.
+- The first real build completed all 167 then-defined nodes in 20.16 seconds and created 9 staging views, 4 intermediate views, 7 dimension tables, and 4 incremental facts.
+- Added 12 tests for monetary nonnegativity, required typed fields, payment domains, model-grain reconciliation, and date consistency. The source has 166 carrier timestamps before purchase; retained them under a deliberate warning while keeping the zero-defect chronology rules blocking.
+- The refined incremental build completed 179 nodes in 22.72 seconds: 178 passed, one warned, none failed or skipped. The standalone suite completed 155 tests in 6.37 seconds: 154 passed and the same source-anomaly test warned.
+- All 11 marts matched expected grains: 251,987 dimension rows plus 415,201 fact rows. Merchandise, freight, and payment totals reconciled exactly across RAW, detail facts, and `fct_orders`.
+- Demonstrated the fanout risk: a naive item/payment detail join inflated merchandise by R$617,471.64 and payments by R$4,299,262.59. The production model avoids this by joining independent order-grain aggregates.
+- `dbt docs generate` produced an ignored live catalog for all 24 models and 9 sources. Only aggregate validation evidence is committed; generated warehouse metadata remains ignored.

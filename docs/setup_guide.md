@@ -100,7 +100,7 @@ python -m pip install -e '.[transform]'
 cp dbt/profiles.yml.example dbt/profiles.yml
 ```
 
-Set the Snowflake variables in `.env` or the shell. Set `DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE` even when the approved private key has an empty passphrase; dbt redacts variables with this prefix from logs. Development builds use `DBT_DEV_<layer>` schemas by default.
+Set the Snowflake variables in `.env` or the shell. `DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE` is optional for an unencrypted approved key; use it for encrypted keys because dbt redacts variables with this prefix from logs. Development builds use `DBT_DEV_<layer>` schemas by default.
 
 Offline/source-derived checks:
 
@@ -119,7 +119,7 @@ dbt build --project-dir dbt --selector source_to_marts
 dbt docs generate --project-dir dbt
 ```
 
-Record the generated relation counts and test results before changing the project status to completed. Do not use `--target prod` without release approval.
+The validated production workflow explicitly used `--target prod`; do not repeat it without release approval. Record generated relation counts and test results for every future source version.
 
 ## Updating the source snapshot
 

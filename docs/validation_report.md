@@ -90,22 +90,23 @@ The deployed loader-owned inventory is one CSV file format, nine RAW tables, fou
 
 ## Milestone 4 result
 
-**Implemented and validated structurally on 2026-09-30; dbt warehouse execution remains unverified.** Milestone 3 has now populated Snowflake RAW, but no dbt compile, build, test, or live catalog generation was executed during this Milestone 3 validation.
+**Completed and validated against real Snowflake on 2026-10-11.** dbt authenticated with the approved key-pair service context and built the complete source-to-marts graph from the reconciled RAW layer.
 
 | Command/check | Result |
 |---|---|
 | dbt dependency install | PASS — dbt Core 1.12.5, `dbt-snowflake` 1.12.1 |
-| `dbt parse --no-partial-parse` | PASS — full parse with no warning/error |
+| `dbt debug` | PASS — connection and production target valid |
+| RAW source access | PASS — orders source returned 99,441 rows |
+| `dbt compile` | PASS — complete source-to-marts graph compiled against Snowflake |
 | `dbt ls --resource-type model` | PASS — 24 models: 9 staging, 4 intermediate, 7 dimensions, 4 facts |
-| Parsed tests and sources | PASS — 143 data tests and 9 RAW sources |
-| Development schema routing | PASS — models resolve to three isolated `DBT_DEV_*` schemas |
-| `make dbt-expectations` | PASS — all 24 source-derived model counts; 667,188 expected mart rows |
-| `make test` | PASS — 22 discovered: 20 passed, AWS and Snowflake integration tests skipped |
-| Ruff on new Milestone 4 Python | PASS — E/F/import checks clean |
-| Repository-wide Ruff advisory | FAIL — 115 inherited formatting/typing-style findings remain outside Milestone 4 scope |
-| `dbt compile --no-introspect` | BLOCKED — stopped at missing key file before warehouse connection/SQL compilation |
-| `dbt build` / warehouse tests | NOT RUN — remains explicitly deferred to Milestone 4 |
-| `dbt docs generate --empty-catalog --no-compile` | PASS — ignored documentation artifacts generated without warehouse metadata |
-| Warehouse catalog introspection | NOT RUN — remains explicitly deferred to Milestone 4 |
+| Manifest inventory | PASS — 24 models, 155 data tests, and 9 RAW sources |
+| First real build | PASS — 167/167 nodes successful in 20.16 seconds |
+| Refined incremental build | PASS — 178 pass, 1 warning, 0 errors/skips across 179 nodes in 22.72 seconds |
+| Standalone `dbt test` | PASS — 154 pass, 1 warning, 0 errors/skips across 155 tests in 6.37 seconds |
+| Live docs/catalog | PASS — catalog includes all 24 models and 9 sources |
+| Grain reconciliation | PASS — all dimension/fact counts match source-derived expectations |
+| Monetary reconciliation | PASS — merchandise R$13,591,643.70; freight R$2,251,909.54; payments R$16,008,872.12 at RAW, detail, and order grains |
+| Relationship/uniqueness tests | PASS — no orphan dimension keys or duplicate fact/dimension keys |
+| Source anomaly warning | WARN — 166 carrier timestamps precede purchase; values preserved and documented |
 
-Expected mart acceptance counts are 251,987 dimension rows and 415,201 fact rows. These values come from the committed source profile and declared grains; they are not actual warehouse output. Actual dbt-created relations: **0**. Actual mart rows: **0**. No model SQL execution, incremental rerun, relationship result, monetary SQL reconciliation, or generated warehouse catalog is claimed.
+Actual mart counts are 251,987 dimension rows and 415,201 fact rows, totaling 667,188. The identical-source incremental rerun retained all fact counts with no duplicate keys. A naive direct detail join would inflate merchandise by R$617,471.64 and payments by R$4,299,262.59; the production order fact instead reconciles exactly through independent aggregates. Aggregate evidence is in [`reports/dbt_validation.json`](../reports/dbt_validation.json).

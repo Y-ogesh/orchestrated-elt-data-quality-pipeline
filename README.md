@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–3 are completed and validated, including real AWS S3 ingestion and a reconciled Snowflake RAW load. Milestone 4 is implemented and structurally validated as a parsed 24-model dbt DAG, but no dbt models have been built in Snowflake. No Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestones 1–4 are completed and validated against real infrastructure: AWS S3 ingestion, Snowflake RAW loading, and a 24-model dbt warehouse with reconciled dimensional marts. No Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 4; Milestones 2 and 3 are validated against real cloud infrastructure:
+Implemented through Milestone 4; Milestones 2–4 are validated against real cloud infrastructure:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -61,14 +61,14 @@ Implemented through Milestone 4; Milestones 2 and 3 are validated against real c
 - Version-controlled Snowflake schemas, CSV format, external stage, nine source-shaped RAW tables, audit tables, and validation views.
 - Parameterized two-phase COPY loading with rejected-record capture, source/batch lineage, transactional reconciliation, duplicate prevention, and no-op reruns.
 - Real Snowflake evidence for 26 batches, 129 files, and 1,550,922 RAW rows: exact batch/file reconciliation, zero key or relationship violations, and a 26-batch no-op rerun.
-- dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 143 parsed tests, secure targets, and generated lineage metadata.
+- dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 155 tests, secure targets, and a live generated catalog.
 - Independent item/payment aggregation, deterministic surrogate keys, source-to-mart grain expectations, and reconciliation tests that prevent monetary fanout.
 
-Implemented but not yet verified against real infrastructure: dbt warehouse build/test/documentation generation. Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
 ## Warehouse design
 
-The deployed `OLIST_ELT` warehouse separates `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. RAW and AUDIT are populated and reconciled; dbt defines—but has not yet built—the typed staging layer, reusable aggregates, and 11 dimensional marts. Every model's grain and key is defined in the [data dictionary](docs/data_dictionary.md).
+The deployed `OLIST_ELT` warehouse separates `RAW`, `STAGING`, `INTERMEDIATE`, `MARTS`, and `AUDIT`. dbt built 9 typed staging views, 4 reusable intermediate views, and 11 dimensional marts containing 667,188 rows. Every model's grain and key is defined in the [data dictionary](docs/data_dictionary.md).
 
 `item_total = SUM(price) + SUM(freight_value)` and `payment_total = SUM(payment_value)` are computed independently at order grain before joining. Payment value is not labeled accounting revenue; commission, refund, and seller-payout data are absent.
 
@@ -116,6 +116,7 @@ tests/                 # fast unit tests
 - [Snowflake warehouse and loading](docs/snowflake_warehouse.md)
 - [Machine-readable Snowflake validation evidence](reports/snowflake_validation.json)
 - [dbt transformations](docs/dbt_transformations.md)
+- [Machine-readable dbt validation evidence](reports/dbt_validation.json)
 - [Dimensional model](docs/dimensional_model.md)
 - [Decisions](docs/decisions.md)
 - [Setup guide](docs/setup_guide.md)

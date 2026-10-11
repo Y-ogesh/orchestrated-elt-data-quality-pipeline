@@ -7,10 +7,10 @@ olist_analytics:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
-      database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ELT') }}"
       schema: "{{ env_var('DBT_DEV_SCHEMA', 'DBT_DEV') }}"
       private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
-      private_key_passphrase: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE') }}"
+      private_key_passphrase: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE', '') }}"
       threads: 4
       client_session_keep_alive: false
       query_tag: olist_dbt_dev
@@ -20,10 +20,10 @@ olist_analytics:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
-      database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ELT') }}"
       schema: MARTS
       private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') }}"
-      private_key_passphrase: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE') }}"
+      private_key_passphrase: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE', '') }}"
       threads: 4
       client_session_keep_alive: false
       query_tag: olist_dbt_prod

@@ -13,7 +13,7 @@ clean-targets: ["target", "dbt_packages"]
 
 models:
   olist_analytics:
-    +database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ANALYTICS') }}"
+    +database: "{{ env_var('SNOWFLAKE_DATABASE', 'OLIST_ELT') }}"
     +persist_docs:
       relation: true
       columns: true

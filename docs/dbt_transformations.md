@@ -2,7 +2,7 @@
 
 ## Status
 
-The dbt project is implemented and parses successfully with dbt Core 1.12.5 and `dbt-snowflake` 1.12.1. The parse generated lineage metadata for 24 models, 9 sources, and 143 data tests. Milestone 3 has since populated and reconciled Snowflake RAW, but no Milestone 4 dbt compile, build, test, or live catalog generation was run during that validation. Actual dbt-created relations and rows therefore remain **0**.
+Milestone 4 is **completed and validated against real Snowflake** as of 2026-10-11 using dbt Core 1.12.5 and `dbt-snowflake` 1.12.1. `dbt debug`, compilation, two complete builds, standalone testing, and live catalog generation succeeded. The manifest contains 9 sources, 24 models, and 155 tests; the 11 marts contain 667,188 rows.
 
 ## Project inventory
 
@@ -13,7 +13,7 @@ The dbt project is implemented and parses successfully with dbt Core 1.12.5 and 
 | MARTS dimensions | table | 7 | Customer, order-customer, product, seller, category, geography, and date dimensions |
 | MARTS facts | incremental merge | 4 | Order, order-item, payment-component, and review-record facts |
 
-The 24-model inventory intentionally excludes helper tables that do not establish a reusable grain. Model and column descriptions live beside the SQL in YAML so `dbt docs generate` can publish them once Snowflake is available.
+The 24-model inventory intentionally excludes helper tables that do not establish a reusable grain. Model and column descriptions live beside the SQL in YAML and the live `dbt docs generate` catalog contains all 24 models and 9 sources.
 
 ## Secure configuration
 
@@ -51,16 +51,19 @@ Dimensions rebuild as tables because the source snapshot is small and determinis
 
 ## Tests and reconciliation
 
-The parsed manifest contains 143 tests:
+The validated manifest contains 155 tests:
 
 - source/staging/mart uniqueness and non-null checks;
 - composite-key checks for items and payments;
-- accepted order statuses, scores, and translation states;
+- accepted order statuses, payment types, scores, and translation states;
+- nonnegative item, freight, payment, and installment values;
+- lifecycle/review date consistency, with one deliberately non-blocking source-anomaly warning;
 - source-to-staging and fact-to-dimension relationships;
 - exact order-grain preservation;
+- exact dimension/fact grain counts;
 - independent item and payment totals reconciled from detail facts back to `fct_orders`.
 
-The known 303 payment-versus-item differences above R$0.01 are flagged in `fct_orders`; they are not test failures. The tests instead prove that each independently modeled total agrees with its own source child fact. See dbt's [data-test documentation](https://docs.getdbt.com/docs/build/data-tests).
+The real build flags 1,076 payment-versus-item differences above R$0.01; 775 orders have no items and one has no payment. These source/business conditions are not treated as transformation failures. A separate warning preserves the 166 source rows whose carrier timestamp precedes purchase. Blocking tests still prove that each independently modeled total agrees with its source child fact. See dbt's [data-test documentation](https://docs.getdbt.com/docs/build/data-tests).
 
 ## Commands
 
@@ -93,12 +96,14 @@ dbt docs serve --project-dir dbt
 
 | Check | Result |
 |---|---|
-| Full dbt parse | PASS — 24 models, 9 sources, 143 tests |
+| `dbt debug` / RAW access | PASS — production target authenticated; RAW orders returned 99,441 rows |
+| Full dbt compile | PASS — source-to-marts selector compiled against Snowflake |
+| Full dbt build | PASS — 179 total: 178 pass, 1 warning, 0 errors/skips in 22.72 seconds |
+| Standalone `dbt test` | PASS — 154 pass, 1 documented warning, 0 errors/skips in 6.37 seconds |
+| Live `dbt docs generate` | PASS — catalog contains 24 models and 9 sources |
 | Development schema routing | PASS — `DBT_DEV_STAGING`, `DBT_DEV_INTERMEDIATE`, `DBT_DEV_MARTS` |
-| Source-derived grain expectations | PASS — 24 model counts, 667,188 expected mart rows |
-| Prior offline `dbt compile --no-introspect` | BLOCKED at the time — key file/approved connection was unavailable |
-| `dbt docs generate --empty-catalog --no-compile` | PASS — documentation site artifacts with no warehouse metadata |
-| Snowflake build/test/catalog introspection | NOT RUN — remains Milestone 4 work |
-| Actual mart relations / rows | 0 / 0 |
+| Source-to-mart grain reconciliation | PASS — all 11 marts matched; 667,188 actual rows |
+| Monetary reconciliation | PASS — RAW, detail facts, and order facts matched exactly |
+| Incremental rerun | PASS — merge rerun retained all fact counts with no duplicate keys |
 
-Parsing validates project/YAML/Jinja structure and lineage, not Snowflake SQL execution. The expected counts are deterministic assertions derived from committed source profiling; they are not claimed warehouse results.
+Generated `target/` and `logs/` artifacts are intentionally ignored because the live catalog contains warehouse metadata. Aggregate, non-secret validation evidence is committed in [`reports/dbt_validation.json`](../reports/dbt_validation.json).

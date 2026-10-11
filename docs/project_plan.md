@@ -7,7 +7,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 1. Foundation and profiling | Project scaffold, official data acquisition, source contracts, profiling, architecture, dimensional design, replay design, tests, documentation | **Completed and validated** | Four unit tests pass; nine sources and six FKs validate; aggregate profile committed |
 | 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Completed and validated** | Real AWS run verified 26 batches, 155 objects, 26 manifests, 1,550,922 rows, 155 streamed checksums, and a zero-upload rerun |
 | 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Completed and validated** | Real Snowflake load reconciled 26 batches, 129 files, and 1,550,922 rows; identical rerun skipped all 26 batches |
-| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Implemented but unverified** | dbt 1.12 parses 24 models/143 tests; real build and mart reconciliation have not been executed |
+| 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Completed and validated** | Real dbt build created 24 models and 667,188 mart rows; 154 tests passed and one documented source-anomaly test warned |
 | 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
 | 6. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Injected-failure evidence and audit history |
 | 7. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
@@ -57,9 +57,12 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Item and payment totals are independently aggregated before the order-grain join.
 - [x] Four transaction facts use merge-based incremental materializations and deterministic unique keys.
 - [x] Source, grain, key, relationship, accepted-value, and monetary reconciliation tests are defined.
-- [x] Full dbt parsing generated lineage metadata for 24 models, 9 sources, and 143 tests; initial docs artifacts generated with an empty catalog.
+- [x] Full dbt parsing and live catalog generation cover 24 models, 9 sources, and 155 tests.
 - [x] Source-derived acceptance counts cover every model and 667,188 expected mart rows.
-- [ ] `dbt compile`, `dbt build`, `dbt test`, catalog introspection, and actual mart counts verified against Snowflake. Milestone 3 RAW is ready, but these commands remain Milestone 4 work.
+- [x] `dbt debug`, `compile`, `build`, `test`, and `docs generate` completed against real Snowflake.
+- [x] Actual mart counts equal all source-derived expectations: 251,987 dimension rows and 415,201 fact rows.
+- [x] Incremental rerun retained fact grains and totals with no duplicates or relationship failures.
+- [x] RAW, detail-fact, and order-fact monetary totals reconcile exactly; naive item/payment joining was measured and documented as inflated.
 
 ## Delivery conventions
 

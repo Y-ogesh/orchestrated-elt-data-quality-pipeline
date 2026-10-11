@@ -126,11 +126,11 @@ The implemented dbt project materializes all nine staging and four intermediate 
 
 | Model group | Relations | Expected rows | Actual Snowflake rows |
 |---|---:|---:|---:|
-| Dimensions | 7 | 251,987 | 0 — not built |
-| Facts | 4 | 415,201 | 0 — not built |
-| MARTS total | 11 | 667,188 | 0 — not built |
+| Dimensions | 7 | 251,987 | 251,987 |
+| Facts | 4 | 415,201 | 415,201 |
+| MARTS total | 11 | 667,188 | 667,188 |
 
-Expected counts are derived from the committed aggregate source profile and model grains. They are reconciliation targets, not substitutes for a real `dbt build` result. Per-model counts are documented in [the dimensional model](dimensional_model.md).
+Expected counts derive from the committed aggregate source profile and declared grains. The 2026-10-11 real Snowflake build matched every count. Per-model counts are documented in [the dimensional model](dimensional_model.md).
 
 ## Metric contracts
 

@@ -83,3 +83,9 @@ Production models resolve to `STAGING`, `INTERMEDIATE`, and `MARTS`. Development
 **Status:** Accepted, 2026-10-11
 
 The application service role must not hold account-level `CREATE DATABASE` or database-level `CREATE SCHEMA` privileges. Administrators pre-provision the database, five schemas, storage integration, external stage, service user, role, and warehouse. Bootstrap validates those prerequisites—including stage URL, integration, and object access—then creates or reuses only the project file format, RAW/audit tables, and views. This preserves least privilege and prevents the loader from becoming a competing infrastructure-management path.
+
+## ADR-015 — Preserve known timestamp anomalies with explicit warning severity
+
+**Status:** Accepted, 2026-10-11
+
+The source contains 166 orders whose carrier timestamp precedes purchase. The pipeline retains these values and exposes them through a warning-level dbt test instead of rewriting source truth or weakening unrelated date rules. Approval, customer-delivery, estimated-delivery, and review-answer chronology remain blocking tests because the validated source has zero violations for those rules.
