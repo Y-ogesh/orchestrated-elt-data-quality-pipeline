@@ -181,3 +181,14 @@ All nine RAW tables preserve their source columns as `VARCHAR` and add:
 | `_loaded_at` | TIMESTAMP_TZ | Snowflake load timestamp |
 
 `AUDIT.LOAD_RUNS`, `BATCH_LOADS`, `FILE_LOADS`, and `LOAD_ERRORS` record execution state, expected/actual counts, COPY query IDs, failures, and rejected records. `BATCH_RECONCILIATION`, `RAW_TABLE_COUNTS`, `RAW_KEY_VIOLATIONS`, and `RAW_RELATIONSHIP_VIOLATIONS` expose load and source-contract checks.
+
+## Quality metadata contracts
+
+| Relation/field | Grain | Quality use |
+|---|---|---|
+| RAW `_loaded_at` | Source row | Maximum per table is the pipeline freshness timestamp; business-event dates are never used for freshness |
+| `AUDIT.BATCH_RECONCILIATION` | Ingestion batch | Requires `SUCCEEDED`, expected files = loaded files, expected rows = loaded rows, and zero differences |
+| `AUDIT.FILE_LOADS` | Loaded source file | Proves distinct-file count, per-file row reconciliation, and successful COPY status |
+| Reserved `__dq_synthetic_` prefix | Synthetic fixture row only | Detects leakage; production RAW/MARTS must always contain zero matching identifiers |
+
+The freshness policy warns after 168 hours and errors after 720 hours. The synthetic fixture is committed test input, not source truth, and executes only in temporary Snowflake tables.

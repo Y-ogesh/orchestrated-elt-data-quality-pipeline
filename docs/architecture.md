@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 built and tested the complete 24-model dbt DAG in Snowflake: 9 staging views, 4 intermediate views, 7 dimensions, and 4 facts.
+Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 built the complete 24-model dbt DAG in Snowflake: 9 staging views, 4 intermediate views, 7 dimensions, and 4 facts. Milestone 5 added load-timestamp freshness, audit/row reconciliation, 157 dbt tests, and isolated temporary-table failure injection without changing production data.
 
 ## Snowflake organization
 
@@ -48,6 +48,8 @@ Deployed database: `OLIST_ELT`.
 | `INTERMEDIATE` | Deduplicate geography and build independent item/payment order aggregates | Four rebuildable dbt views |
 | `MARTS` | Seven dimensions and four conformed facts | Dimensions rebuild as tables; transaction facts merge incrementally |
 | `AUDIT` | Batch manifests, task/run status, row counts, test outcomes, exceptions, publication state | Append events; controlled status transitions |
+
+Quality controls read `AUDIT.BATCH_RECONCILIATION` and RAW `_loaded_at`. Freshness therefore measures real warehouse load activity rather than historical order events or deterministic replay dates. Synthetic failure probes use session-scoped temporary tables in `AUDIT`; they fingerprint but never mutate production RAW or MARTS relations.
 
 The RAW layer stores source fields as `VARCHAR` so ingestion does not silently coerce source values. Each row also carries batch ID, staged filename, artifact checksum, source version, logical ingestion date, staged row number, load run ID, and load timestamp. Typing belongs in STAGING.
 

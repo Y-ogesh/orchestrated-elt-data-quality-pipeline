@@ -1,0 +1,133 @@
+{
+  "dbt_tests": {
+    "accepted_values": 4,
+    "custom_singular": 9,
+    "elapsed_seconds": 17.4,
+    "errors": 0,
+    "generic": 148,
+    "non_negative": 4,
+    "not_null": 82,
+    "passed": 156,
+    "relationships": 20,
+    "skipped": 0,
+    "total": 157,
+    "unique": 34,
+    "unique_combination": 4,
+    "warnings": 1
+  },
+  "freshness": {
+    "checked_sources": 9,
+    "elapsed_seconds": 2.48,
+    "error_after_hours": 720,
+    "errors": 0,
+    "maximum_age_hours": 72,
+    "passed": 9,
+    "timestamp_field": "RAW._loaded_at",
+    "warn_after_hours": 168,
+    "warnings": 0
+  },
+  "genuine_source_anomalies": {
+    "carrier_timestamp_before_purchase": 166,
+    "severity": "warn"
+  },
+  "inventory": {
+    "audit_sources": 1,
+    "business_sources": 9,
+    "models": 24,
+    "source_relations": 10,
+    "tests": 157
+  },
+  "lineage": {
+    "catalog_generated": true,
+    "catalog_models": 24,
+    "catalog_sources": 10,
+    "dependency_edges": 247,
+    "generated_artifacts_ignored": true,
+    "path": "RAW -> STAGING -> INTERMEDIATE -> MARTS",
+    "screenshot_committed": false,
+    "sources_reaching_marts": 9,
+    "visually_verified_in_local_docs": true
+  },
+  "monetary_reconciliation": {
+    "freight_detail_fact": "2251909.54",
+    "freight_order_fact": "2251909.54",
+    "freight_raw": "2251909.54",
+    "merchandise_detail_fact": "13591643.70",
+    "merchandise_order_fact": "13591643.70",
+    "merchandise_raw": "13591643.70",
+    "payment_detail_fact": "16008872.12",
+    "payment_order_fact": "16008872.12",
+    "payment_raw": "16008872.12"
+  },
+  "reconciliation": {
+    "expected_batches": 26,
+    "expected_files": 129,
+    "expected_raw_rows": 1550922,
+    "file_difference": 0,
+    "loaded_batches": 26,
+    "loaded_files": 129,
+    "loaded_raw_rows": 1550922,
+    "non_successful_batches": 0,
+    "non_successful_files": 0,
+    "raw_fact_count_differences": {
+      "order_items": 0,
+      "order_payments": 0,
+      "order_reviews": 0,
+      "orders": 0
+    },
+    "raw_staging_count_differences": {
+      "category_translation": 0,
+      "customers": 0,
+      "geolocation": 0,
+      "order_items": 0,
+      "order_payments": 0,
+      "order_reviews": 0,
+      "orders": 0,
+      "products": 0,
+      "sellers": 0
+    },
+    "row_difference": 0
+  },
+  "status": "completed_and_validated_against_real_snowflake",
+  "repository_tests": {
+    "discovered": 26,
+    "passed": 25,
+    "skipped": 1,
+    "skipped_reason": "AWS integration was already validated separately"
+  },
+  "synthetic_cycle": {
+    "baseline_failure_counts": {
+      "duplicate_key": 0,
+      "invalid_accepted_value": 0,
+      "invalid_date_relationship": 0,
+      "negative_monetary_value": 0,
+      "null_required_key": 0,
+      "orphan_foreign_key": 0,
+      "reconciliation_mismatch": 0
+    },
+    "injected_failure_counts": {
+      "duplicate_key": 1,
+      "invalid_accepted_value": 1,
+      "invalid_date_relationship": 1,
+      "negative_monetary_value": 1,
+      "null_required_key": 1,
+      "orphan_foreign_key": 1,
+      "reconciliation_mismatch": 1
+    },
+    "production_fingerprint_unchanged": true,
+    "production_synthetic_rows_after": 0,
+    "production_synthetic_rows_before": 0,
+    "recovered_failure_counts": {
+      "duplicate_key": 0,
+      "invalid_accepted_value": 0,
+      "invalid_date_relationship": 0,
+      "negative_monetary_value": 0,
+      "null_required_key": 0,
+      "orphan_foreign_key": 0,
+      "reconciliation_mismatch": 0
+    },
+    "temporary_rows_after_recovery": 1
+  },
+  "validated_on": "2026-10-14",
+  "validation_schema_version": 1
+}

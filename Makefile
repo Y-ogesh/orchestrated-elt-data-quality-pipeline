@@ -1,4 +1,4 @@
-.PHONY: download test profile validate ingest-local warehouse-validate dbt-parse dbt-compile dbt-docs-local dbt-expectations docs clean
+.PHONY: download test profile validate ingest-local warehouse-validate quality-reconcile quality-synthetic dbt-parse dbt-compile dbt-freshness dbt-docs-local dbt-expectations docs clean
 
 download:
 	PYTHONPATH=src python3 scripts/download_dataset.py --output-dir data/raw
@@ -18,11 +18,20 @@ ingest-local:
 warehouse-validate:
 	PYTHONPATH=src python3 -m olist_pipeline.warehouse validate-local
 
+quality-reconcile:
+	PYTHONPATH=src python3 -m olist_pipeline.data_quality reconcile
+
+quality-synthetic:
+	PYTHONPATH=src python3 -m olist_pipeline.data_quality synthetic
+
 dbt-parse:
 	dbt parse --project-dir dbt
 
 dbt-compile:
 	dbt compile --project-dir dbt --no-introspect
+
+dbt-freshness:
+	dbt source freshness --project-dir dbt
 
 dbt-docs-local:
 	dbt docs generate --project-dir dbt --empty-catalog --no-compile

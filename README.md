@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–4 are completed and validated against real infrastructure: AWS S3 ingestion, Snowflake RAW loading, and a 24-model dbt warehouse with reconciled dimensional marts. No Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestones 1–5 are completed and validated against real infrastructure: AWS S3 ingestion, Snowflake RAW loading, a 24-model dbt warehouse, and automated quality/freshness/lineage controls. No Airflow, Docker, or Power BI integration is claimed yet.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 4; Milestones 2–4 are validated against real cloud infrastructure:
+Implemented through Milestone 5; Milestones 2–5 are validated against real cloud infrastructure:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -61,8 +61,9 @@ Implemented through Milestone 4; Milestones 2–4 are validated against real clo
 - Version-controlled Snowflake schemas, CSV format, external stage, nine source-shaped RAW tables, audit tables, and validation views.
 - Parameterized two-phase COPY loading with rejected-record capture, source/batch lineage, transactional reconciliation, duplicate prevention, and no-op reruns.
 - Real Snowflake evidence for 26 batches, 129 files, and 1,550,922 RAW rows: exact batch/file reconciliation, zero key or relationship violations, and a 26-batch no-op rerun.
-- dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 155 tests, secure targets, and a live generated catalog.
+- dbt Core/Snowflake project with 9 staging views, 4 intermediate views, 7 dimensions, 4 incremental facts, 157 tests, secure targets, and a live generated catalog.
 - Independent item/payment aggregation, deterministic surrogate keys, source-to-mart grain expectations, and reconciliation tests that prevent monetary fanout.
+- Pipeline freshness from RAW load timestamps, batch/file/row audit reconciliation, exact RAW-to-staging preservation, and isolated seven-defect fail/detect/correct/pass evidence against real Snowflake.
 
 Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
 
@@ -85,6 +86,9 @@ make validate
 make ingest-local
 make warehouse-validate
 make dbt-expectations
+make dbt-freshness
+make quality-reconcile
+make quality-synthetic
 ```
 
 No credentials are required for the public download, local ingestion, or source-derived dbt expectations. Repeating the validated S3/Snowflake workflows or executing dbt requires approved resources and credentials. Detailed instructions and optional dependency groups are in the [setup guide](docs/setup_guide.md).
@@ -118,6 +122,8 @@ tests/                 # fast unit tests
 - [dbt transformations](docs/dbt_transformations.md)
 - [Machine-readable dbt validation evidence](reports/dbt_validation.json)
 - [Dimensional model](docs/dimensional_model.md)
+- [Automated data quality and lineage](docs/data_quality.md)
+- [Machine-readable data-quality evidence](reports/data_quality_validation.json)
 - [Decisions](docs/decisions.md)
 - [Setup guide](docs/setup_guide.md)
 - [Validation report](docs/validation_report.md)

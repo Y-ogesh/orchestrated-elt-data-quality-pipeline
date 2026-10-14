@@ -8,9 +8,10 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 2. Cloud ingestion | Package files and manifests; upload immutable batches to S3; encryption and retry behavior | **Completed and validated** | Real AWS run verified 26 batches, 155 objects, 26 manifests, 1,550,922 rows, 155 streamed checksums, and a zero-upload rerun |
 | 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Completed and validated** | Real Snowflake load reconciled 26 batches, 129 files, and 1,550,922 rows; identical rerun skipped all 26 batches |
 | 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Completed and validated** | Real dbt build created 24 models and 667,188 mart rows; 154 tests passed and one documented source-anomaly test warned |
-| 5. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
-| 6. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Injected-failure evidence and audit history |
-| 7. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
+| 5. Automated quality and lineage | Cross-layer tests, ingestion freshness, reconciliation, isolated failure injection, lineage and reporting | **Completed and validated** | 156 pass, 1 documented warning, 0 errors across 157 dbt tests; 9 freshness checks pass; all 7 synthetic defects detected and recovered |
+| 6. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
+| 7. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Operational alert and audit-history evidence |
+| 8. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
 
 ## Milestone 1 acceptance criteria
 
@@ -63,6 +64,17 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Actual mart counts equal all source-derived expectations: 251,987 dimension rows and 415,201 fact rows.
 - [x] Incremental rerun retained fact grains and totals with no duplicates or relationship failures.
 - [x] RAW, detail-fact, and order-fact monetary totals reconcile exactly; naive item/payment joining was measured and documented as inflated.
+
+## Milestone 5 acceptance criteria
+
+- [x] Existing 155-test coverage audited; no equivalent generic controls duplicated.
+- [x] Batch/file/row audit and all nine RAW-to-staging row counts enforced by two focused singular tests.
+- [x] Freshness uses RAW `_loaded_at`, with documented 7-day warning and 30-day error thresholds; all nine sources passed.
+- [x] Final real-Snowflake suite: 156 pass, one documented 166-row source warning, zero errors/skips across 157 tests.
+- [x] Seven isolated deterministic synthetic defect types demonstrated pass → fail/detect → correct → pass.
+- [x] Production RAW/MARTS fingerprints remained unchanged and contain zero reserved synthetic rows.
+- [x] 26 batches, 129 files, 1,550,922 RAW rows, all staging/detail grains, and three monetary totals reconcile exactly.
+- [x] Live dbt documentation/catalog regenerated and graph dependencies verified; generated metadata remains ignored.
 
 ## Delivery conventions
 

@@ -51,7 +51,7 @@ Dimensions rebuild as tables because the source snapshot is small and determinis
 
 ## Tests and reconciliation
 
-The validated manifest contains 155 tests:
+Milestone 4 established 155 tests. Milestone 5 retains that coverage and adds two focused reconciliation tests, producing 157 tests:
 
 - source/staging/mart uniqueness and non-null checks;
 - composite-key checks for items and payments;
@@ -62,6 +62,8 @@ The validated manifest contains 155 tests:
 - exact order-grain preservation;
 - exact dimension/fact grain counts;
 - independent item and payment totals reconciled from detail facts back to `fct_orders`.
+- ingestion batch/file/row reconciliation from `AUDIT.BATCH_RECONCILIATION`;
+- exact row preservation from all nine RAW sources to their staging views.
 
 The real build flags 1,076 payment-versus-item differences above R$0.01; 775 orders have no items and one has no payment. These source/business conditions are not treated as transformation failures. A separate warning preserves the 166 source rows whose carrier timestamp precedes purchase. Blocking tests still prove that each independently modeled total agrees with its source child fact. See dbt's [data-test documentation](https://docs.getdbt.com/docs/build/data-tests).
 
@@ -105,5 +107,7 @@ dbt docs serve --project-dir dbt
 | Source-to-mart grain reconciliation | PASS — all 11 marts matched; 667,188 actual rows |
 | Monetary reconciliation | PASS — RAW, detail facts, and order facts matched exactly |
 | Incremental rerun | PASS — merge rerun retained all fact counts with no duplicate keys |
+
+Milestone 5's latest standalone run completed 157 tests in 17.40 seconds: 156 passed, the same 166-row source anomaly warned, and zero failed or skipped. Nine RAW freshness checks also passed. See [automated data quality and lineage](data_quality.md) for the extended control catalog and synthetic recovery evidence.
 
 Generated `target/` and `logs/` artifacts are intentionally ignored because the live catalog contains warehouse metadata. Aggregate, non-secret validation evidence is committed in [`reports/dbt_validation.json`](../reports/dbt_validation.json).

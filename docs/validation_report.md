@@ -110,3 +110,26 @@ The deployed loader-owned inventory is one CSV file format, nine RAW tables, fou
 | Source anomaly warning | WARN — 166 carrier timestamps precede purchase; values preserved and documented |
 
 Actual mart counts are 251,987 dimension rows and 415,201 fact rows, totaling 667,188. The identical-source incremental rerun retained all fact counts with no duplicate keys. A naive direct detail join would inflate merchandise by R$617,471.64 and payments by R$4,299,262.59; the production order fact instead reconciles exactly through independent aggregates. Aggregate evidence is in [`reports/dbt_validation.json`](../reports/dbt_validation.json).
+
+## Milestone 5 result
+
+**Completed and validated against real Snowflake on 2026-10-14.** The framework extends the existing tests with ingestion reconciliation, RAW load-time freshness, and an isolated failure/recovery harness. It does not rewrite source anomalies or production records.
+
+| Command/check | Result |
+|---|---|
+| Existing coverage audit | PASS — retained 148 generic and 7 existing singular controls; no equivalent tests duplicated |
+| New production controls | PASS — batch/file/row audit and all nine RAW-to-staging row counts |
+| `dbt source freshness` | PASS — final run 9/9 sources, 0 warnings/errors in 2.48 seconds; maximum age 72 hours |
+| Full `dbt test` | PASS — 156 pass, 1 expected warning, 0 errors/skips across 157 tests in 17.40 seconds |
+| Genuine source anomaly | WARN — 166 carrier-before-purchase records remain unchanged and distinguishable from synthetic data |
+| Synthetic baseline | PASS — 0 failures across seven checks |
+| Synthetic injection | PASS — exactly 1 duplicate, null key, orphan, invalid value, negative monetary value, invalid chronology, and reconciliation mismatch detected |
+| Synthetic correction/recovery | PASS — all seven returned to 0; one valid temporary baseline row remained |
+| Production integrity | PASS — all RAW/MARTS row-count fingerprints unchanged; 0 reserved-prefix rows before/after |
+| Batch/file/row reconciliation | PASS — 26 batches, 129 files, 1,550,922 rows; zero differences or unsuccessful loads |
+| RAW/staging/detail reconciliation | PASS — zero count differences for all nine staging models and four detail/order facts |
+| Monetary reconciliation | PASS — merchandise R$13,591,643.70; freight R$2,251,909.54; payments R$16,008,872.12 at every declared grain |
+| Lineage artifacts | PASS — live manifest/catalog regenerated; generated warehouse metadata remains ignored |
+| Full repository suite | PASS — 26 discovered, 25 passed, only the separately completed AWS integration skipped |
+
+The final inventory is 24 models, 10 declared source relations (nine business RAW sources plus one governed audit view), and 157 tests. Aggregate, non-secret evidence is in [`reports/data_quality_validation.json`](../reports/data_quality_validation.json); the methodology and catalog are in [the data-quality guide](data_quality.md).

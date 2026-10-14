@@ -89,3 +89,15 @@ The application service role must not hold account-level `CREATE DATABASE` or da
 **Status:** Accepted, 2026-10-11
 
 The source contains 166 orders whose carrier timestamp precedes purchase. The pipeline retains these values and exposes them through a warning-level dbt test instead of rewriting source truth or weakening unrelated date rules. Approval, customer-delivery, estimated-delivery, and review-answer chronology remain blocking tests because the validated source has zero violations for those rules.
+
+## ADR-016 — Measure pipeline freshness from RAW load time
+
+**Status:** Accepted, 2026-10-14
+
+Source freshness uses the maximum RAW `_loaded_at` timestamp, warns after 7 days, and errors after 30 days. Historical Olist business timestamps and deterministic logical ingestion dates do not measure pipeline operation. The thresholds match a weekly validation cadence while allowing a fixed public snapshot to remain semantically historical.
+
+## ADR-017 — Inject quality failures only in session temporary tables
+
+**Status:** Accepted, 2026-10-14
+
+Synthetic defects execute in Snowflake temporary tables within the approved `AUDIT` schema. The cycle proves a clean baseline, exact detection, correction, and recovery, then compares production RAW/MARTS fingerprints and reserved-prefix counts. This provides real-engine behavior without corrupting or requiring cleanup of validated production tables.

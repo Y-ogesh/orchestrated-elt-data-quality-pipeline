@@ -77,3 +77,15 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - All 11 marts matched expected grains: 251,987 dimension rows plus 415,201 fact rows. Merchandise, freight, and payment totals reconciled exactly across RAW, detail facts, and `fct_orders`.
 - Demonstrated the fanout risk: a naive item/payment detail join inflated merchandise by R$617,471.64 and payments by R$4,299,262.59. The production model avoids this by joining independent order-grain aggregates.
 - `dbt docs generate` produced an ignored live catalog for all 24 models and 9 sources. Only aggregate validation evidence is committed; generated warehouse metadata remains ignored.
+
+## 2026-10-14 — Milestone 5 real quality and lineage validation
+
+- Audited the existing 155 dbt tests and retained all nonredundant generic, relationship, grain, chronology, and monetary controls. Added only batch-audit reconciliation and nine-table RAW-to-staging row preservation.
+- Configured all nine RAW business sources to measure freshness from `_loaded_at`, warning after 7 days and failing after 30. The live freshness run passed 9/9 sources at a maximum age of 72 hours in 3.18 seconds.
+- The complete real-Snowflake dbt suite ran 157 tests in 17.40 seconds: 156 passed, the known 166-row carrier anomaly warned, and zero failed or skipped.
+- Real reconciliation measured 26 successful batches, 129 successful/distinct files, and 1,550,922 rows with zero file/row differences. All RAW/staging and RAW/detail-fact counts matched.
+- Merchandise R$13,591,643.70, freight R$2,251,909.54, and payments R$16,008,872.12 reconciled exactly across RAW, detail, and order fact grains.
+- Executed seven deterministic defects in Snowflake session temporary tables. The baseline returned zero, injection returned exactly one result per rule, and correction returned zero; production fingerprints were unchanged and contained zero reserved synthetic rows.
+- Regenerated the ignored live dbt manifest/catalog and committed only aggregate non-secret evidence. No production row, raw S3 object, cloud permission, or remote Git branch was changed.
+- Served the generated docs on localhost and visually verified the rendered lineage graph. Browser tooling could display but not safely persist the capture into the repository, so no screenshot is claimed; an optional manual capture task remains documented.
+- Final repository validation discovered 26 tests: 25 passed, including the real Snowflake failure cycle and connection check; only the separately completed AWS integration was skipped. The reconciliation command now fails closed when any release condition is violated.

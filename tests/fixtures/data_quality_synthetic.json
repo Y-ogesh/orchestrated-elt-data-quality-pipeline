@@ -1,0 +1,115 @@
+{
+  "customers": ["__dq_synthetic_customer_valid__"],
+  "baseline_orders": [
+    {
+      "fixture_id": "baseline_valid",
+      "order_id": "__dq_synthetic_order_valid__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": null
+    }
+  ],
+  "defect_orders": [
+    {
+      "fixture_id": "duplicate_key_a",
+      "order_id": "__dq_synthetic_order_duplicate__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "duplicate_key"
+    },
+    {
+      "fixture_id": "duplicate_key_b",
+      "order_id": "__dq_synthetic_order_duplicate__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "duplicate_key"
+    },
+    {
+      "fixture_id": "null_required_key",
+      "order_id": null,
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "null_required_key"
+    },
+    {
+      "fixture_id": "orphan_foreign_key",
+      "order_id": "__dq_synthetic_order_orphan__",
+      "customer_id": "__dq_synthetic_customer_missing__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "orphan_foreign_key"
+    },
+    {
+      "fixture_id": "invalid_accepted_value",
+      "order_id": "__dq_synthetic_order_status__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "impossible_status",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "invalid_accepted_value"
+    },
+    {
+      "fixture_id": "negative_monetary_value",
+      "order_id": "__dq_synthetic_order_negative__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "-1.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "negative_monetary_value"
+    },
+    {
+      "fixture_id": "invalid_date_relationship",
+      "order_id": "__dq_synthetic_order_date__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-02T10:00:00",
+      "carrier_timestamp": "2018-01-01T10:00:00",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "defect_type": "invalid_date_relationship"
+    },
+    {
+      "fixture_id": "reconciliation_mismatch",
+      "order_id": "__dq_synthetic_order_reconciliation__",
+      "customer_id": "__dq_synthetic_customer_valid__",
+      "order_status": "delivered",
+      "payment_value": "10.00",
+      "purchase_timestamp": "2018-01-01T10:00:00",
+      "carrier_timestamp": "2018-01-02T10:00:00",
+      "expected_rows": 2,
+      "actual_rows": 1,
+      "defect_type": "reconciliation_mismatch"
+    }
+  ]
+}

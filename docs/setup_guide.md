@@ -51,6 +51,9 @@ Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separ
 | `make dbt-expectations` | Derive per-model acceptance counts from the committed source profile | Console only |
 | `make dbt-parse` | Parse dbt configuration, descriptions, tests, and lineage | Ignored `dbt/target/` |
 | `make dbt-compile` | Compile dbt SQL; requires an approved configured Snowflake profile | Ignored `dbt/target/` and warehouse metadata reads |
+| `make dbt-freshness` | Check all nine RAW sources using warehouse `_loaded_at` timestamps | Ignored dbt artifacts and Snowflake query history |
+| `make quality-reconcile` | Reconcile audit, RAW, staging, facts, and monetary totals | Console-only aggregate evidence |
+| `make quality-synthetic` | Run the isolated seven-defect fail/detect/correct/pass cycle | Session temporary tables only |
 | `make dbt-docs-local` | Generate initial lineage/docs artifacts with an explicitly empty catalog | Ignored `dbt/target/` |
 | `make clean` | Remove Python bytecode caches | Cache directories only |
 
@@ -116,10 +119,22 @@ After Milestone 3 has actually loaded and reconciled RAW in an approved account:
 dbt debug --project-dir dbt
 dbt compile --project-dir dbt
 dbt build --project-dir dbt --selector source_to_marts
+dbt source freshness --project-dir dbt --target prod
+dbt test --project-dir dbt --target prod
 dbt docs generate --project-dir dbt
 ```
 
 The validated production workflow explicitly used `--target prod`; do not repeat it without release approval. Record generated relation counts and test results for every future source version.
+
+Milestone 5's Python quality commands additionally require explicit Snowflake integration opt-in:
+
+```bash
+export OLIST_RUN_SNOWFLAKE_INTEGRATION=1
+make quality-reconcile
+make quality-synthetic
+```
+
+The synthetic cycle uses session temporary tables and refuses to pass unless production RAW/MARTS counts remain unchanged and the reserved synthetic prefix is absent before and after execution.
 
 ## Updating the source snapshot
 

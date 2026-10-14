@@ -4,7 +4,6 @@
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = (
     "README.md",
@@ -16,6 +15,7 @@ REQUIRED = (
     "docs/snowflake_warehouse.md",
     "docs/dbt_transformations.md",
     "docs/dimensional_model.md",
+    "docs/data_quality.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",

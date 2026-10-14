@@ -95,3 +95,19 @@ Never join item-detail and payment-detail models directly. Preserve `int_order_i
 ## dbt warns about carrier timestamps before purchase
 
 The validated source contains 166 orders whose carrier timestamp precedes purchase. The dedicated test is intentionally warning-level because dbt preserves this source anomaly rather than rewriting timestamps. Approval, customer-delivery, estimated-delivery, and review-answer ordering rules remain blocking and currently pass.
+
+## Freshness reports stale historical business dates
+
+The repository freshness definition uses RAW `_loaded_at`, not purchase, delivery, review, or logical replay dates. Confirm the source YAML still declares `_loaded_at` and that dbt is reading the governed RAW schema. A valid historical Olist timestamp must not make pipeline freshness fail.
+
+## Freshness warns after a fixed-snapshot validation pause
+
+The 7-day warning is intentional for the weekly validation cadence; the 30-day threshold is blocking. A fixed public snapshot does not receive new business events, so refresh means a successful repeat of the warehouse load/validation process. Investigate the latest successful load rather than changing the threshold to silence the warning.
+
+## Synthetic quality cycle refuses to run
+
+Set `OLIST_RUN_SNOWFLAKE_INTEGRATION=1` only after loading the approved ignored configuration. The runner requires the real Snowflake connector and creates session temporary tables in `AUDIT`. Do not replace these with permanent tables or insert synthetic rows into RAW/MARTS.
+
+## Synthetic leakage or production fingerprint mismatch
+
+Stop and inspect the reported relation/count before any cleanup. The runner uses the reserved `__dq_synthetic_` prefix and drops its temporary tables in `finally`; a production match or changed fingerprint indicates an unexpected external mutation or implementation defect. Do not delete production records automatically.
