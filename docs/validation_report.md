@@ -165,3 +165,32 @@ The final inventory is 24 models, 10 declared source relations (nine business RA
 Successful RAW replay load time summed to 528.900 seconds. Duplicate batch: 3.145 seconds; failed attempt: 13.090 seconds; recovery: 17.072 seconds; historical full-refresh dbt build: 21.814 seconds. These are measured operations with different scopes, not a comparative throughput benchmark.
 
 Per-batch IDs, inserted/updated/skipped/rejected counts, elapsed times, all 33 exact comparisons, scenario DML, production reconciliation, and scoped cleanup results are preserved in [`reports/incremental_validation.json`](../reports/incremental_validation.json). The [incremental guide](incremental_loading.md) states the immutable-source correction, deletion, serialized-writer, and recovery-test limitations. No streaming/CDC, process-kill recovery, or concurrency guarantee is claimed.
+
+## Milestone 7 result
+
+**Completed and validated against real AWS/Snowflake through Dockerized Airflow on 2026-10-16.** Detailed task runtimes and contracts are in [orchestration](orchestration.md); actual API/task/cloud captures are summarized in [the evidence report](../reports/orchestration_validation.json).
+
+| Check | Actual result |
+|---|---|
+| Docker configuration/runtime | Configuration validates; pinned image built; PostgreSQL, API server, scheduler and DAG processor healthy |
+| DAG structure | Eight boundaries; zero import errors; all publication ancestors all-success; final audit all-done but fails closed |
+| Scheduled run | All eight tasks successful; 178.902 seconds |
+| Manual run | All eight tasks successful; 130.439 seconds |
+| Real ingestion/load | 26 batches, 155 S3 objects, 129 CSV files, 1,550,922 RAW rows verified; zero additional uploads or RAW rows |
+| dbt build | 24 successful models, 156 pass, one genuine source warning, zero errors |
+| Final quality suite | 156 pass / one warning / zero failures or skips; 10.108 seconds |
+| Final freshness | Nine passes, zero errors/warnings; 3.534 seconds; maximum age 118 hours |
+| Reconciliation | Zero file/row, RAW/staging/fact, and monetary differences; 667,188 reporting rows |
+| Persistent controlled failure | Quality failed on two attempts; publication upstream-failed with zero attempts; DAG and final audit failed; 152.506 seconds |
+| Last-known-good preservation | Pointer/history, eleven reporting fingerprints, twenty production fingerprints and all business metrics identical before/after failure |
+| Recovery | First quality attempt failed deliberately; automatic retry succeeded; validated new version published; 206.577 seconds |
+| Overlap | Manual run queued with zero attempts until scheduled run ended; execution intervals do not overlap |
+| Timeout | Isolated no-cloud probe raised AirflowTaskTimeout on both attempts; final attempt 2.075 seconds |
+| Audit | 33 terminal cloud task-attempt records; three successful publications; failed run published none |
+| Final pipeline tests | 38 discovered, 33 passed, five expected skips; 15.112 seconds; real Snowflake integration included |
+| Airflow-specific tests | Eight passed, zero skips/failures; 1.253 seconds |
+| Offline tests | 38 discovered, 31 passed, seven expected skips; 0.059 seconds |
+| Final integrity | Production and reporting fingerprints unchanged; zero synthetic-prefix records; genuine 166-record source anomaly preserved |
+| Final operation | Failure probes disabled; DAGs paused; local services retained for inspection |
+
+Five pipeline-suite skips comprise four tests requiring Airflow's separate environment and the previously validated AWS upload/delete integration. The four Airflow tests passed in the eight-test Airflow suite; real S3 was exercised through all DAG runs. No new AWS upload/delete claim is made. Screenshots were not captured; the optional authenticated UI capture task is documented. Candidate and three immutable publication versions are retained intentionally. Guarantees cover one serialized Airflow deployment and catchable failures, not independent concurrent writers or host-loss disaster recovery.

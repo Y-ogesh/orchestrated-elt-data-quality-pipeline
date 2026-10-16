@@ -1,0 +1,2139 @@
+{
+  "status": "Completed and validated",
+  "validation_date": "2026-10-16",
+  "runs": {
+    "scheduled": {
+      "dag_id": "olist_elt_pipeline",
+      "dag_run_id": "scheduled__2026-10-12T06:00:00+00:00",
+      "state": "success",
+      "start_date": "2026-10-16T18:23:34.959510Z",
+      "end_date": "2026-10-16T18:26:33.861016Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:23:35.050378Z",
+          "end_date": "2026-10-16T18:23:44.394315Z",
+          "duration": 9.343937
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:23:45.096159Z",
+          "end_date": "2026-10-16T18:24:04.781638Z",
+          "duration": 19.685479
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:24:05.070577Z",
+          "end_date": "2026-10-16T18:24:45.924650Z",
+          "duration": 40.854073
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:24:46.295923Z",
+          "end_date": "2026-10-16T18:24:57.621434Z",
+          "duration": 11.325511
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:24:58.374810Z",
+          "end_date": "2026-10-16T18:25:31.592682Z",
+          "duration": 33.217872
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:25:32.569525Z",
+          "end_date": "2026-10-16T18:25:56.040648Z",
+          "duration": 23.471123
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:25:56.442774Z",
+          "end_date": "2026-10-16T18:26:29.644685Z",
+          "duration": 33.201911
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:26:29.692762Z",
+          "end_date": "2026-10-16T18:26:33.143666Z",
+          "duration": 3.450904
+        }
+      ],
+      "total_seconds": 178.902,
+      "results": {
+        "prepare_source_batch": {
+          "state": "success",
+          "started_at": "2026-10-16T18:23:38.217762+00:00",
+          "result": {
+            "batch_count": 26,
+            "file_count": 129,
+            "object_count": 155,
+            "row_count": 1550922,
+            "batch_ids": [
+              "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+              "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+              "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+              "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+              "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+              "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+              "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+              "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+              "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+              "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+              "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+              "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+              "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+              "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+              "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+              "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+              "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+              "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+              "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+              "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+              "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+              "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+              "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+              "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+              "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+              "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+            ]
+          },
+          "ended_at": "2026-10-16T18:23:42.596329+00:00",
+          "seconds": 4.379
+        },
+        "ingest_to_s3": {
+          "state": "success",
+          "started_at": "2026-10-16T18:23:45.899287+00:00",
+          "result": {
+            "batches": 26,
+            "uploaded": 0,
+            "skipped": 155,
+            "objects": 155
+          },
+          "ended_at": "2026-10-16T18:24:02.953600+00:00",
+          "seconds": 17.053
+        },
+        "load_snowflake_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:24:06.175894+00:00",
+          "result": {
+            "run_id": "9c44d8a1-e61b-4f62-8f1e-860c8c0caa58",
+            "batches_loaded": 0,
+            "batches_skipped": 26,
+            "files_loaded": 0,
+            "rows_loaded": 0
+          },
+          "ended_at": "2026-10-16T18:24:44.686170+00:00",
+          "seconds": 38.511
+        },
+        "reconcile_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:24:47.422475+00:00",
+          "result": {
+            "schemas": 5,
+            "raw_tables": 9,
+            "batches": 26,
+            "files": 129,
+            "rows": 1550922,
+            "key_violations": 0,
+            "relationship_violations": 0
+          },
+          "ended_at": "2026-10-16T18:24:55.434086+00:00",
+          "seconds": 8.012
+        },
+        "run_dbt_transformations": {
+          "state": "success",
+          "started_at": "2026-10-16T18:24:59.948340+00:00",
+          "result": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "success": 24,
+              "warn": 1
+            },
+            "seconds": 28.594
+          },
+          "ended_at": "2026-10-16T18:25:29.971640+00:00",
+          "seconds": 30.023
+        },
+        "validate_data_quality": {
+          "state": "success",
+          "started_at": "2026-10-16T18:25:33.618474+00:00",
+          "result": {
+            "tests": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 156,
+                "warn": 1
+              },
+              "seconds": 12.068
+            },
+            "freshness": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 9
+              },
+              "seconds": 4.538
+            },
+            "reconciliation": {
+              "batches": {
+                "count": 26,
+                "expected_files": 129,
+                "loaded_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "absolute_file_difference": 0,
+                "absolute_row_difference": 0,
+                "non_successful": 0
+              },
+              "files": {
+                "audit_rows": 129,
+                "distinct_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "non_successful": 0
+              },
+              "raw_to_staging": {
+                "customers": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "geolocation": {
+                  "raw_rows": 1000163,
+                  "staging_rows": 1000163,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "staging_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "staging_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "staging_rows": 99224,
+                  "difference": 0
+                },
+                "orders": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "products": {
+                  "raw_rows": 32951,
+                  "staging_rows": 32951,
+                  "difference": 0
+                },
+                "sellers": {
+                  "raw_rows": 3095,
+                  "staging_rows": 3095,
+                  "difference": 0
+                },
+                "category_translation": {
+                  "raw_rows": 71,
+                  "staging_rows": 71,
+                  "difference": 0
+                }
+              },
+              "raw_to_facts": {
+                "orders": {
+                  "raw_rows": 99441,
+                  "fact_rows": 99441,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "fact_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "fact_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "fact_rows": 99224,
+                  "difference": 0
+                }
+              },
+              "monetary": {
+                "merchandise": [
+                  "13591643.70",
+                  "13591643.70",
+                  "13591643.70"
+                ],
+                "freight": [
+                  "2251909.54",
+                  "2251909.54",
+                  "2251909.54"
+                ],
+                "payments": [
+                  "16008872.12",
+                  "16008872.12",
+                  "16008872.12"
+                ]
+              },
+              "freshness": {
+                "customers": {
+                  "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "geolocation": {
+                  "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_items": {
+                  "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_payments": {
+                  "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_reviews": {
+                  "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "orders": {
+                  "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "products": {
+                  "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "sellers": {
+                  "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "category_translation": {
+                  "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                }
+              },
+              "genuine_source_anomalies": {
+                "carrier_timestamp_before_purchase": 166
+              },
+              "production_synthetic_rows": 0
+            }
+          },
+          "ended_at": "2026-10-16T18:25:54.611832+00:00",
+          "seconds": 20.993
+        },
+        "publish_reporting": {
+          "state": "success",
+          "started_at": "2026-10-16T18:25:57.434813+00:00",
+          "result": {
+            "published": true,
+            "version": "M7_8F8C46CE0D4C_",
+            "previous_version": null,
+            "models": 11,
+            "monetary": {
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            }
+          },
+          "ended_at": "2026-10-16T18:26:28.146897+00:00",
+          "seconds": 30.713
+        },
+        "record_pipeline_audit": {
+          "state": "success",
+          "started_at": "2026-10-16T18:26:30.700958+00:00",
+          "result": {
+            "pipeline_state": "success",
+            "tasks": 7
+          },
+          "ended_at": "2026-10-16T18:26:31.903287+00:00",
+          "seconds": 1.202
+        }
+      }
+    },
+    "manual": {
+      "dag_id": "olist_elt_pipeline",
+      "dag_run_id": "m7_success_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T18:26:33.924433Z",
+      "end_date": "2026-10-16T18:28:44.363676Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:26:33.944251Z",
+          "end_date": "2026-10-16T18:26:37.401256Z",
+          "duration": 3.457005
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:26:37.678125Z",
+          "end_date": "2026-10-16T18:26:53.236525Z",
+          "duration": 15.5584
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:26:53.424290Z",
+          "end_date": "2026-10-16T18:27:18.242113Z",
+          "duration": 24.817823
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:27:18.873292Z",
+          "end_date": "2026-10-16T18:27:25.710165Z",
+          "duration": 6.836873
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:27:25.780072Z",
+          "end_date": "2026-10-16T18:27:52.483810Z",
+          "duration": 26.703738
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:27:53.502941Z",
+          "end_date": "2026-10-16T18:28:18.357644Z",
+          "duration": 24.854703
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:28:19.052061Z",
+          "end_date": "2026-10-16T18:28:38.797090Z",
+          "duration": 19.745029
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:28:39.181260Z",
+          "end_date": "2026-10-16T18:28:43.568804Z",
+          "duration": 4.387544
+        }
+      ],
+      "total_seconds": 130.439,
+      "results": {
+        "prepare_source_batch": {
+          "state": "success",
+          "started_at": "2026-10-16T18:26:34.924818+00:00",
+          "result": {
+            "batch_count": 26,
+            "file_count": 129,
+            "object_count": 155,
+            "row_count": 1550922,
+            "batch_ids": [
+              "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+              "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+              "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+              "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+              "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+              "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+              "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+              "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+              "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+              "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+              "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+              "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+              "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+              "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+              "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+              "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+              "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+              "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+              "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+              "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+              "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+              "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+              "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+              "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+              "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+              "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+            ]
+          },
+          "ended_at": "2026-10-16T18:26:36.193682+00:00",
+          "seconds": 1.269
+        },
+        "ingest_to_s3": {
+          "state": "success",
+          "started_at": "2026-10-16T18:26:38.469630+00:00",
+          "result": {
+            "batches": 26,
+            "uploaded": 0,
+            "skipped": 155,
+            "objects": 155
+          },
+          "ended_at": "2026-10-16T18:26:51.832615+00:00",
+          "seconds": 13.363
+        },
+        "load_snowflake_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:26:54.247020+00:00",
+          "result": {
+            "run_id": "772ebbd8-6278-4f55-9845-6a85bd9c7865",
+            "batches_loaded": 0,
+            "batches_skipped": 26,
+            "files_loaded": 0,
+            "rows_loaded": 0
+          },
+          "ended_at": "2026-10-16T18:27:17.077391+00:00",
+          "seconds": 22.832
+        },
+        "reconcile_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:27:20.758281+00:00",
+          "result": {
+            "schemas": 5,
+            "raw_tables": 9,
+            "batches": 26,
+            "files": 129,
+            "rows": 1550922,
+            "key_violations": 0,
+            "relationship_violations": 0
+          },
+          "ended_at": "2026-10-16T18:27:24.494324+00:00",
+          "seconds": 3.736
+        },
+        "run_dbt_transformations": {
+          "state": "success",
+          "started_at": "2026-10-16T18:27:26.603070+00:00",
+          "result": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "success": 24,
+              "warn": 1
+            },
+            "seconds": 22.611
+          },
+          "ended_at": "2026-10-16T18:27:50.453242+00:00",
+          "seconds": 23.849
+        },
+        "validate_data_quality": {
+          "state": "success",
+          "started_at": "2026-10-16T18:27:54.893610+00:00",
+          "result": {
+            "tests": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 156,
+                "warn": 1
+              },
+              "seconds": 11.946
+            },
+            "freshness": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 9
+              },
+              "seconds": 5.151
+            },
+            "reconciliation": {
+              "batches": {
+                "count": 26,
+                "expected_files": 129,
+                "loaded_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "absolute_file_difference": 0,
+                "absolute_row_difference": 0,
+                "non_successful": 0
+              },
+              "files": {
+                "audit_rows": 129,
+                "distinct_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "non_successful": 0
+              },
+              "raw_to_staging": {
+                "customers": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "geolocation": {
+                  "raw_rows": 1000163,
+                  "staging_rows": 1000163,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "staging_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "staging_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "staging_rows": 99224,
+                  "difference": 0
+                },
+                "orders": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "products": {
+                  "raw_rows": 32951,
+                  "staging_rows": 32951,
+                  "difference": 0
+                },
+                "sellers": {
+                  "raw_rows": 3095,
+                  "staging_rows": 3095,
+                  "difference": 0
+                },
+                "category_translation": {
+                  "raw_rows": 71,
+                  "staging_rows": 71,
+                  "difference": 0
+                }
+              },
+              "raw_to_facts": {
+                "orders": {
+                  "raw_rows": 99441,
+                  "fact_rows": 99441,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "fact_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "fact_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "fact_rows": 99224,
+                  "difference": 0
+                }
+              },
+              "monetary": {
+                "merchandise": [
+                  "13591643.70",
+                  "13591643.70",
+                  "13591643.70"
+                ],
+                "freight": [
+                  "2251909.54",
+                  "2251909.54",
+                  "2251909.54"
+                ],
+                "payments": [
+                  "16008872.12",
+                  "16008872.12",
+                  "16008872.12"
+                ]
+              },
+              "freshness": {
+                "customers": {
+                  "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "geolocation": {
+                  "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_items": {
+                  "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_payments": {
+                  "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_reviews": {
+                  "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "orders": {
+                  "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "products": {
+                  "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "sellers": {
+                  "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "category_translation": {
+                  "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                }
+              },
+              "genuine_source_anomalies": {
+                "carrier_timestamp_before_purchase": 166
+              },
+              "production_synthetic_rows": 0
+            }
+          },
+          "ended_at": "2026-10-16T18:28:16.865244+00:00",
+          "seconds": 21.972
+        },
+        "publish_reporting": {
+          "state": "success",
+          "started_at": "2026-10-16T18:28:20.110696+00:00",
+          "result": {
+            "published": true,
+            "version": "M7_2DB9144F8934_",
+            "previous_version": "M7_8F8C46CE0D4C_",
+            "models": 11,
+            "monetary": {
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            }
+          },
+          "ended_at": "2026-10-16T18:28:36.978466+00:00",
+          "seconds": 16.869
+        },
+        "record_pipeline_audit": {
+          "state": "success",
+          "started_at": "2026-10-16T18:28:40.070293+00:00",
+          "result": {
+            "pipeline_state": "success",
+            "tasks": 7
+          },
+          "ended_at": "2026-10-16T18:28:41.161696+00:00",
+          "seconds": 1.091
+        }
+      }
+    },
+    "failure": {
+      "dag_id": "olist_elt_pipeline",
+      "dag_run_id": "m7_failure_20261016",
+      "state": "failed",
+      "start_date": "2026-10-16T18:30:31.610223Z",
+      "end_date": "2026-10-16T18:33:04.116407Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:30:31.656281Z",
+          "end_date": "2026-10-16T18:30:35.237117Z",
+          "duration": 3.580836
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:30:35.473373Z",
+          "end_date": "2026-10-16T18:30:52.218541Z",
+          "duration": 16.745168
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:30:52.999957Z",
+          "end_date": "2026-10-16T18:31:18.353848Z",
+          "duration": 25.353891
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:31:18.757750Z",
+          "end_date": "2026-10-16T18:31:25.591421Z",
+          "duration": 6.833671
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:31:25.667945Z",
+          "end_date": "2026-10-16T18:31:55.646655Z",
+          "duration": 29.97871
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "upstream_failed",
+          "try_number": 0,
+          "start_date": "2026-10-16T18:32:59.084555Z",
+          "end_date": "2026-10-16T18:32:59.084555Z",
+          "duration": 0.0
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "failed",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:33:00.148065Z",
+          "end_date": "2026-10-16T18:33:04.028174Z",
+          "duration": 3.880109
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "failed",
+          "try_number": 2,
+          "start_date": "2026-10-16T18:32:37.077500Z",
+          "end_date": "2026-10-16T18:32:59.049917Z",
+          "duration": 21.972417
+        }
+      ],
+      "total_seconds": 152.506,
+      "results": {
+        "prepare_source_batch": {
+          "state": "success",
+          "started_at": "2026-10-16T18:30:32.903863+00:00",
+          "result": {
+            "batch_count": 26,
+            "file_count": 129,
+            "object_count": 155,
+            "row_count": 1550922,
+            "batch_ids": [
+              "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+              "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+              "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+              "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+              "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+              "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+              "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+              "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+              "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+              "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+              "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+              "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+              "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+              "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+              "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+              "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+              "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+              "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+              "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+              "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+              "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+              "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+              "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+              "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+              "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+              "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+            ]
+          },
+          "ended_at": "2026-10-16T18:30:34.063366+00:00",
+          "seconds": 1.159
+        },
+        "ingest_to_s3": {
+          "state": "success",
+          "started_at": "2026-10-16T18:30:36.861875+00:00",
+          "result": {
+            "batches": 26,
+            "uploaded": 0,
+            "skipped": 155,
+            "objects": 155
+          },
+          "ended_at": "2026-10-16T18:30:50.535410+00:00",
+          "seconds": 13.674
+        },
+        "load_snowflake_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:30:53.845664+00:00",
+          "result": {
+            "run_id": "024a0324-30dc-49bc-88e1-bfcf70277354",
+            "batches_loaded": 0,
+            "batches_skipped": 26,
+            "files_loaded": 0,
+            "rows_loaded": 0
+          },
+          "ended_at": "2026-10-16T18:31:17.083025+00:00",
+          "seconds": 23.236
+        },
+        "reconcile_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:31:20.152176+00:00",
+          "result": {
+            "schemas": 5,
+            "raw_tables": 9,
+            "batches": 26,
+            "files": 129,
+            "rows": 1550922,
+            "key_violations": 0,
+            "relationship_violations": 0
+          },
+          "ended_at": "2026-10-16T18:31:24.310322+00:00",
+          "seconds": 4.158
+        },
+        "run_dbt_transformations": {
+          "state": "success",
+          "started_at": "2026-10-16T18:31:26.674176+00:00",
+          "result": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "success": 24,
+              "warn": 1
+            },
+            "seconds": 25.579
+          },
+          "ended_at": "2026-10-16T18:31:53.586809+00:00",
+          "seconds": 26.912
+        },
+        "validate_data_quality": {
+          "state": "failed",
+          "started_at": "2026-10-16T18:32:38.416078+00:00",
+          "result": {
+            "failure_code": "CONTROLLED_QUALITY_GATE_FAILURE"
+          },
+          "ended_at": "2026-10-16T18:32:57.677131+00:00",
+          "seconds": 19.261
+        },
+        "record_pipeline_audit": {
+          "state": "failed",
+          "started_at": "2026-10-16T18:33:01.204913+00:00",
+          "result": {
+            "failure_code": "PIPELINE_FAILED_PUBLICATION_NOT_COMPLETED"
+          },
+          "ended_at": "2026-10-16T18:33:02.790324+00:00",
+          "seconds": 1.585
+        }
+      }
+    },
+    "recovery": {
+      "dag_id": "olist_elt_pipeline",
+      "dag_run_id": "m7_recovery_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T18:35:17.775698Z",
+      "end_date": "2026-10-16T18:38:44.353113Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:35:17.910590Z",
+          "end_date": "2026-10-16T18:35:24.839947Z",
+          "duration": 6.929357
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:35:25.464360Z",
+          "end_date": "2026-10-16T18:35:39.869647Z",
+          "duration": 14.405287
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:35:39.929678Z",
+          "end_date": "2026-10-16T18:36:07.116470Z",
+          "duration": 27.186792
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:36:08.004377Z",
+          "end_date": "2026-10-16T18:36:15.943144Z",
+          "duration": 7.938767
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:36:16.992457Z",
+          "end_date": "2026-10-16T18:37:16.915760Z",
+          "duration": 59.923303
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:38:20.463300Z",
+          "end_date": "2026-10-16T18:38:39.216656Z",
+          "duration": 18.753356
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T18:38:39.570942Z",
+          "end_date": "2026-10-16T18:38:43.526777Z",
+          "duration": 3.955835
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 2,
+          "start_date": "2026-10-16T18:37:57.862456Z",
+          "end_date": "2026-10-16T18:38:20.308431Z",
+          "duration": 22.445975
+        }
+      ],
+      "total_seconds": 206.577,
+      "results": {
+        "prepare_source_batch": {
+          "state": "success",
+          "started_at": "2026-10-16T18:35:20.887523+00:00",
+          "result": {
+            "batch_count": 26,
+            "file_count": 129,
+            "object_count": 155,
+            "row_count": 1550922,
+            "batch_ids": [
+              "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+              "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+              "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+              "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+              "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+              "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+              "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+              "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+              "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+              "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+              "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+              "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+              "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+              "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+              "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+              "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+              "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+              "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+              "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+              "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+              "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+              "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+              "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+              "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+              "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+              "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+            ]
+          },
+          "ended_at": "2026-10-16T18:35:23.265399+00:00",
+          "seconds": 2.378
+        },
+        "ingest_to_s3": {
+          "state": "success",
+          "started_at": "2026-10-16T18:35:26.391018+00:00",
+          "result": {
+            "batches": 26,
+            "uploaded": 0,
+            "skipped": 155,
+            "objects": 155
+          },
+          "ended_at": "2026-10-16T18:35:38.178764+00:00",
+          "seconds": 11.787
+        },
+        "load_snowflake_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:35:40.866841+00:00",
+          "result": {
+            "run_id": "7bc27ab8-3c62-4104-a54b-2de88a572c40",
+            "batches_loaded": 0,
+            "batches_skipped": 26,
+            "files_loaded": 0,
+            "rows_loaded": 0
+          },
+          "ended_at": "2026-10-16T18:36:05.653057+00:00",
+          "seconds": 24.787
+        },
+        "reconcile_raw": {
+          "state": "success",
+          "started_at": "2026-10-16T18:36:09.543734+00:00",
+          "result": {
+            "schemas": 5,
+            "raw_tables": 9,
+            "batches": 26,
+            "files": 129,
+            "rows": 1550922,
+            "key_violations": 0,
+            "relationship_violations": 0
+          },
+          "ended_at": "2026-10-16T18:36:14.487605+00:00",
+          "seconds": 4.944
+        },
+        "run_dbt_transformations": {
+          "state": "success",
+          "started_at": "2026-10-16T18:36:18.070895+00:00",
+          "result": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "success": 24,
+              "warn": 1
+            },
+            "seconds": 56.291
+          },
+          "ended_at": "2026-10-16T18:37:15.465744+00:00",
+          "seconds": 57.395
+        },
+        "validate_data_quality": {
+          "state": "success",
+          "started_at": "2026-10-16T18:37:58.922612+00:00",
+          "result": {
+            "tests": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 156,
+                "warn": 1
+              },
+              "seconds": 10.108
+            },
+            "freshness": {
+              "exit_code": 0,
+              "outcomes": {
+                "pass": 9
+              },
+              "seconds": 3.534
+            },
+            "reconciliation": {
+              "batches": {
+                "count": 26,
+                "expected_files": 129,
+                "loaded_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "absolute_file_difference": 0,
+                "absolute_row_difference": 0,
+                "non_successful": 0
+              },
+              "files": {
+                "audit_rows": 129,
+                "distinct_files": 129,
+                "expected_rows": 1550922,
+                "loaded_rows": 1550922,
+                "non_successful": 0
+              },
+              "raw_to_staging": {
+                "customers": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "geolocation": {
+                  "raw_rows": 1000163,
+                  "staging_rows": 1000163,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "staging_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "staging_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "staging_rows": 99224,
+                  "difference": 0
+                },
+                "orders": {
+                  "raw_rows": 99441,
+                  "staging_rows": 99441,
+                  "difference": 0
+                },
+                "products": {
+                  "raw_rows": 32951,
+                  "staging_rows": 32951,
+                  "difference": 0
+                },
+                "sellers": {
+                  "raw_rows": 3095,
+                  "staging_rows": 3095,
+                  "difference": 0
+                },
+                "category_translation": {
+                  "raw_rows": 71,
+                  "staging_rows": 71,
+                  "difference": 0
+                }
+              },
+              "raw_to_facts": {
+                "orders": {
+                  "raw_rows": 99441,
+                  "fact_rows": 99441,
+                  "difference": 0
+                },
+                "order_items": {
+                  "raw_rows": 112650,
+                  "fact_rows": 112650,
+                  "difference": 0
+                },
+                "order_payments": {
+                  "raw_rows": 103886,
+                  "fact_rows": 103886,
+                  "difference": 0
+                },
+                "order_reviews": {
+                  "raw_rows": 99224,
+                  "fact_rows": 99224,
+                  "difference": 0
+                }
+              },
+              "monetary": {
+                "merchandise": [
+                  "13591643.70",
+                  "13591643.70",
+                  "13591643.70"
+                ],
+                "freight": [
+                  "2251909.54",
+                  "2251909.54",
+                  "2251909.54"
+                ],
+                "payments": [
+                  "16008872.12",
+                  "16008872.12",
+                  "16008872.12"
+                ]
+              },
+              "freshness": {
+                "customers": {
+                  "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "geolocation": {
+                  "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_items": {
+                  "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_payments": {
+                  "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "order_reviews": {
+                  "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "orders": {
+                  "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "products": {
+                  "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "sellers": {
+                  "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                },
+                "category_translation": {
+                  "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                  "age_hours": 118,
+                  "status": "pass"
+                }
+              },
+              "genuine_source_anomalies": {
+                "carrier_timestamp_before_purchase": 166
+              },
+              "production_synthetic_rows": 0
+            }
+          },
+          "ended_at": "2026-10-16T18:38:18.553409+00:00",
+          "seconds": 19.631
+        },
+        "publish_reporting": {
+          "state": "success",
+          "started_at": "2026-10-16T18:38:21.317635+00:00",
+          "result": {
+            "published": true,
+            "version": "M7_2DDE830DCF3D_",
+            "previous_version": "M7_2DB9144F8934_",
+            "models": 11,
+            "monetary": {
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            }
+          },
+          "ended_at": "2026-10-16T18:38:37.822373+00:00",
+          "seconds": 16.505
+        },
+        "record_pipeline_audit": {
+          "state": "success",
+          "started_at": "2026-10-16T18:38:40.585229+00:00",
+          "result": {
+            "pipeline_state": "success",
+            "tasks": 7
+          },
+          "ended_at": "2026-10-16T18:38:41.735379+00:00",
+          "seconds": 1.15
+        }
+      }
+    }
+  },
+  "overlap_protection": {
+    "queued_run": {
+      "dag_id": "olist_elt_pipeline",
+      "dag_run_id": "m7_success_20261016",
+      "state": "queued",
+      "start_date": null,
+      "end_date": null,
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": null,
+          "try_number": 0,
+          "start_date": null,
+          "end_date": null,
+          "duration": null
+        }
+      ]
+    },
+    "non_overlapping_intervals": true
+  },
+  "timeout_probe": {
+    "dag_id": "olist_timeout_probe",
+    "dag_run_id": "m7_timeout_verified_20261016",
+    "state": "failed",
+    "start_date": "2026-10-16T18:26:02.651971Z",
+    "end_date": "2026-10-16T18:26:10.664418Z",
+    "tasks": [
+      {
+        "task_id": "timeout_probe",
+        "state": "failed",
+        "try_number": 2,
+        "start_date": "2026-10-16T18:26:07.545607Z",
+        "end_date": "2026-10-16T18:26:09.620479Z",
+        "duration": 2.074872
+      }
+    ]
+  },
+  "reporting_preserved_after_failure": true,
+  "production_unchanged": true,
+  "integrity_snapshots": {
+    "before_failure": {
+      "version": "M7_2DB9144F8934_",
+      "reporting": {
+        "dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      },
+      "production": {
+        "RAW.customers": [
+          99441,
+          -5897413183077584496
+        ],
+        "RAW.geolocation": [
+          1000163,
+          5519439571631174209
+        ],
+        "RAW.order_items": [
+          112650,
+          -7335805973668344902
+        ],
+        "RAW.order_payments": [
+          103886,
+          7627537071257331230
+        ],
+        "RAW.order_reviews": [
+          99224,
+          -5769939279061194868
+        ],
+        "RAW.orders": [
+          99441,
+          -6656042141703610314
+        ],
+        "RAW.products": [
+          32951,
+          -22287027773639129
+        ],
+        "RAW.sellers": [
+          3095,
+          -979423479361569456
+        ],
+        "RAW.category_translation": [
+          71,
+          7631305620925107283
+        ],
+        "MARTS.dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "MARTS.dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "MARTS.dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "MARTS.dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "MARTS.dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "MARTS.dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "MARTS.dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "MARTS.fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "MARTS.fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "MARTS.fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "MARTS.fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      }
+    },
+    "after_failure": {
+      "version": "M7_2DB9144F8934_",
+      "reporting": {
+        "dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      },
+      "production": {
+        "RAW.customers": [
+          99441,
+          -5897413183077584496
+        ],
+        "RAW.geolocation": [
+          1000163,
+          5519439571631174209
+        ],
+        "RAW.order_items": [
+          112650,
+          -7335805973668344902
+        ],
+        "RAW.order_payments": [
+          103886,
+          7627537071257331230
+        ],
+        "RAW.order_reviews": [
+          99224,
+          -5769939279061194868
+        ],
+        "RAW.orders": [
+          99441,
+          -6656042141703610314
+        ],
+        "RAW.products": [
+          32951,
+          -22287027773639129
+        ],
+        "RAW.sellers": [
+          3095,
+          -979423479361569456
+        ],
+        "RAW.category_translation": [
+          71,
+          7631305620925107283
+        ],
+        "MARTS.dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "MARTS.dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "MARTS.dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "MARTS.dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "MARTS.dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "MARTS.dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "MARTS.dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "MARTS.fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "MARTS.fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "MARTS.fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "MARTS.fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      }
+    },
+    "after_recovery": {
+      "version": "M7_2DDE830DCF3D_",
+      "reporting": {
+        "dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      },
+      "production": {
+        "RAW.customers": [
+          99441,
+          -5897413183077584496
+        ],
+        "RAW.geolocation": [
+          1000163,
+          5519439571631174209
+        ],
+        "RAW.order_items": [
+          112650,
+          -7335805973668344902
+        ],
+        "RAW.order_payments": [
+          103886,
+          7627537071257331230
+        ],
+        "RAW.order_reviews": [
+          99224,
+          -5769939279061194868
+        ],
+        "RAW.orders": [
+          99441,
+          -6656042141703610314
+        ],
+        "RAW.products": [
+          32951,
+          -22287027773639129
+        ],
+        "RAW.sellers": [
+          3095,
+          -979423479361569456
+        ],
+        "RAW.category_translation": [
+          71,
+          7631305620925107283
+        ],
+        "MARTS.dim_category": [
+          74,
+          -7041348044368504969
+        ],
+        "MARTS.dim_customer": [
+          96096,
+          -5452015148560448243
+        ],
+        "MARTS.dim_date": [
+          1314,
+          8729275983419675089
+        ],
+        "MARTS.dim_geography": [
+          19016,
+          -8597869852703951225
+        ],
+        "MARTS.dim_order_customer": [
+          99441,
+          3886385330925236996
+        ],
+        "MARTS.dim_product": [
+          32951,
+          -1803501549306003371
+        ],
+        "MARTS.dim_seller": [
+          3095,
+          -3387140999250729545
+        ],
+        "MARTS.fct_order_items": [
+          112650,
+          104931790033693274
+        ],
+        "MARTS.fct_order_payments": [
+          103886,
+          5534799498050440396
+        ],
+        "MARTS.fct_order_reviews": [
+          99224,
+          -1852830726984277315
+        ],
+        "MARTS.fct_orders": [
+          99441,
+          -8771682976741290768
+        ]
+      }
+    }
+  },
+  "repository_tests": {
+    "locked_pipeline": {
+      "discovered": 38,
+      "passed": 33,
+      "skipped": 5,
+      "seconds": 15.112
+    },
+    "airflow_runtime": {
+      "discovered": 8,
+      "passed": 8,
+      "skipped": 0,
+      "seconds": 1.253
+    },
+    "offline_host": {
+      "discovered": 38,
+      "passed": 31,
+      "skipped": 7,
+      "seconds": 0.059
+    }
+  },
+  "recovery_business_metrics": {
+    "orders": "99441",
+    "merchandise": "13591643.70",
+    "freight": "2251909.54",
+    "payments": "16008872.12"
+  },
+  "reporting_counts": {
+    "dim_category": 74,
+    "dim_customer": 96096,
+    "dim_date": 1314,
+    "dim_geography": 19016,
+    "dim_order_customer": 99441,
+    "dim_product": 32951,
+    "dim_seller": 3095,
+    "fct_order_items": 112650,
+    "fct_order_payments": 103886,
+    "fct_order_reviews": 99224,
+    "fct_orders": 99441
+  },
+  "publication_history": [
+    [
+      "M7_8F8C46CE0D4C_",
+      "scheduled__2026-10-12T06:00:00+00:00"
+    ],
+    [
+      "M7_2DB9144F8934_",
+      "m7_success_20261016"
+    ],
+    [
+      "M7_2DDE830DCF3D_",
+      "m7_recovery_20261016"
+    ]
+  ],
+  "audit_attempts": [
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "prepare_source_batch",
+      1,
+      "success",
+      4.379
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "ingest_to_s3",
+      1,
+      "success",
+      17.053
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "load_snowflake_raw",
+      1,
+      "success",
+      38.511
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "reconcile_raw",
+      1,
+      "success",
+      8.012
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "run_dbt_transformations",
+      1,
+      "success",
+      30.023
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "validate_data_quality",
+      1,
+      "success",
+      20.993
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "publish_reporting",
+      1,
+      "success",
+      30.713
+    ],
+    [
+      "scheduled__2026-10-12T06:00:00+00:00",
+      "record_pipeline_audit",
+      1,
+      "success",
+      1.202
+    ],
+    [
+      "m7_success_20261016",
+      "prepare_source_batch",
+      1,
+      "success",
+      1.269
+    ],
+    [
+      "m7_success_20261016",
+      "ingest_to_s3",
+      1,
+      "success",
+      13.363
+    ],
+    [
+      "m7_success_20261016",
+      "load_snowflake_raw",
+      1,
+      "success",
+      22.832
+    ],
+    [
+      "m7_success_20261016",
+      "reconcile_raw",
+      1,
+      "success",
+      3.736
+    ],
+    [
+      "m7_success_20261016",
+      "run_dbt_transformations",
+      1,
+      "success",
+      23.849
+    ],
+    [
+      "m7_success_20261016",
+      "validate_data_quality",
+      1,
+      "success",
+      21.972
+    ],
+    [
+      "m7_success_20261016",
+      "publish_reporting",
+      1,
+      "success",
+      16.869
+    ],
+    [
+      "m7_success_20261016",
+      "record_pipeline_audit",
+      1,
+      "success",
+      1.091
+    ],
+    [
+      "m7_failure_20261016",
+      "prepare_source_batch",
+      1,
+      "success",
+      1.159
+    ],
+    [
+      "m7_failure_20261016",
+      "ingest_to_s3",
+      1,
+      "success",
+      13.674
+    ],
+    [
+      "m7_failure_20261016",
+      "load_snowflake_raw",
+      1,
+      "success",
+      23.236
+    ],
+    [
+      "m7_failure_20261016",
+      "reconcile_raw",
+      1,
+      "success",
+      4.158
+    ],
+    [
+      "m7_failure_20261016",
+      "run_dbt_transformations",
+      1,
+      "success",
+      26.912
+    ],
+    [
+      "m7_failure_20261016",
+      "validate_data_quality",
+      1,
+      "failed",
+      22.545
+    ],
+    [
+      "m7_failure_20261016",
+      "validate_data_quality",
+      2,
+      "failed",
+      19.261
+    ],
+    [
+      "m7_failure_20261016",
+      "record_pipeline_audit",
+      1,
+      "failed",
+      1.585
+    ],
+    [
+      "m7_recovery_20261016",
+      "prepare_source_batch",
+      1,
+      "success",
+      2.378
+    ],
+    [
+      "m7_recovery_20261016",
+      "ingest_to_s3",
+      1,
+      "success",
+      11.787
+    ],
+    [
+      "m7_recovery_20261016",
+      "load_snowflake_raw",
+      1,
+      "success",
+      24.787
+    ],
+    [
+      "m7_recovery_20261016",
+      "reconcile_raw",
+      1,
+      "success",
+      4.944
+    ],
+    [
+      "m7_recovery_20261016",
+      "run_dbt_transformations",
+      1,
+      "success",
+      57.395
+    ],
+    [
+      "m7_recovery_20261016",
+      "validate_data_quality",
+      1,
+      "failed",
+      21.764
+    ],
+    [
+      "m7_recovery_20261016",
+      "validate_data_quality",
+      2,
+      "success",
+      19.631
+    ],
+    [
+      "m7_recovery_20261016",
+      "publish_reporting",
+      1,
+      "success",
+      16.505
+    ],
+    [
+      "m7_recovery_20261016",
+      "record_pipeline_audit",
+      1,
+      "success",
+      1.15
+    ]
+  ],
+  "screenshots": "Not captured; optional authenticated UI capture documented"
+}

@@ -194,3 +194,15 @@ All nine RAW tables preserve their source columns as `VARCHAR` and add:
 | Reserved `__dq_synthetic_` prefix | Synthetic fixture row only | Detects leakage; production RAW/MARTS must always contain zero matching identifiers |
 
 The freshness policy warns after 168 hours and errors after 720 hours. The synthetic fixture is committed test input, not source truth, and executes only in temporary Snowflake tables.
+
+## Orchestration and reporting metadata
+
+| Relation/field | Grain | Meaning |
+|---|---|---|
+| `AUDIT.PIPELINE_TASK_ATTEMPTS` | Task-attempt lifecycle event | Run ID, deterministic candidate version, task, attempt, state, timestamps, duration, aggregate result or sanitized failure code; running and terminal events are distinct rows |
+| `AUDIT.REPORTING_CURRENT` | Singleton pointer | The only currently published validated version, changed transactionally with all reporting copies |
+| `AUDIT.REPORTING_VERSIONS` | Successful publication | Version, Airflow run ID, publication timestamp, reconciled monetary metrics |
+| `MARTS.REPORT_STORE_<model>._report_version` | Business row within immutable publication version | Separates retained versions; never sum this store across versions for reporting |
+| `MARTS.REPORT_<model>` | Same grain as its named dimension/fact | Stable consumer view exposing only the current validated version; metric definitions and source truth are unchanged |
+
+Eleven reporting views expose seven dimensions and four facts. Run-specific `M7_<hash>_` candidates are build/validation objects, not consumer reporting endpoints. The publication stores and candidate copies are retained intentionally; consumer queries must not join across versions. See [orchestration](orchestration.md) for atomicity, rollback and retention limitations.

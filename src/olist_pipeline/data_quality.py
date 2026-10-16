@@ -224,7 +224,9 @@ def run_synthetic_failure_cycle(
         cursor.close()
 
 
-def collect_reconciliation(connection: object, names: SnowflakeNames) -> Mapping[str, object]:
+def collect_reconciliation(
+    connection: object, names: SnowflakeNames, *, model_prefix: str = ""
+) -> Mapping[str, object]:
     cursor = connection.cursor()
     database = names.database
     audit = names.audit_schema
@@ -250,7 +252,7 @@ def collect_reconciliation(connection: object, names: SnowflakeNames) -> Mapping
         raw_to_staging = {}
         for table in TABLES:
             raw_relation = quote_fqn(database, raw, table.upper())
-            staging_relation = quote_fqn(database, staging, f"STG_{table.upper()}")
+            staging_relation = quote_fqn(database, staging, f"{model_prefix}STG_{table.upper()}")
             cursor.execute(
                 f"SELECT (SELECT COUNT(*) FROM {raw_relation}),"
                 f"(SELECT COUNT(*) FROM {staging_relation})"
@@ -271,7 +273,7 @@ def collect_reconciliation(connection: object, names: SnowflakeNames) -> Mapping
         raw_to_facts = {}
         for table, fact in detail_pairs.items():
             raw_relation = quote_fqn(database, raw, table.upper())
-            fact_relation = quote_fqn(database, marts, fact)
+            fact_relation = quote_fqn(database, marts, model_prefix + fact)
             cursor.execute(
                 f"SELECT (SELECT COUNT(*) FROM {raw_relation}),"
                 f"(SELECT COUNT(*) FROM {fact_relation})"
@@ -285,9 +287,9 @@ def collect_reconciliation(connection: object, names: SnowflakeNames) -> Mapping
 
         raw_items = quote_fqn(database, raw, "ORDER_ITEMS")
         raw_payments = quote_fqn(database, raw, "ORDER_PAYMENTS")
-        fact_items = quote_fqn(database, marts, "FCT_ORDER_ITEMS")
-        fact_payments = quote_fqn(database, marts, "FCT_ORDER_PAYMENTS")
-        fact_orders = quote_fqn(database, marts, "FCT_ORDERS")
+        fact_items = quote_fqn(database, marts, model_prefix + "FCT_ORDER_ITEMS")
+        fact_payments = quote_fqn(database, marts, model_prefix + "FCT_ORDER_PAYMENTS")
+        fact_orders = quote_fqn(database, marts, model_prefix + "FCT_ORDERS")
         cursor.execute(
             f"SELECT "
             f"(SELECT ROUND(SUM(TRY_TO_DECIMAL(price,18,2)),2) FROM {raw_items}),"

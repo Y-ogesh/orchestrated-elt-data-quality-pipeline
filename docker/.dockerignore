@@ -1,0 +1,4 @@
+*
+!Dockerfile
+!requirements-pipeline.txt
+!requirements-pipeline.lock

@@ -53,7 +53,7 @@ Quality controls read `AUDIT.BATCH_RECONCILIATION` and RAW `_loaded_at`. Freshne
 
 The RAW layer stores source fields as `VARCHAR` so ingestion does not silently coerce source values. Each row also carries batch ID, staged filename, artifact checksum, source version, logical ingestion date, staged row number, load run ID, and load timestamp. Typing belongs in STAGING.
 
-The `OLIST_ELT_ROLE` service role performs RAW loading through key-pair authentication and the pre-provisioned storage integration. It cannot create databases or schemas. Transformation, orchestration, and read-only BI privileges remain separate future concerns.
+The `OLIST_ELT_ROLE` service role performs RAW loading, transformations, and orchestration publication through key-pair authentication in the existing schemas. S3 access uses the pre-provisioned storage integration. The role cannot create databases or schemas. A separate read-only BI consumer role remains a future setup task.
 
 ## Batch identity and deterministic replay
 
@@ -66,7 +66,7 @@ The public dataset is a fixed snapshot, not an event feed. Historical simulation
 5. Write immutable S3 keys containing source, logical ingestion date, batch ID, and table. Never overwrite a different checksum at an existing key.
 6. Upload data objects first and the manifest last as the batch commit marker. A retry with the same checksum validates and skips objects; a checksum conflict fails closed. `AUDIT.FILE_LOADS` records enforce the same invariant in Snowflake.
 7. Validate each staged CSV, then `COPY` into RAW inside the batch transaction. Reconcile actual rows and reject overlapping declared natural keys before committing RAW and file-success audit records together. Publish marts only after all tasks and blocking tests pass.
-8. dbt incremental facts compare projected candidate rows with current fact rows, then merge only new or changed rows using declared surrogate unique keys. This avoids missing changes behind a global timestamp watermark. A full refresh uses the same transformations. Future Airflow runs will supply the orchestration interval without changing those content keys.
+8. dbt incremental facts compare projected candidate rows with current fact rows, then merge only new or changed rows using declared surrogate unique keys. This avoids missing changes behind a global timestamp watermark. A full refresh uses the same transformations. Airflow validates the complete deterministic batch inventory on each run; its wall-clock schedule does not change historical content keys or filter business dates.
 
 This permits chronological demos, reruns, isolated backfills, and failure injection without changing source truth. Late-arriving behavior is tested synthetically and labeled as such because the snapshot has no ingestion-arrival timestamps.
 
@@ -74,14 +74,16 @@ Milestone 6's validation harness uses explicitly prefixed copies in the existing
 
 ## Failure and publication boundaries
 
+Milestone 7 adds a Dockerized Airflow LocalExecutor deployment coordinating the existing package boundaries. Run-specific dbt model aliases build from shared validated RAW. Eleven immutable reporting stores and stable `REPORT_*` views use one transactional `AUDIT.REPORTING_CURRENT` pointer; publication and version history commit only after all quality gates pass. This protects the prior reporting state from partial model builds and failed checks. See [orchestration](orchestration.md) for task contracts, concurrency limits and multi-query snapshot considerations.
+
 - Download or checksum failure: no manifest is finalized.
 - Partial S3 upload: the batch stays uncommitted and is safe to retry.
 - Snowflake validation failure: landing data is discarded; previously loaded RAW data remains.
 - CSV pre-validation failure: rejected-record details are written to `AUDIT.LOAD_ERRORS`; no RAW COPY begins.
 - COPY or row-count mismatch: the current batch transaction rolls back and a failed batch audit record is committed separately.
 - dbt compile/build/test or reconciliation failure: reporting views are not advanced to the candidate build.
-- Power BI reads only the last validated publication identifier.
-- Every retry reuses the logical Airflow data interval and batch ID.
+- Future Power BI consumers must use the last validated reporting views; Power BI is not yet implemented.
+- Every retry reuses the same Airflow run ID, candidate prefix, and deterministic source batch IDs.
 
 ## Dimensional model
 

@@ -121,3 +121,21 @@ The historical file loader rejects overlapping declared natural keys inside its 
 **Status:** Accepted, 2026-10-15
 
 The application role cannot create schemas. Multi-session dbt replay therefore uses uniquely prefixed tables/views inside existing schemas, preserving the stage and file format. The harness reuses loader classes and audit definitions, fingerprints production data, and records exact created objects for scoped cleanup. No account-level privilege is added.
+
+## ADR-021 — LocalExecutor and separate dependency environments
+
+**Status:** Accepted, 2026-10-16
+
+Use pinned Airflow 3.3.2 with PostgreSQL, API server, scheduler, and DAG processor. LocalExecutor avoids unnecessary brokers/workers for a serialized portfolio workload. Keep dbt/AWS/Snowflake in a separate locked Python environment inside the same image. Only dependency files enter the build context; code and secret configuration are mounted at runtime. This is not an HA/multi-user production deployment.
+
+## ADR-022 — Publish immutable mart versions through one transactional pointer
+
+**Status:** Accepted, 2026-10-16
+
+Run-specific dbt aliases isolate candidate builds without schema-creation privileges. After all existing gates pass, copy the eleven candidate marts into versioned stores and atomically change a singleton reporting pointer in the same transaction as publication history. Stable reporting views never depend on partially built candidates. Retain previous versions; incompatible schema migrations and retention deletion require explicit decisions. Multi-query consumers must pin a version if they require snapshot consistency across separate statements.
+
+## ADR-023 — Serialize writers and preserve failure in the audit leaf
+
+**Status:** Accepted, 2026-10-16
+
+One active DAG run, one active task, and a one-slot writer pool enforce the existing serialized-writer contract inside this deployment. External manual writers are prohibited while the DAG runs; no distributed cross-deployment lock is claimed. An `all_done` audit task must fail when any required ancestor failed or never executed, otherwise Airflow can treat a successful audit leaf as a successful DAG despite upstream failure. The existing load audit remains authoritative; a narrow task-attempt table adds orchestration metadata only.

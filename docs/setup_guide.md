@@ -36,7 +36,7 @@ python -m pip install --upgrade pip
 python -m pip install -e '.[dev]'
 ```
 
-Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separate `.[transform]` group and Python 3.10+; Airflow and Docker dependencies remain deferred.
+Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separate `.[transform]` group and Python 3.10+. Airflow uses the pinned Docker image and isolated locked pipeline environment described below; do not install Airflow into the host project's virtual environment.
 
 ## Commands
 
@@ -139,6 +139,10 @@ The synthetic cycle uses session temporary tables and refuses to pass unless pro
 ## Isolated incremental validation
 
 See [incremental loading](incremental_loading.md) for the five replay phases and commands. The runner uses the current virtual environment's dbt executable, the ignored environment configuration, and `OLIST_RUN_SNOWFLAKE_INTEGRATION=1`. It creates only uniquely prefixed test relations in existing schemas, reads the original S3 stage, and stores generated logs/checkpoints under ignored `data/processed/incremental/`. Keep the same prefix when resuming a run. Normal production commands must leave `OLIST_RELATION_PREFIX` unset.
+
+## Dockerized Airflow
+
+Follow [the orchestration runbook](orchestration.md) to initialize generated local secrets, export `AIRFLOW_UID=$(id -u)`, build the pinned image, start services, trigger the DAG, inspect evidence, and stop without deleting metadata. Keep the existing ignored `.env`; Docker mounts the key and AWS profile read-only at runtime. Do not paste expanded Compose configuration, tokens, or generated UI passwords into shared logs.
 
 ## Updating the source snapshot
 

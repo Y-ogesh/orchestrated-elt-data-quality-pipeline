@@ -99,6 +99,8 @@ The generated lineage graph was served locally and visually verified, including 
 
 ## Ownership and known limitations
 
+Airflow reuses these same gates against run-specific candidate models before publishing. The controlled orchestration failure is an explicit post-validation exception, not an injected source-data defect or a weakened test. `REPORT_*` views retain their last validated version when any gate fails; see [orchestration](orchestration.md).
+
 Milestone 6 retains all 157 tests and extends validation through isolated historical replay. The replay uses the same models/tests after each transaction window, checks natural-key overlap before RAW commit, and compares incremental business rows with a full refresh. Changed-record and late-arrival fixtures are confined to prefixed test relations; they are not the genuine 166-row carrier anomaly. See [incremental loading](incremental_loading.md) for measured results and the serialized-writer/correction contract.
 
 - The pipeline owner owns ingestion integrity, warehouse reconciliation, dbt execution, test policy, and recovery evidence.

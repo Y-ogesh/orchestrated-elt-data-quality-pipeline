@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–6 are completed and validated against real infrastructure: AWS S3 ingestion, Snowflake RAW loading, a 24-model dbt warehouse, quality/freshness/lineage controls, and isolated incremental replay with full-refresh equivalence. No Airflow, Docker, or Power BI integration is claimed yet.
+> **Status:** Milestones 1–7 are **Completed and validated**, including real AWS/Snowflake execution through Dockerized Airflow. Scheduled/manual runs, failure blocking, retry recovery, reporting-state preservation, and overlap protection passed. Milestone 8 observability and Power BI remain **Not started**. Airflow is paused after validation; failure probes are disabled.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 6; Milestones 2–6 are validated against real cloud infrastructure:
+Implemented through Milestone 7; Milestones 2–7 are validated against real cloud infrastructure:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -66,7 +66,9 @@ Implemented through Milestone 6; Milestones 2–6 are validated against real clo
 - Pipeline freshness from RAW load timestamps, batch/file/row audit reconciliation, exact RAW-to-staging preservation, and isolated seven-defect fail/detect/correct/pass evidence against real Snowflake.
 - Real historical replay of all 26 batches through the same loader/dbt graph; zero differences across 9 RAW datasets and 24 models against the complete/full-refresh baseline. Isolated corrections, late arrivals, duplicates, and interrupted-load recovery passed without changing production fingerprints. See [incremental loading](docs/incremental_loading.md) and [measured evidence](reports/incremental_validation.json).
 
-Planned—not yet implemented: Airflow DAGs, Docker runtime, operational alerts, and Power BI dashboards.
+- Pinned Docker/Airflow workflow reuses eight pipeline boundaries, isolates candidate marts, and publishes eleven reporting views through one atomic version pointer. Real failure/retry/timeout and queued-overlap evidence confirms last-known-good reporting is preserved. See [orchestration](docs/orchestration.md) and [measured evidence](reports/orchestration_validation.json).
+
+Planned—not yet implemented: operational alerts and Power BI dashboards.
 
 ## Warehouse design
 
@@ -97,7 +99,9 @@ No credentials are required for the public download, local ingestion, or source-
 ## Repository structure
 
 ```text
-airflow/dags/          # planned orchestration DAGs
+dags/                  # Airflow DAG and opt-in timeout probe
+docker/                # pinned image, dependency lock, local-secret initializer
+compose.yaml           # local Airflow/PostgreSQL services
 data/raw/              # ignored source CSVs
 data/processed/        # ignored local derivatives
 dbt/                   # Snowflake dbt project, models, tests, macros, profile template

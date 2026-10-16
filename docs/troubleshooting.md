@@ -123,3 +123,15 @@ Resume `--phase replay` with the same run prefix. Batch audit state remains auth
 ## A late source change is missing behind a watermark
 
 Current fact models use full projected-row comparison before merge. Ensure the deployed SQL no longer uses the earlier global `MAX(source_loaded_at)` cutoff. Check stable source keys and model dependencies; do not move historical business timestamps forward to manufacture freshness.
+
+## Airflow startup or authentication fails
+
+Use `docker compose config --quiet` and inspect only the relevant service logs. Set `AIRFLOW_UID=$(id -u)` so read-only private files remain readable without relaxing their host permissions. The metadata connection command must use `sys.stdout.write`, not `print`: a trailing newline can become part of the database name. The generated SimpleAuth password file must be writable because Airflow opens it with `a+`; AWS and Snowflake key mounts must remain read-only.
+
+## Airflow publication is upstream-failed
+
+This is intentional after a failed gate. Inspect the first failed task and `AUDIT.PIPELINE_TASK_ATTEMPTS`. The final `all_done` audit task also fails to preserve the correct failed DAG status. Remove the failure condition and submit a new run; never clear publication alone or bypass the six success gates. Reporting remains on the previous validated version.
+
+## A second Airflow run remains queued
+
+`max_active_runs=1` is the safety control, not a scheduling defect. Wait for the current run to reach its terminal state. Do not increase it or run external writers against the same RAW/reporting state. Unpausing can also schedule the latest eligible Monday interval before a manual run.

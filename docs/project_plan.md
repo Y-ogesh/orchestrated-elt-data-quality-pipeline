@@ -10,7 +10,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Completed and validated** | Real dbt build created 24 models and 667,188 mart rows; 154 tests passed and one documented source-anomaly test warned |
 | 5. Automated quality and lineage | Cross-layer tests, ingestion freshness, reconciliation, isolated failure injection, lineage and reporting | **Completed and validated** | 156 pass, 1 documented warning, 0 errors across 157 dbt tests; 9 freshness checks pass; all 7 synthetic defects detected and recovered |
 | 6. Incremental ELT and idempotency | Sequential historical replay, duplicates, corrections, late arrivals, recovery, full-refresh equivalence | **Completed and validated** | 26 real replay batches; zero differences across 9 RAW datasets and 24 models; duplicate/correction/late-arrival/recovery checks pass; production unchanged |
-| 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
+| 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, historical batch orchestration and failure recovery | **Completed and validated** | Scheduled/manual/recovery runs passed; failed quality gate blocked publication; reporting/production fingerprints unchanged; overlap and timeout enforcement verified |
 | 8. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Operational alert and audit-history evidence |
 | 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
 
@@ -88,6 +88,19 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Exact full-refresh comparison returned zero differences for all 24 models; nine RAW datasets matched complete production business records.
 - [x] Final 157 dbt tests returned 156 pass / 1 documented warning; nine freshness checks passed; production fingerprints remained unchanged.
 - [x] Repository suite returned 29 pass / 1 separately validated AWS skip; aggregate evidence and cleanup results preserved.
+
+## Milestone 7 acceptance criteria
+
+- [x] Pinned Docker/Airflow environment validates, starts healthy, and imports the eight-task DAG without errors.
+- [x] Existing ingestion, RAW loading, dbt, freshness, and reconciliation mechanisms are reused.
+- [x] Real scheduled and manual runs succeeded; 26 batches / 129 files / 1,550,922 rows reconciled with zero additional S3 uploads or RAW rows.
+- [x] All 24 models built; 156 tests passed with one genuine source warning; nine freshness checks passed.
+- [x] Persistent injected failure exhausted its retry and blocked publication with zero publication attempts.
+- [x] Reporting pointer/history, eleven reporting fingerprints, and twenty production fingerprints survived failure unchanged.
+- [x] Recovery succeeded after one controlled transient retry and published only validated reporting data.
+- [x] Queued overlapping run had zero attempts until the active run completed; actual timeout probe failed twice with AirflowTaskTimeout.
+- [x] Final pipeline suite: 33 pass / 5 expected skips; Airflow suite: 8 pass. Aggregate audit and execution evidence preserved.
+- [x] Probes disabled and DAGs paused; secrets and generated runtime artifacts remain untracked. Optional UI screenshot capture is documented, not claimed.
 
 ## Delivery conventions
 

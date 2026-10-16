@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olist-elt-pipeline"
-version = "0.6.0"
+version = "0.7.0"
 description = "Orchestrated ELT and data-quality pipeline for the Olist public dataset"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -34,6 +34,7 @@ olist-ingest = "olist_pipeline.ingestion:main"
 olist-warehouse = "olist_pipeline.warehouse:main"
 olist-quality = "olist_pipeline.data_quality:main"
 olist-incremental = "olist_pipeline.incremental:main"
+olist-orchestrate = "olist_pipeline.orchestration:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

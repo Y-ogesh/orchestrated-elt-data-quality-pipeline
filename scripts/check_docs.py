@@ -17,6 +17,7 @@ REQUIRED = (
     "docs/dimensional_model.md",
     "docs/data_quality.md",
     "docs/incremental_loading.md",
+    "docs/orchestration.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",
