@@ -122,6 +122,8 @@ The official file begins with a UTF-8 BOM. Two product categories have no transl
 
 The implemented dbt project materializes all nine staging and four intermediate models as views, seven dimensions as rebuildable tables, and four facts as incremental Snowflake merges. Fact surrogate keys are deterministic SHA-256 hashes; the natural keys above remain visible and tested.
 
+Incremental facts compare complete projected candidate rows with the existing target, then merge only new or changed rows using those same keys. Neither business-event dates nor a global ingestion watermark exclude late-visible changes. Immutable RAW append batches reject overlapping declared natural keys before commit; this is not automatic CDC. See [the incremental contract](incremental_loading.md).
+
 ## Source-derived mart acceptance counts
 
 | Model group | Relations | Expected rows | Actual Snowflake rows |

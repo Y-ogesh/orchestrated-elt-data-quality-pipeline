@@ -16,6 +16,7 @@ REQUIRED = (
     "docs/dbt_transformations.md",
     "docs/dimensional_model.md",
     "docs/data_quality.md",
+    "docs/incremental_loading.md",
     "docs/decisions.md",
     "docs/engineering_journal.md",
     "docs/validation_report.md",

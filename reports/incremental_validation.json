@@ -1,0 +1,1476 @@
+{
+  "status": "Completed and validated",
+  "steps": [
+    {
+      "label": "batch_00",
+      "batch_id": "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+      "window": null,
+      "files_processed": 4,
+      "files_skipped": 0,
+      "source_rows": 1036280,
+      "inserted": 1036280,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 22.712,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_01",
+      "batch_id": "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+      "window": "2016-09-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 21,
+      "inserted": 21,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 18.134,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_02",
+      "batch_id": "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+      "window": "2016-10-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 1674,
+      "inserted": 1674,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 17.072,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_03",
+      "batch_id": "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+      "window": "2017-01-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 4202,
+      "inserted": 4202,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.933,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_04",
+      "batch_id": "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+      "window": "2016-12-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 5,
+      "inserted": 5,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.853,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_05",
+      "batch_id": "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+      "window": "2017-02-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 9173,
+      "inserted": 9173,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.469,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_06",
+      "batch_id": "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+      "window": "2017-03-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 13877,
+      "inserted": 13877,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.871,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_07",
+      "batch_id": "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+      "window": "2017-04-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 12457,
+      "inserted": 12457,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.158,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_08",
+      "batch_id": "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+      "window": "2017-05-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 19183,
+      "inserted": 19183,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.349,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_09",
+      "batch_id": "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+      "window": "2017-06-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 16759,
+      "inserted": 16759,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.323,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_10",
+      "batch_id": "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+      "window": "2017-07-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 20920,
+      "inserted": 20920,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 18.719,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_11",
+      "batch_id": "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+      "window": "2017-08-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 22463,
+      "inserted": 22463,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 18.888,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_12",
+      "batch_id": "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+      "window": "2017-09-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 22194,
+      "inserted": 22194,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.507,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_13",
+      "batch_id": "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+      "window": "2017-10-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 24070,
+      "inserted": 24070,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.0,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_14",
+      "batch_id": "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+      "window": "2017-11-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 39150,
+      "inserted": 39150,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.706,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_15",
+      "batch_id": "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+      "window": "2017-12-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 29187,
+      "inserted": 29187,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.342,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_16",
+      "batch_id": "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+      "window": "2018-01-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 37554,
+      "inserted": 37554,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 20.035,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_17",
+      "batch_id": "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+      "window": "2018-02-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 34838,
+      "inserted": 34838,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.478,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_18",
+      "batch_id": "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5",
+      "window": "2018-03-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 37338,
+      "inserted": 37338,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.745,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_19",
+      "batch_id": "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+      "window": "2018-04-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 35956,
+      "inserted": 35956,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.975,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_20",
+      "batch_id": "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+      "window": "2018-05-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 35654,
+      "inserted": 35654,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.901,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_21",
+      "batch_id": "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+      "window": "2018-06-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 31978,
+      "inserted": 31978,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.245,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_22",
+      "batch_id": "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+      "window": "2018-07-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 32452,
+      "inserted": 32452,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 23.596,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_23",
+      "batch_id": "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+      "window": "2018-08-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 33457,
+      "inserted": 33457,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 21.017,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_24",
+      "batch_id": "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+      "window": "2018-09-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 64,
+      "inserted": 64,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.726,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "batch_25",
+      "batch_id": "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+      "window": "2018-10-01T00:00:00Z",
+      "files_processed": 5,
+      "files_skipped": 0,
+      "source_rows": 16,
+      "inserted": 16,
+      "updated": 0,
+      "skipped": 0,
+      "rejected": 0,
+      "seconds": 19.146,
+      "reconciliation_difference": 0
+    },
+    {
+      "label": "duplicate_batch",
+      "batch_id": "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+      "window": "2018-10-01T00:00:00Z",
+      "files_processed": 0,
+      "files_skipped": 5,
+      "source_rows": 16,
+      "inserted": 0,
+      "updated": 0,
+      "skipped": 16,
+      "rejected": 0,
+      "seconds": 3.145,
+      "reconciliation_difference": 0
+    }
+  ],
+  "dbt": [
+    {
+      "label": "batch_01",
+      "command": "build",
+      "seconds": 21.61,
+      "exit_code": 0,
+      "recovered_completed_artifact": true,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 17,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_02",
+      "command": "build",
+      "seconds": 32.59,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 1350,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_03",
+      "command": "build",
+      "seconds": 29.107,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 3402,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_04",
+      "command": "build",
+      "seconds": 28.595,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 4,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_05",
+      "command": "build",
+      "seconds": 29.697,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 7393,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_06",
+      "command": "build",
+      "seconds": 25.832,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 11195,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_07",
+      "command": "build",
+      "seconds": 26.32,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 10053,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_08",
+      "command": "build",
+      "seconds": 27.139,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 15483,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_09",
+      "command": "build",
+      "seconds": 26.173,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 13514,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_10",
+      "command": "build",
+      "seconds": 31.539,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 16894,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_11",
+      "command": "build",
+      "seconds": 30.357,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 18132,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_12",
+      "command": "build",
+      "seconds": 25.918,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 17909,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_13",
+      "command": "build",
+      "seconds": 27.367,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 19439,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_14",
+      "command": "build",
+      "seconds": 30.515,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 31606,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_15",
+      "command": "build",
+      "seconds": 26.919,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 23514,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_16",
+      "command": "build",
+      "seconds": 25.258,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 30285,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_17",
+      "command": "build",
+      "seconds": 26.96,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 28110,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_18",
+      "command": "build",
+      "seconds": 28.358,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 157,
+        "success": 24
+      },
+      "merge_dml": {
+        "inserted": 30127,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_19",
+      "command": "build",
+      "seconds": 25.762,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 29017,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_20",
+      "command": "build",
+      "seconds": 29.189,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 28781,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_21",
+      "command": "build",
+      "seconds": 29.434,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 25811,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_22",
+      "command": "build",
+      "seconds": 27.818,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 26160,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_23",
+      "command": "build",
+      "seconds": 27.559,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 26945,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_24",
+      "command": "build",
+      "seconds": 28.495,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 48,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "batch_25",
+      "command": "build",
+      "seconds": 29.606,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 12,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "duplicate_dbt",
+      "command": "build",
+      "seconds": 28.54,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "changed_record",
+      "command": "build",
+      "seconds": 30.447,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 2,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "changed_rerun",
+      "command": "build",
+      "seconds": 27.193,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "changed_full_refresh",
+      "command": "build",
+      "seconds": 25.714,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 415201,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "restore_correction",
+      "command": "build",
+      "seconds": 28.864,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 2,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "late_arrival",
+      "command": "build",
+      "seconds": 26.835,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 1,
+        "updated": 1,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "late_rerun",
+      "command": "build",
+      "seconds": 26.526,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "late_full_refresh",
+      "command": "build",
+      "seconds": 21.349,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 415202,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "late_freshness",
+      "command": "source",
+      "seconds": 4.682,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 9
+      }
+    },
+    {
+      "label": "restore_late",
+      "command": "build",
+      "seconds": 25.44,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 0,
+        "updated": 1,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "full_refresh",
+      "command": "build",
+      "seconds": 21.814,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "success": 24,
+        "warn": 1
+      },
+      "merge_dml": {
+        "inserted": 415201,
+        "updated": 0,
+        "deleted": 0,
+        "statements": 4
+      }
+    },
+    {
+      "label": "final_tests",
+      "command": "test",
+      "seconds": 9.486,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 156,
+        "warn": 1
+      }
+    },
+    {
+      "label": "final_freshness",
+      "command": "source",
+      "seconds": 3.88,
+      "exit_code": 0,
+      "recovered_completed_artifact": false,
+      "outcomes": {
+        "pass": 9
+      }
+    }
+  ],
+  "bootstrapped": true,
+  "source_inventory": {
+    "batch_count": 26,
+    "file_count": 129,
+    "object_count": 155,
+    "row_count": 1550922
+  },
+  "interruption": {
+    "label": "interrupted_batch",
+    "batch_id": "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+    "failure_state": {
+      "statuses": [
+        "FAILED"
+      ],
+      "committed_files": 0,
+      "committed_rows": 0
+    },
+    "seconds": 13.09
+  },
+  "recovery": {
+    "statuses": [
+      "FAILED",
+      "SUCCEEDED"
+    ],
+    "committed_files": 5,
+    "committed_rows": 1674
+  },
+  "changed_record": {
+    "source_rows_changed": 1,
+    "ingestion_timestamp_advanced": false,
+    "merchandise_delta": "1.00",
+    "merge_dml": {
+      "inserted": 0,
+      "updated": 2,
+      "deleted": 0,
+      "statements": 4
+    },
+    "rerun_merge_dml": {
+      "inserted": 0,
+      "updated": 0,
+      "deleted": 0,
+      "statements": 4
+    },
+    "full_refresh_equivalent": true
+  },
+  "late_arrival": {
+    "rows_added": 1,
+    "business_age_days": 3678,
+    "merge_dml": {
+      "inserted": 1,
+      "updated": 1,
+      "deleted": 0,
+      "statements": 4
+    },
+    "merchandise_delta": "12.34",
+    "freight_delta": "1.23",
+    "full_refresh_equivalent": true,
+    "rerun_merge_dml": {
+      "inserted": 0,
+      "updated": 0,
+      "deleted": 0,
+      "statements": 4
+    }
+  },
+  "duplicate_business_key": {
+    "outcome": "rejected",
+    "committed_rows": 0
+  },
+  "metrics": {
+    "orders": "99441",
+    "merchandise": "13591643.70",
+    "freight": "2251909.54",
+    "payments": "16008872.12"
+  },
+  "convergence": {
+    "raw_customers": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_geolocation": {
+      "incremental_rows": 1000163,
+      "baseline_rows": 1000163,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_order_items": {
+      "incremental_rows": 112650,
+      "baseline_rows": 112650,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_order_payments": {
+      "incremental_rows": 103886,
+      "baseline_rows": 103886,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_order_reviews": {
+      "incremental_rows": 99224,
+      "baseline_rows": 99224,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_orders": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_products": {
+      "incremental_rows": 32951,
+      "baseline_rows": 32951,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_sellers": {
+      "incremental_rows": 3095,
+      "baseline_rows": 3095,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "raw_category_translation": {
+      "incremental_rows": 71,
+      "baseline_rows": 71,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_products": {
+      "incremental_rows": 32951,
+      "baseline_rows": 32951,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_sellers": {
+      "incremental_rows": 3095,
+      "baseline_rows": 3095,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_geolocation": {
+      "incremental_rows": 1000163,
+      "baseline_rows": 1000163,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_order_payments": {
+      "incremental_rows": 103886,
+      "baseline_rows": 103886,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_customers": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_category_translation": {
+      "incremental_rows": 71,
+      "baseline_rows": 71,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_orders": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_order_items": {
+      "incremental_rows": 112650,
+      "baseline_rows": 112650,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "stg_order_reviews": {
+      "incremental_rows": 99224,
+      "baseline_rows": 99224,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_order_customer": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_product": {
+      "incremental_rows": 32951,
+      "baseline_rows": 32951,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_geography": {
+      "incremental_rows": 19016,
+      "baseline_rows": 19016,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_customer": {
+      "incremental_rows": 96096,
+      "baseline_rows": 96096,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_seller": {
+      "incremental_rows": 3095,
+      "baseline_rows": 3095,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_category": {
+      "incremental_rows": 74,
+      "baseline_rows": 74,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "dim_date": {
+      "incremental_rows": 1314,
+      "baseline_rows": 1314,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "fct_order_reviews": {
+      "incremental_rows": 99224,
+      "baseline_rows": 99224,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "fct_order_items": {
+      "incremental_rows": 112650,
+      "baseline_rows": 112650,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "fct_orders": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "fct_order_payments": {
+      "incremental_rows": 103886,
+      "baseline_rows": 103886,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "int_geography_deduplicated": {
+      "incremental_rows": 19015,
+      "baseline_rows": 19015,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "int_orders_enriched": {
+      "incremental_rows": 99441,
+      "baseline_rows": 99441,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "int_order_payment_totals": {
+      "incremental_rows": 99440,
+      "baseline_rows": 99440,
+      "row_difference": 0,
+      "business_record_difference": 0
+    },
+    "int_order_item_totals": {
+      "incremental_rows": 98666,
+      "baseline_rows": 98666,
+      "row_difference": 0,
+      "business_record_difference": 0
+    }
+  },
+  "full_refresh_seconds": 21.814,
+  "duplicate_file_copy": {
+    "outcome": "skipped",
+    "inserted": 0,
+    "row_difference": 0
+  },
+  "s3_duplicate_delivery": {
+    "evidence": "reports/s3_validation.json",
+    "validation": "prior Milestone 2 real AWS run",
+    "uploaded": 0,
+    "skipped": 155,
+    "reexecuted_in_milestone_6": false
+  },
+  "production_reconciliation": {
+    "batches": {
+      "count": 26,
+      "expected_files": 129,
+      "loaded_files": 129,
+      "expected_rows": 1550922,
+      "loaded_rows": 1550922,
+      "absolute_file_difference": 0,
+      "absolute_row_difference": 0,
+      "non_successful": 0
+    },
+    "files": {
+      "audit_rows": 129,
+      "distinct_files": 129,
+      "expected_rows": 1550922,
+      "loaded_rows": 1550922,
+      "non_successful": 0
+    },
+    "raw_to_staging": {
+      "customers": {
+        "raw_rows": 99441,
+        "staging_rows": 99441,
+        "difference": 0
+      },
+      "geolocation": {
+        "raw_rows": 1000163,
+        "staging_rows": 1000163,
+        "difference": 0
+      },
+      "order_items": {
+        "raw_rows": 112650,
+        "staging_rows": 112650,
+        "difference": 0
+      },
+      "order_payments": {
+        "raw_rows": 103886,
+        "staging_rows": 103886,
+        "difference": 0
+      },
+      "order_reviews": {
+        "raw_rows": 99224,
+        "staging_rows": 99224,
+        "difference": 0
+      },
+      "orders": {
+        "raw_rows": 99441,
+        "staging_rows": 99441,
+        "difference": 0
+      },
+      "products": {
+        "raw_rows": 32951,
+        "staging_rows": 32951,
+        "difference": 0
+      },
+      "sellers": {
+        "raw_rows": 3095,
+        "staging_rows": 3095,
+        "difference": 0
+      },
+      "category_translation": {
+        "raw_rows": 71,
+        "staging_rows": 71,
+        "difference": 0
+      }
+    },
+    "raw_to_facts": {
+      "orders": {
+        "raw_rows": 99441,
+        "fact_rows": 99441,
+        "difference": 0
+      },
+      "order_items": {
+        "raw_rows": 112650,
+        "fact_rows": 112650,
+        "difference": 0
+      },
+      "order_payments": {
+        "raw_rows": 103886,
+        "fact_rows": 103886,
+        "difference": 0
+      },
+      "order_reviews": {
+        "raw_rows": 99224,
+        "fact_rows": 99224,
+        "difference": 0
+      }
+    },
+    "monetary": {
+      "merchandise": [
+        "13591643.70",
+        "13591643.70",
+        "13591643.70"
+      ],
+      "freight": [
+        "2251909.54",
+        "2251909.54",
+        "2251909.54"
+      ],
+      "payments": [
+        "16008872.12",
+        "16008872.12",
+        "16008872.12"
+      ]
+    },
+    "freshness": {
+      "customers": {
+        "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "geolocation": {
+        "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "order_items": {
+        "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "order_payments": {
+        "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "order_reviews": {
+        "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "orders": {
+        "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "products": {
+        "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "sellers": {
+        "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      },
+      "category_translation": {
+        "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+        "age_hours": 104,
+        "status": "pass"
+      }
+    },
+    "genuine_source_anomalies": {
+      "carrier_timestamp_before_purchase": 166
+    },
+    "production_synthetic_rows": 0
+  },
+  "production_unchanged": true,
+  "cleanup_objects": 63,
+  "cleanup_complete": true,
+  "cleanup_remaining_relations": 0,
+  "validation_schema_version": 1
+}

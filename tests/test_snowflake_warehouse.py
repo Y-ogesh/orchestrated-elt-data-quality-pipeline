@@ -126,6 +126,9 @@ class FakeBackend:
             len(manifest.files), len(manifest.files), rows, rows
         )
 
+    def validate_batch_keys(self, manifest):
+        self.events.append(("validate_keys", manifest.batch_id))
+
     def commit(self):
         self.events.append(("commit",))
         self.pending = None
@@ -243,6 +246,23 @@ class SnowflakeSqlTests(unittest.TestCase):
 
 
 class WarehouseLoaderTests(unittest.TestCase):
+    def test_business_key_failure_rolls_back_then_recovers(self):
+        class RejectKeys(FakeBackend):
+            def validate_batch_keys(self, manifest):
+                raise WarehouseLoadError("Duplicate business key")
+
+        with tempfile.TemporaryDirectory() as directory:
+            batch_dir = _batch(Path(directory))
+            backend = RejectKeys()
+            with self.assertRaisesRegex(WarehouseLoadError, "Duplicate business key"):
+                WarehouseLoader(backend).load([batch_dir])
+            self.assertEqual({}, backend.rows)
+            self.assertEqual({}, backend.completed)
+            self.assertIn(("finish_run", "FAILED"), backend.events)
+            backend.validate_batch_keys = lambda manifest: None
+            recovered = WarehouseLoader(backend).load([batch_dir])
+            self.assertEqual(2, recovered.rows_loaded)
+
     def test_load_and_rerun_are_reconciled_and_idempotent(self):
         with tempfile.TemporaryDirectory() as directory:
             batch_dir = _batch(Path(directory))

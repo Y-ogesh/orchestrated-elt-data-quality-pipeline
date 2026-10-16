@@ -7,6 +7,7 @@
     )
 }}
 
+with candidates as (
 select
     {{ surrogate_key(['items.order_id', 'items.order_item_id']) }} as order_item_key,
     {{ surrogate_key(['items.order_id']) }} as order_key,
@@ -26,8 +27,9 @@ inner join {{ ref('dim_product') }} as products
     on items.product_id = products.product_id
 inner join {{ ref('dim_seller') }} as sellers
     on items.seller_id = sellers.seller_id
-{% if is_incremental() %}
-where items.source_loaded_at >= (
-    select coalesce(max(source_loaded_at), '1900-01-01'::timestamp_tz) from {{ this }}
 )
+select * from candidates
+{% if is_incremental() %}
+minus
+select * from {{ this }}
 {% endif %}

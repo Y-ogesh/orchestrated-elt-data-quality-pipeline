@@ -12,7 +12,7 @@ sources:
         error_after: {count: 30, period: day}
     tables:
       - name: customers
-        identifier: CUSTOMERS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}CUSTOMERS"
         description: One order-specific customer record per customer_id.
         columns:
           - name: customer_id
@@ -20,13 +20,13 @@ sources:
           - name: customer_unique_id
             data_tests: [not_null]
       - name: geolocation
-        identifier: GEOLOCATION
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}GEOLOCATION"
         description: Non-unique coordinate and locality observations by postal prefix.
         columns:
           - name: geolocation_zip_code_prefix
             data_tests: [not_null]
       - name: order_items
-        identifier: ORDER_ITEMS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}ORDER_ITEMS"
         description: One merchandise line per order_id and order_item_id.
         columns:
           - name: order_id
@@ -34,7 +34,7 @@ sources:
           - name: order_item_id
             data_tests: [not_null]
       - name: order_payments
-        identifier: ORDER_PAYMENTS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}ORDER_PAYMENTS"
         description: One payment component per order_id and payment_sequential.
         columns:
           - name: order_id
@@ -42,7 +42,7 @@ sources:
           - name: payment_sequential
             data_tests: [not_null]
       - name: order_reviews
-        identifier: ORDER_REVIEWS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}ORDER_REVIEWS"
         description: Review records; neither review_id nor order_id is unique.
         columns:
           - name: review_id
@@ -50,7 +50,7 @@ sources:
           - name: order_id
             data_tests: [not_null]
       - name: orders
-        identifier: ORDERS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}ORDERS"
         description: One lifecycle record per order_id.
         columns:
           - name: order_id
@@ -58,19 +58,19 @@ sources:
           - name: customer_id
             data_tests: [not_null]
       - name: products
-        identifier: PRODUCTS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}PRODUCTS"
         description: One product record per product_id.
         columns:
           - name: product_id
             data_tests: [not_null, unique]
       - name: sellers
-        identifier: SELLERS
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}SELLERS"
         description: One seller record per seller_id.
         columns:
           - name: seller_id
             data_tests: [not_null, unique]
       - name: category_translation
-        identifier: CATEGORY_TRANSLATION
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}CATEGORY_TRANSLATION"
         description: Portuguese-to-English product category mapping.
         columns:
           - name: product_category_name
@@ -82,5 +82,5 @@ sources:
     schema: "{{ env_var('SNOWFLAKE_AUDIT_SCHEMA', 'AUDIT') }}"
     tables:
       - name: batch_reconciliation
-        identifier: BATCH_RECONCILIATION
+        identifier: "{{ env_var('OLIST_RELATION_PREFIX', '') }}BATCH_RECONCILIATION"
         description: Latest expected-versus-loaded result for each deterministic batch.

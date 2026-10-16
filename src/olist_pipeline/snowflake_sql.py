@@ -46,13 +46,16 @@ class SnowflakeNames:
     audit_schema: str = "AUDIT"
     file_format: str = "OLIST_CSV_FORMAT"
     stage: str = "OLIST_RAW_STAGE"
+    relation_prefix: str = ""
 
     def validate(self) -> None:
-        for value in self.__dict__.values():
+        for key, value in self.__dict__.items():
+            if key == "relation_prefix" and not value:
+                continue
             quote_identifier(value)
 
     def table(self, schema: str, table: str) -> str:
-        return quote_fqn(self.database, schema, table)
+        return quote_fqn(self.database, schema, self.relation_prefix + table)
 
     @property
     def stage_fqn(self) -> str:

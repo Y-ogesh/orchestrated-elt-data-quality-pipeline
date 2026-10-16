@@ -111,3 +111,15 @@ Set `OLIST_RUN_SNOWFLAKE_INTEGRATION=1` only after loading the approved ignored 
 ## Synthetic leakage or production fingerprint mismatch
 
 Stop and inspect the reported relation/count before any cleanup. The runner uses the reserved `__dq_synthetic_` prefix and drops its temporary tables in `finally`; a production match or changed fingerprint indicates an unexpected external mutation or implementation defect. Do not delete production records automatically.
+
+## An incremental batch overlaps an existing business key
+
+The historical loader is append-only. A new batch repeating a declared business key is rejected before commit, and the entire batch is rolled back. Verify the source/version/window instead of forcing the COPY or deduplicating silently. A legitimate correction needs an approved source correction process; downstream facts support keyed updates once that corrected source relation is available.
+
+## Replay stops after a successful load or build
+
+Resume `--phase replay` with the same run prefix. Batch audit state remains authoritative: successfully reconciled batches skip, and recorded successful dbt artifacts can recover a missing local evidence entry. Check the ignored per-step logs if a model/test actually failed. Scenario/convergence phases are intentionally not blindly replaceable after partial failure; inspect their owned relations before retrying.
+
+## A late source change is missing behind a watermark
+
+Current fact models use full projected-row comparison before merge. Ensure the deployed SQL no longer uses the earlier global `MAX(source_loaded_at)` cutoff. Check stable source keys and model dependencies; do not move historical business timestamps forward to manufacture freshness.

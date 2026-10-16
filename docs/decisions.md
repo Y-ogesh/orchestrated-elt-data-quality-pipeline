@@ -72,6 +72,8 @@ Snowflake validation mode does not support transformed COPY statements. Each sta
 
 The four transaction facts use merge-based incremental materializations keyed by deterministic SHA-256 surrogates and a `source_loaded_at` overlap. The seven dimensions rebuild as tables because the fixed source snapshot is small and a full deterministic rebuild is simpler than maintaining unnecessary slowly changing state.
 
+The timestamp-only candidate selection in this decision is superseded by ADR-018. The stable keys, merge materialization, and dimension rebuild policy remain unchanged.
+
 ## ADR-013 — Use environment-isolated dbt schemas
 
 **Status:** Accepted, 2026-09-30
@@ -101,3 +103,21 @@ Source freshness uses the maximum RAW `_loaded_at` timestamp, warns after 7 days
 **Status:** Accepted, 2026-10-14
 
 Synthetic defects execute in Snowflake temporary tables within the approved `AUDIT` schema. The cycle proves a clean baseline, exact detection, correction, and recovery, then compares production RAW/MARTS fingerprints and reserved-prefix counts. This provides real-engine behavior without corrupting or requiring cleanup of validated production tables.
+
+## ADR-018 — Select changed fact rows without a global timestamp cutoff
+
+**Status:** Accepted, 2026-10-15
+
+Compare the complete projected fact candidate row with the current target before merging. A global maximum ingestion timestamp can omit late-visible rows or changes to resolved relationships. Evaluating the source-derived candidate relation and merging its set difference provides deterministic insert/update semantics and zero writes on an unchanged rerun. This scans more input than watermark pruning; scaling beyond this snapshot requires measured partitioning or an explicit CDC/change ledger. Stable business keys and upstream uniqueness tests remain mandatory. Review full-record identity and deletion limitations remain explicit.
+
+## ADR-019 — Preserve immutable RAW append and isolate correction demonstrations
+
+**Status:** Accepted, 2026-10-15
+
+The historical file loader rejects overlapping declared natural keys inside its batch transaction; it does not silently upsert source truth. Changed-record demonstrations apply corrections to explicitly isolated source copies and prove downstream merge behavior. Production corrections require an approved source replacement/correction process. No automatic CDC, last-write-wins version resolver, deletion propagation, or concurrent-writer locking is claimed.
+
+## ADR-020 — Reuse existing schemas for multi-session replay isolation
+
+**Status:** Accepted, 2026-10-15
+
+The application role cannot create schemas. Multi-session dbt replay therefore uses uniquely prefixed tables/views inside existing schemas, preserving the stage and file format. The harness reuses loader classes and audit definitions, fingerprints production data, and records exact created objects for scoped cleanup. No account-level privilege is added.

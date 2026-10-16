@@ -9,9 +9,10 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 3. Snowflake RAW | Least-privilege SQL, stage/file format, transactional COPY, load audit and reconciliation | **Completed and validated** | Real Snowflake load reconciled 26 batches, 129 files, and 1,550,922 rows; identical rerun skipped all 26 batches |
 | 4. dbt transformation | Staging, intermediate, dimensional marts, incremental models, tests and reconciliation | **Completed and validated** | Real dbt build created 24 models and 667,188 mart rows; 154 tests passed and one documented source-anomaly test warned |
 | 5. Automated quality and lineage | Cross-layer tests, ingestion freshness, reconciliation, isolated failure injection, lineage and reporting | **Completed and validated** | 156 pass, 1 documented warning, 0 errors across 157 dbt tests; 9 freshness checks pass; all 7 synthetic defects detected and recovered |
-| 6. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
-| 7. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Operational alert and audit-history evidence |
-| 8. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
+| 6. Incremental ELT and idempotency | Sequential historical replay, duplicates, corrections, late arrivals, recovery, full-refresh equivalence | **Completed and validated** | 26 real replay batches; zero differences across 9 RAW datasets and 24 models; duplicate/correction/late-arrival/recovery checks pass; production unchanged |
+| 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, backfill and failure recovery | **Not started** | Successful local/cloud DAG runs and recovery test |
+| 8. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Operational alert and audit-history evidence |
+| 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
 
 ## Milestone 1 acceptance criteria
 
@@ -75,6 +76,18 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Production RAW/MARTS fingerprints remained unchanged and contain zero reserved synthetic rows.
 - [x] 26 batches, 129 files, 1,550,922 RAW rows, all staging/detail grains, and three monetary totals reconcile exactly.
 - [x] Live dbt documentation/catalog regenerated and graph dependencies verified; generated metadata remains ignored.
+
+## Milestone 6 acceptance criteria
+
+- [x] Reused the existing manifests, loader, audit definitions, dbt graph, and 157 quality tests.
+- [x] Defined immutable RAW append, stable-key merge, duplicate handling, serialized execution, and correction/deletion limitations.
+- [x] Replayed 26 batches / 129 files / 1,550,922 rows, including out-of-order historical delivery; every batch reconciled.
+- [x] Identical batch, file COPY, and dbt reruns produced zero inserts/updates; unexpected business-key overlap was rejected.
+- [x] Isolated price correction updated exactly two fact rows once; late item inserted one and updated one; both matched full-refresh business fingerprints.
+- [x] Interruption after the first real COPY rolled back all batch progress; retry committed 1,674 rows once and preserved FAILED → SUCCEEDED audit history.
+- [x] Exact full-refresh comparison returned zero differences for all 24 models; nine RAW datasets matched complete production business records.
+- [x] Final 157 dbt tests returned 156 pass / 1 documented warning; nine freshness checks passed; production fingerprints remained unchanged.
+- [x] Repository suite returned 29 pass / 1 separately validated AWS skip; aggregate evidence and cleanup results preserved.
 
 ## Delivery conventions
 

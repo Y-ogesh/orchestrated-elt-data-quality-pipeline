@@ -7,6 +7,7 @@
     )
 }}
 
+with candidates as (
 select
     {{ surrogate_key(['orders.order_id']) }} as order_key,
     customer.order_customer_key,
@@ -48,8 +49,9 @@ select
 from {{ ref('int_orders_enriched') }} as orders
 inner join {{ ref('dim_order_customer') }} as customer
     on orders.customer_id = customer.customer_id
-{% if is_incremental() %}
-where orders.source_loaded_at >= (
-    select coalesce(max(source_loaded_at), '1900-01-01'::timestamp_tz) from {{ this }}
 )
+select * from candidates
+{% if is_incremental() %}
+minus
+select * from {{ this }}
 {% endif %}

@@ -106,6 +106,9 @@ class WarehouseBackend(Protocol):
     def complete_batch(self, run_id: str, manifest: BatchManifest) -> None:
         ...
 
+    def validate_batch_keys(self, manifest: BatchManifest) -> None:
+        ...
+
     def commit(self) -> None:
         ...
 
@@ -206,6 +209,7 @@ class WarehouseLoader:
                         )
                         batch_files_loaded += 1
                         batch_rows_loaded += actual_rows
+                    self.backend.validate_batch_keys(manifest)
                     self.backend.complete_batch(current_run, manifest)
                     self.backend.commit()
                     loaded_batches += 1
@@ -676,6 +680,25 @@ class SnowflakeBackend:
             "completed_at=CURRENT_TIMESTAMP() WHERE run_id=%s AND batch_id=%s",
             (len(manifest.files), expected_rows, run_id, manifest.batch_id),
         )
+
+    def validate_batch_keys(self, manifest: BatchManifest) -> None:
+        """Reject overlapping business keys before the append transaction commits."""
+        for item in manifest.files:
+            keys = TABLES[item.table].natural_key
+            if not keys:
+                continue
+            table = self.names.table(self.names.raw_schema, item.table)
+            columns = ', '.join(f'"{key.upper()}"' for key in keys)
+            cursor = self._execute(
+                f"SELECT COUNT(*) FROM (SELECT {columns} FROM {table} "
+                f"GROUP BY {columns} HAVING COUNT(*) > 1 "
+                "AND COUNT_IF(_batch_id = %s) > 0)",
+                (manifest.batch_id,),
+            )
+            if int(cursor.fetchone()[0]):
+                raise WarehouseLoadError(
+                    f"Duplicate business key in {item.table}; immutable RAW append rejected"
+                )
 
     def commit(self) -> None:
         self.connection.commit()

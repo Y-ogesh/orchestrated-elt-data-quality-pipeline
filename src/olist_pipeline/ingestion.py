@@ -230,6 +230,10 @@ def load_manifest(batch_dir: Path) -> BatchManifest:
         )
         for item in payload["files"]
     )
+    if len({item.relative_path for item in files}) != len(files):
+        raise ValueError("Manifest contains duplicate file paths")
+    if len({item.table for item in files}) != len(files):
+        raise ValueError("Contract v1 permits only one file per source table in a batch")
     manifest = BatchManifest.create(
         source=payload["source"],
         source_version=payload["source_version"],

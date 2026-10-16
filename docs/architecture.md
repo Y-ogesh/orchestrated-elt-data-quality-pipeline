@@ -65,10 +65,12 @@ The public dataset is a fixed snapshot, not an event feed. Historical simulation
 4. Derive `batch_id = sha256(source_version | manifest_hash | window_start | window_end | pipeline_contract_version)`.
 5. Write immutable S3 keys containing source, logical ingestion date, batch ID, and table. Never overwrite a different checksum at an existing key.
 6. Upload data objects first and the manifest last as the batch commit marker. A retry with the same checksum validates and skips objects; a checksum conflict fails closed. `AUDIT.FILE_LOADS` records enforce the same invariant in Snowflake.
-7. `COPY` into a transient landing table, validate counts/types, then merge or append atomically into RAW. Publish marts only after all tasks and blocking tests pass.
-8. dbt incremental facts use declared surrogate unique keys and overlap on `source_loaded_at`; a full refresh reproduces the same result from immutable RAW batches. Future Airflow runs will supply the orchestration interval without changing those content keys.
+7. Validate each staged CSV, then `COPY` into RAW inside the batch transaction. Reconcile actual rows and reject overlapping declared natural keys before committing RAW and file-success audit records together. Publish marts only after all tasks and blocking tests pass.
+8. dbt incremental facts compare projected candidate rows with current fact rows, then merge only new or changed rows using declared surrogate unique keys. This avoids missing changes behind a global timestamp watermark. A full refresh uses the same transformations. Future Airflow runs will supply the orchestration interval without changing those content keys.
 
-This permits chronological demos, reruns, isolated backfills, and failure injection without changing source truth. Late-arriving behavior will be tested synthetically and labeled as such because the snapshot has no ingestion-arrival timestamps.
+This permits chronological demos, reruns, isolated backfills, and failure injection without changing source truth. Late-arriving behavior is tested synthetically and labeled as such because the snapshot has no ingestion-arrival timestamps.
+
+Milestone 6's validation harness uses explicitly prefixed copies in the existing schemas, the original S3 stage, the same loader/audit definitions, and the same dbt project. It does not require schema-creation privileges. Prefix isolation applies to model aliases and source identifiers together; it is absent during normal production execution. See [incremental loading](incremental_loading.md) for the correction contract, serialized-writer limitation, and replay evidence.
 
 ## Failure and publication boundaries
 

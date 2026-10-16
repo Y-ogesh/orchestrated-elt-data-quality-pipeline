@@ -133,3 +133,35 @@ Actual mart counts are 251,987 dimension rows and 415,201 fact rows, totaling 66
 | Full repository suite | PASS — 26 discovered, 25 passed, only the separately completed AWS integration skipped |
 
 The final inventory is 24 models, 10 declared source relations (nine business RAW sources plus one governed audit view), and 157 tests. Aggregate, non-secret evidence is in [`reports/data_quality_validation.json`](../reports/data_quality_validation.json); the methodology and catalog are in [the data-quality guide](data_quality.md).
+
+## Milestone 6 result
+
+**Completed and validated against real Snowflake on 2026-10-15.** The existing loader, manifest/audit contract, and dbt graph executed against isolated prefixed copies. Production RAW/MARTS and validated S3 objects were not changed.
+
+| Check | Actual result |
+|---|---|
+| Historical replay | 26 batches, 129 files, 1,550,922 rows inserted; 0 updated/rejected; every batch reconciled |
+| Out-of-order arrival | January 2017 preceded December 2016; deferred December records still loaded and reached facts |
+| Duplicate batch | 0 inserted/updated; 5 files and 16 represented rows skipped |
+| Duplicate file COPY | 0 inserted; actual file row-count difference 0 |
+| Repeated dbt execution | 0 fact inserts, updates, or deletes |
+| Changed record | One isolated price correction, retaining older ingestion metadata, updated 2 facts and inserted 0; rerun wrote 0 |
+| Late arrival | One old-event item inserted 1 fact and updated 1 order; rerun wrote 0; freshness passed |
+| Scenario full refresh | All 24 business fingerprints equal incremental results for both correction and late-arrival states |
+| Unexpected duplicate business key | Rejected; transaction rolled back with 0 committed rows |
+| Partial execution | Failure after first COPY/audit insert left 0 committed rows/files; FAILED recorded |
+| Recovery | Same manifest committed 5 files / 1,674 rows once; audit retained FAILED → SUCCEEDED |
+| Historical convergence | Zero row-count/business-record differences across 9 RAW datasets and all 24 dbt models |
+| Mart counts | 415,201 fact rows + 251,987 dimension rows = 667,188 |
+| Business metrics | 99,441 orders; merchandise R$13,591,643.70; freight R$2,251,909.54; payments R$16,008,872.12; differences 0 |
+| Final isolated dbt tests | 156 pass, 1 deliberate warning, 0 failures/skips; 9.486 seconds |
+| Production dbt tests | 156 pass, 1 deliberate warning, 0 failures/skips; 16.876 seconds |
+| Freshness | Isolated 9/9 pass (3.880 seconds); production 9/9 pass (2.708 seconds), maximum age 104 hours |
+| Production integrity | All 9 RAW and 11 MARTS content/count fingerprints unchanged; 0 synthetic-prefix records |
+| Repository suite | 30 discovered, 29 passed, 1 previously validated AWS integration skipped; 14.646 seconds |
+| Live catalog | 24 models, 10 source relations, no catalog errors; generated artifacts ignored |
+| Scoped cleanup | 63 test-only relations removed; 0 relations remain under the run prefix; production/S3 preserved |
+
+Successful RAW replay load time summed to 528.900 seconds. Duplicate batch: 3.145 seconds; failed attempt: 13.090 seconds; recovery: 17.072 seconds; historical full-refresh dbt build: 21.814 seconds. These are measured operations with different scopes, not a comparative throughput benchmark.
+
+Per-batch IDs, inserted/updated/skipped/rejected counts, elapsed times, all 33 exact comparisons, scenario DML, production reconciliation, and scoped cleanup results are preserved in [`reports/incremental_validation.json`](../reports/incremental_validation.json). The [incremental guide](incremental_loading.md) states the immutable-source correction, deletion, serialized-writer, and recovery-test limitations. No streaming/CDC, process-kill recovery, or concurrency guarantee is claimed.

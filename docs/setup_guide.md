@@ -136,6 +136,10 @@ make quality-synthetic
 
 The synthetic cycle uses session temporary tables and refuses to pass unless production RAW/MARTS counts remain unchanged and the reserved synthetic prefix is absent before and after execution.
 
+## Isolated incremental validation
+
+See [incremental loading](incremental_loading.md) for the five replay phases and commands. The runner uses the current virtual environment's dbt executable, the ignored environment configuration, and `OLIST_RUN_SNOWFLAKE_INTEGRATION=1`. It creates only uniquely prefixed test relations in existing schemas, reads the original S3 stage, and stores generated logs/checkpoints under ignored `data/processed/incremental/`. Keep the same prefix when resuming a run. Normal production commands must leave `OLIST_RELATION_PREFIX` unset.
+
 ## Updating the source snapshot
 
 Do not overwrite evidence silently. Download to a new source-version location in the future, compare SHA-256 hashes and schemas, rerun profiling/validation, document changes, and assign a new manifest/source version. The committed profile describes the hashes downloaded on 2026-09-29.

@@ -45,7 +45,7 @@ This is the monetary fanout boundary. Item-detail and payment-detail relations n
 
 ## Incremental facts
 
-The four facts use Snowflake `merge`, a non-null single-column surrogate `unique_key`, and `on_schema_change='fail'`. On an incremental run they reprocess rows at or after the maximum stored `source_loaded_at`, allowing a safe overlap at the high-water mark. A late child file advances the enriched order timestamp and refreshes the affected order fact. Full refresh remains deterministic from immutable RAW batches.
+The four facts use Snowflake `merge`, a non-null single-column surrogate `unique_key`, and `on_schema_change='fail'`. Milestone 6 replaces the global `source_loaded_at` cutoff with a projected-row set difference against the existing fact. New and changed rows are merged; unchanged rows do not update. This also catches late-visible records and changes to resolved dimension keys even when their ingestion timestamp is behind another row's watermark. Candidate evaluation scans the source-derived relation; the observed dataset size makes that correctness/cost tradeoff defensible. Full refresh uses the same candidate query.
 
 Dimensions rebuild as tables because the source snapshot is small and deterministic. This avoids incremental complexity where it would not reduce meaningful cost. dbt's [incremental model guidance](https://docs.getdbt.com/docs/build/incremental-models) recommends explicit non-null keys for merge behavior.
 
