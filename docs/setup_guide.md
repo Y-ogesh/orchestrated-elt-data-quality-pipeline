@@ -144,6 +144,10 @@ See [incremental loading](incremental_loading.md) for the five replay phases and
 
 Follow [the orchestration runbook](orchestration.md) to initialize generated local secrets, export `AIRFLOW_UID=$(id -u)`, build the pinned image, start services, trigger the DAG, inspect evidence, and stop without deleting metadata. Keep the existing ignored `.env`; Docker mounts the key and AWS profile read-only at runtime. Do not paste expanded Compose configuration, tokens, or generated UI passwords into shared logs.
 
+## Monitoring and recovery
+
+For read-only operational monitoring, securely load the existing configuration and run `PYTHONPATH=src python -m olist_pipeline.monitoring --output data/processed/monitoring/current.json`. Do not print `.env` or expanded Compose settings. The [monitoring runbook](monitoring_recovery.md) documents controlled failure modes, ignored checkpoints, release validation, and manual evidence capture. Ordinary operation must leave failure probes disabled.
+
 ## Updating the source snapshot
 
 Do not overwrite evidence silently. Download to a new source-version location in the future, compare SHA-256 hashes and schemas, rerun profiling/validation, document changes, and assign a new manifest/source version. The committed profile describes the hashes downloaded on 2026-09-29.

@@ -121,4 +121,6 @@ Final tests: locked pipeline environment discovered 38 tests, 33 passed and 5 sk
 
 ## Screenshots
 
+Milestone 8 extends audit observations and adds separately labeled source rejection, reconciliation, quality and in-transaction publication recovery scenarios. It reuses this DAG, writer controls, version namespace and publication architecture. M7's measured results above remain historical evidence, not current cumulative run counts. See [monitoring and recovery](monitoring_recovery.md) for current operational summaries and synthetic-mode controls.
+
 No screenshot is claimed until captured. If capture cannot be persisted safely, the exact optional manual task is to open the authenticated localhost UI, capture the pipeline graph plus successful/failed/recovery grids, redact local/account details, and save approved images in `docs/screenshots/`. Machine-readable API, task, publication and reconciliation evidence is the validation authority.

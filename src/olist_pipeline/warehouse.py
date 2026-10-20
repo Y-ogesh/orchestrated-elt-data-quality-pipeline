@@ -187,7 +187,7 @@ class WarehouseLoader:
                         validation_errors.append((item, errors))
                 if validation_errors:
                     count = sum(len(errors) for _, errors in validation_errors)
-                    message = f"Pre-load validation found {count} rejected records"
+                    message = f"Pre-load validation found {count} error diagnostics"
                     self.backend.record_batch_failure(current_run, manifest, message)
                     raise WarehouseLoadError(f"{manifest.batch_id}: {message}")
 

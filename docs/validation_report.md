@@ -194,3 +194,35 @@ Per-batch IDs, inserted/updated/skipped/rejected counts, elapsed times, all 33 e
 | Final operation | Failure probes disabled; DAGs paused; local services retained for inspection |
 
 Five pipeline-suite skips comprise four tests requiring Airflow's separate environment and the previously validated AWS upload/delete integration. The four Airflow tests passed in the eight-test Airflow suite; real S3 was exercised through all DAG runs. No new AWS upload/delete claim is made. Screenshots were not captured; the optional authenticated UI capture task is documented. Candidate and three immutable publication versions are retained intentionally. Guarantees cover one serialized Airflow deployment and catchable failures, not independent concurrent writers or host-loss disaster recovery.
+
+## Milestone 8 result
+
+**Completed and validated on 2026-10-16.** The [monitoring/recovery guide](monitoring_recovery.md), [lightweight summary](../reports/monitoring_summary.json), and [detailed evidence](../reports/monitoring_validation.json) distinguish actual source truth, synthetic scenarios, historical events, and current publication.
+
+| Check | Actual result |
+|---|---|
+| Audit model | Existing event details extended; failed attempts and quality metrics retained; no competing ledger |
+| Source rejection | Two failed attempts, each 3 source = 1 valid-but-held + 2 rejected; three diagnostics; zero inserts |
+| Rejection publication gate | Failed DAG, publication upstream-failed with zero attempts; pointer/history unchanged |
+| Corrected source | Three accepted rows inserted once in temporary target; rerun inserted zero; zero rejected/open quarantine |
+| Reconciliation retry | Deliberate expected/actual difference of one failed once; corrected retry passed |
+| Quality retry | One negative synthetic candidate detected by SQL; correction returned zero violations; real dbt tests remained intact |
+| Publication interruption | 74 uncommitted rows rolled back; zero residual candidate rows in eleven stores; previous pointer preserved |
+| Publication retry | Second attempt succeeded; one history row/version per successful run; no duplicate version copies |
+| Timeout monitoring | Two actual AirflowTaskTimeout log records from the verified M7 probe; reused, not newly injected |
+| Run-level monitoring | Nine runs, seven successful/two deliberately failed, four within-run recoveries and one cross-run correction |
+| Attempt-level monitoring | 73 terminal events, six retries, zero duplicate terminal keys, zero unmatched running events |
+| State reconciliation | Actual Airflow and cloud-derived states agree for all nine runs; no missing cloud audits |
+| Publication history | Seven unique validated publications; current version M7_30F3580F9026_; all eleven stores have correct per-version counts |
+| Source inventory | 26 batches / 129 files / 1,550,922 rows verified; zero new RAW inserts; production LOAD_ERRORS diagnostics zero |
+| Final production dbt | 156 pass / one genuine warning / zero errors; 13.927 seconds |
+| Final freshness | Nine pass / zero errors or warnings; 4.234 seconds |
+| Final reconciliation/integrity | Zero differences; twenty production and eleven reporting fingerprints unchanged; no synthetic rows |
+| Fixture cleanup | Zero remaining fixture relations; temporary tables dropped and sessions closed |
+| Pipeline tests | 46 discovered, 41 pass, five expected skips; 12.890 seconds |
+| Airflow tests | Eight pass / zero skips; 1.126 seconds |
+| Offline tests | 46 discovered, 39 pass, seven expected skips; 0.055 seconds |
+
+New DAG durations: source rejection 66.140 seconds; corrected source 140.551; reconciliation retry 148.483; quality retry 161.749; publication retry 144.275. Combined nine-run average Airflow runtime is 147.736 seconds. The 77.78% success rate includes intentional validation failures and must not be represented as a production SLO. Two rejected lines evaluated twice produce four rejection evaluations, not four distinct bad source records.
+
+The five pipeline skips are four Airflow-runtime tests (passed separately) and the previously completed AWS upload/delete integration. Real S3 was exercised by the five new DAG runs. Genuine source anomalies remain unchanged. No screenshots or external notification delivery are claimed; optional capture instructions and operational limitations are documented. Final DAGs are paused with probes disabled; no Milestone 9 work was started.

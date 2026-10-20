@@ -1,0 +1,57 @@
+{
+  "status": "Completed and validated",
+  "generated_at": "2026-10-16T22:48:40.833703+00:00",
+  "total_runs": 9,
+  "successful_runs": 7,
+  "failed_runs": 2,
+  "incomplete_runs": 0,
+  "recovered_by_retry_runs": 4,
+  "success_rate": 0.7777777777777778,
+  "average_task_span_seconds": 143.786,
+  "latest_task_span_seconds": 141.249,
+  "retry_attempts": 6,
+  "failed_attempt_categories": {
+    "data_quality": 4,
+    "snowflake_load": 2,
+    "reconciliation": 1,
+    "publication": 1
+  },
+  "current_reporting_version": "M7_30F3580F9026_",
+  "publications": 7,
+  "load_error_diagnostics": 0,
+  "traceable_rejected_load_lines": 0,
+  "unlocated_load_error_diagnostics": 0,
+  "synthetic_rejected_row_evaluations": 4,
+  "distinct_synthetic_rejected_source_lines": 2,
+  "latest_verified_inventory": {
+    "batches": 26,
+    "files": 129,
+    "key_violations": 0,
+    "raw_tables": 9,
+    "relationship_violations": 0,
+    "rows": 1550922,
+    "schemas": 5
+  },
+  "latest_quality_outcomes": {
+    "pass": 156,
+    "warn": 1
+  },
+  "latest_freshness_outcomes": {
+    "pass": 9
+  },
+  "recorded_quality_rule_failure_evaluations": 1,
+  "failed_quality_gate_attempts": 4,
+  "total_new_raw_rows": 0,
+  "inflight_attempts": 0,
+  "stale_running_attempts": 0,
+  "duplicate_terminal_attempt_keys": 0,
+  "airflow_average_runtime_seconds": 147.736,
+  "airflow_latest_runtime_seconds": 144.275,
+  "timeout_attempts": 2,
+  "timeout_scope": "one separately verified M7 no-cloud probe, not pipeline incidents",
+  "cross_run_source_recoveries": 1,
+  "latest_reconciliation_status": "pass",
+  "current_publication_validated": true,
+  "production_integrity_preserved": true,
+  "synthetic_fixture_relations_remaining": 0
+}

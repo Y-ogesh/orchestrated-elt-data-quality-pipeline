@@ -76,6 +76,8 @@ Milestone 6's validation harness uses explicitly prefixed copies in the existing
 
 Milestone 7 adds a Dockerized Airflow LocalExecutor deployment coordinating the existing package boundaries. Run-specific dbt model aliases build from shared validated RAW. Eleven immutable reporting stores and stable `REPORT_*` views use one transactional `AUDIT.REPORTING_CURRENT` pointer; publication and version history commit only after all quality gates pass. This protects the prior reporting state from partial model builds and failed checks. See [orchestration](orchestration.md) for task contracts, concurrency limits and multi-query snapshot considerations.
 
+Milestone 8 extends those same task-attempt events with versioned operational observations and derives run-level summaries from existing audit/publication records. Accepted, rejected, held, and inserted rows have separate meanings; synthetic quarantine is isolated in session temporary tables. No second run ledger or external monitoring service is introduced. See [monitoring and recovery](monitoring_recovery.md).
+
 - Download or checksum failure: no manifest is finalized.
 - Partial S3 upload: the batch stays uncommitted and is safe to retry.
 - Snowflake validation failure: landing data is discarded; previously loaded RAW data remains.

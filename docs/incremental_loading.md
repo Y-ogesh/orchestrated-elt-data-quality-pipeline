@@ -86,6 +86,8 @@ Cleanup removed all 63 explicitly recorded test relations and verified zero rema
 
 Milestone 7 schedules these validated implementations through Airflow rather than recreating them. It builds run-specific candidates from the complete RAW state and uses an atomic reporting-version pointer. This deliberately trades candidate rebuild cost for publication isolation; it does not change the immutable RAW or stable-key merge contracts. Do not run a manual writer concurrently with the Airflow DAG. See [orchestration](orchestration.md).
 
+Milestone 8 adds operational recovery evidence around the same contracts. Verified historical inventory is distinct from newly inserted rows; a skipped 1,550,922-row inventory is not a new load. Corrected synthetic quarantine data merges once in temporary tables and never changes immutable production RAW. The publication interruption probe rolls back candidate copies and verifies zero residual rows before retry. See [monitoring and recovery](monitoring_recovery.md).
+
 Load the ignored local environment and use the existing approved credential chain:
 
 ```bash

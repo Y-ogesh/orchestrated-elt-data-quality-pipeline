@@ -11,7 +11,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 5. Automated quality and lineage | Cross-layer tests, ingestion freshness, reconciliation, isolated failure injection, lineage and reporting | **Completed and validated** | 156 pass, 1 documented warning, 0 errors across 157 dbt tests; 9 freshness checks pass; all 7 synthetic defects detected and recovered |
 | 6. Incremental ELT and idempotency | Sequential historical replay, duplicates, corrections, late arrivals, recovery, full-refresh equivalence | **Completed and validated** | 26 real replay batches; zero differences across 9 RAW datasets and 24 models; duplicate/correction/late-arrival/recovery checks pass; production unchanged |
 | 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, historical batch orchestration and failure recovery | **Completed and validated** | Scheduled/manual/recovery runs passed; failed quality gate blocked publication; reporting/production fingerprints unchanged; overlap and timeout enforcement verified |
-| 8. Observability and release safety | SLIs, alerts, runbooks, reporting publication gate, last-known-good preservation | **Not started** | Operational alert and audit-history evidence |
+| 8. Failure handling, recovery and monitoring | Typed audit observations, rejected-row accounting, isolated quarantine, recovery, monitoring summaries | **Completed and validated** | Five new real DAG scenarios; 3 = 1 accepted + 2 rejected rows; corrected merge adds zero on rerun; 74 publication rows rolled back; 73 terminal events and seven publications reconcile |
 | 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
 
 ## Milestone 1 acceptance criteria
@@ -101,6 +101,21 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Queued overlapping run had zero attempts until the active run completed; actual timeout probe failed twice with AirflowTaskTimeout.
 - [x] Final pipeline suite: 33 pass / 5 expected skips; Airflow suite: 8 pass. Aggregate audit and execution evidence preserved.
 - [x] Probes disabled and DAGs paused; secrets and generated runtime artifacts remain untracked. Optional UI screenshot capture is documented, not claimed.
+
+## Milestone 8 acceptance criteria
+
+- [x] Existing load/task/publication records reused; no competing audit ledger created.
+- [x] Structured failure classification and stage/count/status observations recorded; failed quality metrics retained.
+- [x] Real temporary quarantine: three source rows, one valid-but-held row, two rejected rows, three diagnostics; zero target inserts on rejection.
+- [x] Corrected three-row fixture inserted once; repeat merge inserted zero; no open quarantine or remaining fixture tables.
+- [x] Real source-rejection run failed twice and never published; source correction succeeded in a new run.
+- [x] Reconciliation and quality defects failed on attempt one and passed on attempt two with complete audit history.
+- [x] Publication interruption rolled back 74 uncommitted rows, retained the prior pointer, and published exactly once after retry.
+- [x] Existing timeout logs re-read: both attempts record AirflowTaskTimeout; no new outage claimed.
+- [x] Actual Airflow/cloud run states agree; 73 terminal events, zero duplicate attempt keys or unmatched running events, seven unique publications.
+- [x] Final production dbt suite: 156 pass / one genuine warning; nine freshness checks pass; reconciliation and fingerprints unchanged.
+- [x] Final repository suite: 41 pass / five expected skips; Airflow tests: eight pass. Sanitized summary and detailed evidence preserved.
+- [x] DAGs paused, probes disabled, secrets/runtime artifacts untracked; no Milestone 9 work or external alert service provisioned.
 
 ## Delivery conventions
 

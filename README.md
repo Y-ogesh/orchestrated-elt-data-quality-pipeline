@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–7 are **Completed and validated**, including real AWS/Snowflake execution through Dockerized Airflow. Scheduled/manual runs, failure blocking, retry recovery, reporting-state preservation, and overlap protection passed. Milestone 8 observability and Power BI remain **Not started**. Airflow is paused after validation; failure probes are disabled.
+> **Status:** Milestones 1–8 are **Completed and validated**, including real AWS/Snowflake execution, Airflow orchestration, rejected-record accounting, operational monitoring, and recovery. Power BI / Milestone 9 remains **Not started**. Airflow is paused after validation; failure probes are disabled.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 7; Milestones 2–7 are validated against real cloud infrastructure:
+Implemented through Milestone 8; Milestones 2–8 are validated against real cloud infrastructure:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -68,7 +68,9 @@ Implemented through Milestone 7; Milestones 2–7 are validated against real clo
 
 - Pinned Docker/Airflow workflow reuses eight pipeline boundaries, isolates candidate marts, and publishes eleven reporting views through one atomic version pointer. Real failure/retry/timeout and queued-overlap evidence confirms last-known-good reporting is preserved. See [orchestration](docs/orchestration.md) and [measured evidence](reports/orchestration_validation.json).
 
-Planned—not yet implemented: operational alerts and Power BI dashboards.
+- Structured operational observations extend the existing audit events: typed failure categories, accepted/rejected/held accounting, preserved retry history, and reproducible run summaries. Five new real Airflow scenarios demonstrated quarantine correction, reconciliation/quality retries, and rollback of 74 uncommitted publication rows without changing production fingerprints. See [monitoring and recovery](docs/monitoring_recovery.md) and [lightweight monitoring summary](reports/monitoring_summary.json).
+
+Planned—not yet implemented: external alert delivery and Power BI dashboards. The measured validation-run success rate is not a production availability SLO.
 
 ## Warehouse design
 

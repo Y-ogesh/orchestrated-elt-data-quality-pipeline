@@ -16,8 +16,9 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .data_quality import collect_reconciliation, validate_reconciliation
+from .data_quality import DataQualityError, collect_reconciliation, validate_reconciliation
 from .ingestion import build_batches, load_manifest, upload_batches, validate_built_batches
+from .monitoring import ObservedFailure, observation, quarantine_probe
 from .snowflake_sql import quote_fqn
 from .storage import S3ObjectStore
 from .warehouse import (
@@ -66,7 +67,16 @@ def require_gates(states):
 
 class Workflow:
     def __init__(self, run_id, task, attempt=1, mode="normal"):
-        if mode not in ("normal", "quality_failure", "transient_failure"):
+        if mode not in (
+            "normal",
+            "quality_failure",
+            "transient_failure",
+            "rejected_source",
+            "recovered_source",
+            "reconciliation_retry",
+            "quality_retry",
+            "publication_retry",
+        ):
             raise ValueError("Unknown validation mode")
         if mode != "normal" and os.getenv("OLIST_ENABLE_ORCHESTRATION_PROBES") != "1":
             raise RuntimeError("Failure probes require explicit environment opt-in")
@@ -148,12 +158,47 @@ class Workflow:
         }
 
     def load_snowflake_raw(self):
-        return asdict(
+        probe = None
+        if self.mode in ("rejected_source", "recovered_source"):
+            probe = quarantine_probe(
+                self.connection, self.names, corrected=self.mode == "recovered_source"
+            )
+            if probe["rejected_rows"]:
+                raise ObservedFailure(
+                    "snowflake_load", "SYNTHETIC_REJECTED_SOURCE", {"accounting": probe}
+                )
+        result = asdict(
             WarehouseLoader(SnowflakeBackend(self.connection, self.names)).load(self.batches())
         )
+        total = sum(item.row_count for p in self.batches() for item in load_manifest(p).files)
+        result["accounting"] = {
+            "scope": "production_raw",
+            "source_rows": total,
+            "accepted_rows": total,
+            "rejected_rows": 0,
+            "inserted_rows": result["rows_loaded"],
+            "updated_rows": 0,
+            "skipped_rows": total - result["rows_loaded"],
+        }
+        if probe:
+            result["synthetic_recovery"] = probe
+        return result
 
     def reconcile_raw(self):
-        return validate_remote_warehouse(self.connection, self.names, self.batches())
+        result = validate_remote_warehouse(self.connection, self.names, self.batches())
+        if self.mode == "reconciliation_retry" and self.attempt == 1:
+            # Only the isolated expected count is wrong; never mutate RAW or manifests.
+            raise ObservedFailure(
+                "reconciliation",
+                "SYNTHETIC_EXPECTED_COUNT_MISMATCH",
+                {
+                    "actual_rows": result["rows"],
+                    "expected_rows": result["rows"] + 1,
+                    "row_difference": 1,
+                    "original_validation": result,
+                },
+            )
+        return result
 
     def dbt(self, label, args):
         profiles = self.root / "profiles"
@@ -192,7 +237,12 @@ class Workflow:
             "seconds": round(time.monotonic() - started, 3),
         }
         if result.returncode or not outcomes or set(outcomes) - {"success", "pass", "warn"}:
-            raise RuntimeError(f"dbt {label} failed; see ignored task artifact")
+            category = {
+                "build": "transformation",
+                "test": "data_quality",
+                "freshness": "freshness",
+            }[label]
+            raise ObservedFailure(category, "DBT_VALIDATION_FAILED", summary)
         return summary
 
     def run_dbt_transformations(self):
@@ -206,12 +256,27 @@ class Workflow:
         reconciliation = collect_reconciliation(
             self.connection, self.names, model_prefix=self.version
         )
-        validate_reconciliation(reconciliation)
         result["reconciliation"] = reconciliation
+        try:
+            validate_reconciliation(reconciliation)
+        except DataQualityError:
+            raise ObservedFailure("reconciliation", "RECONCILIATION_FAILED", result) from None
+        if self.mode == "quality_retry":
+            # Real SQL evaluates a synthetic one-row candidate; not a production source defect.
+            invalid = self.attempt == 1
+            violations = int(
+                self.sql(
+                    "SELECT COUNT(*) FROM (SELECT %s::NUMBER AS amount) WHERE amount < 0",
+                    (-1 if invalid else 1,),
+                )[0][0]
+            )
+            result["synthetic_quality"] = {"checked_rows": 1, "violations": violations}
+            if violations:
+                raise ObservedFailure("data_quality", "SYNTHETIC_NEGATIVE_CANDIDATE", result)
         if self.mode == "quality_failure":
-            raise RuntimeError("CONTROLLED_QUALITY_GATE_FAILURE")
+            raise ObservedFailure("data_quality", "CONTROLLED_QUALITY_GATE_FAILURE", result)
         if self.mode == "transient_failure" and self.attempt == 1:
-            raise RuntimeError("CONTROLLED_TRANSIENT_GATE_FAILURE")
+            raise ObservedFailure("data_quality", "CONTROLLED_TRANSIENT_GATE_FAILURE", result)
         return result
 
     def publication_state(self):
@@ -259,10 +324,22 @@ class Workflow:
         # All 11 copies, the single pointer and publication history commit together.
         self.sql("BEGIN")
         try:
-            for model in MARTS:
+            for index, model in enumerate(MARTS):
                 candidate = self.relation(self.names.marts_schema, self.version + model)
                 store = self.relation(self.names.marts_schema, "REPORT_STORE_" + model)
                 self.sql(f"INSERT INTO {store} SELECT %s,c.* FROM {candidate} c", (self.version,))
+                if self.mode == "publication_retry" and self.attempt == 1 and index == 0:
+                    staged = int(
+                        self.sql(
+                            f"SELECT COUNT(*) FROM {store} WHERE _report_version=%s",
+                            (self.version,),
+                        )[0][0]
+                    )
+                    raise ObservedFailure(
+                        "publication",
+                        "SYNTHETIC_PUBLICATION_INTERRUPTION",
+                        {"uncommitted_rows_before_rollback": staged},
+                    )
             self.sql(f"DELETE FROM {pointer} WHERE singleton=1")
             self.sql(f"INSERT INTO {pointer} VALUES (1,%s,CURRENT_TIMESTAMP())", (self.version,))
             self.sql(
@@ -270,8 +347,34 @@ class Workflow:
                 (self.version, self.run_id, json.dumps(metrics)),
             )
             self.connection.commit()
-        except BaseException:
+        except BaseException as exc:
             self.connection.rollback()
+            if (
+                isinstance(exc, ObservedFailure)
+                and exc.code == "SYNTHETIC_PUBLICATION_INTERRUPTION"
+            ):
+                remaining = sum(
+                    int(
+                        self.sql(
+                            "SELECT COUNT(*) FROM "
+                            f"{self.relation(self.names.marts_schema, 'REPORT_STORE_' + m)} "
+                            "WHERE _report_version=%s",
+                            (self.version,),
+                        )[0][0]
+                    )
+                    for m in MARTS
+                )
+                preserved = self.publication_state() == current
+                if remaining or not preserved:
+                    raise RuntimeError("Publication rollback invariant failed") from None
+                exc.metrics.update(
+                    {
+                        "rolled_back_candidate_rows_remaining": remaining,
+                        "previous_version": current[0][0],
+                        "pointer_preserved": preserved,
+                        "published": False,
+                    }
+                )
             raise
         return {
             "published": True,
@@ -302,16 +405,27 @@ class Workflow:
         self.audit(record)
         try:
             record["result"] = getattr(self, self.task)()
+            record["result"]["_monitoring"] = observation(
+                self.task, record["result"], mode=self.mode, attempt=self.attempt
+            )
             record["state"] = "success"
         except BaseException as exc:
             record["state"] = "failed"
             # Do not persist connector errors or configuration values in shared logs.
             code = (
-                str(exc)
-                if str(exc).startswith(("CONTROLLED_", "PIPELINE_FAILED_"))
-                else type(exc).__name__
+                exc.code
+                if isinstance(exc, ObservedFailure)
+                else (
+                    str(exc)
+                    if str(exc).startswith(("CONTROLLED_", "PIPELINE_FAILED_"))
+                    else type(exc).__name__
+                )
             )
-            record["result"] = {"failure_code": code}
+            record["result"] = dict(exc.metrics) if isinstance(exc, ObservedFailure) else {}
+            record["result"].update(failure_code=code)
+            record["result"]["_monitoring"] = observation(
+                self.task, record["result"], exc, self.mode, self.attempt
+            )
             raise RuntimeError(code) from None
         finally:
             record.update(

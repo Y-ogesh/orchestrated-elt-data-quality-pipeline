@@ -135,3 +135,15 @@ This is intentional after a failed gate. Inspect the first failed task and `AUDI
 ## A second Airflow run remains queued
 
 `max_active_runs=1` is the safety control, not a scheduling defect. Wait for the current run to reach its terminal state. Do not increase it or run external writers against the same RAW/reporting state. Unpausing can also schedule the latest eligible Monday interval before a manual run.
+
+## Error diagnostics exceed rejected rows
+
+One source line can violate several rules. Count distinct run/file/line identities and report unlocated diagnostics separately; never use `COUNT(*)` of error messages as a rejected-record count. The synthetic quarantine example deliberately has three diagnostics across two rejected rows. Accepted-but-held rows are not committed rows. See [monitoring and recovery](monitoring_recovery.md).
+
+## Monitoring reports a missing terminal event or inconsistent run state
+
+Inspect Airflow task state, attempt number and owned subprocess before retrying. Unmatched running audit events older than 35 minutes require investigation; do not mark them successful or force publication. If a committed publication survived a later audit failure, publication history/pointer remains authoritative even when the DAG is failed. Diagnose the audit issue without recopying that immutable version. Never delete failed-attempt records to improve success rate.
+
+## Synthetic failure modes keep failing
+
+Use a new corrected/normal run, not the same persistent `rejected_source` configuration. For ordinary operation pause the DAG, unset `OLIST_ENABLE_ORCHESTRATION_PROBES` or set it to zero, and recreate services with Compose. Existing scenario IDs and captured evidence are immutable experiments; do not reuse them with different source inputs.

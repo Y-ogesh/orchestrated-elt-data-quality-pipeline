@@ -101,6 +101,8 @@ The generated lineage graph was served locally and visually verified, including 
 
 Airflow reuses these same gates against run-specific candidate models before publishing. The controlled orchestration failure is an explicit post-validation exception, not an injected source-data defect or a weakened test. `REPORT_*` views retain their last validated version when any gate fails; see [orchestration](orchestration.md).
 
+Milestone 8 preserves test/freshness outcomes even when the task subsequently fails and records typed quality/freshness/reconciliation categories. An additional isolated negative candidate is evaluated by real SQL; it is not added to the 157 production dbt tests or misreported as a source anomaly. Synthetic quarantine measures distinct rejected source lines separately from diagnostic count, and holds otherwise valid rows under the whole-batch rejection policy. See [monitoring and recovery](monitoring_recovery.md).
+
 Milestone 6 retains all 157 tests and extends validation through isolated historical replay. The replay uses the same models/tests after each transaction window, checks natural-key overlap before RAW commit, and compares incremental business rows with a full refresh. Changed-record and late-arrival fixtures are confined to prefixed test relations; they are not the genuine 166-row carrier anomaly. See [incremental loading](incremental_loading.md) for measured results and the serialized-writer/correction contract.
 
 - The pipeline owner owns ingestion integrity, warehouse reconciliation, dbt execution, test policy, and recovery evidence.

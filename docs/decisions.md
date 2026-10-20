@@ -139,3 +139,15 @@ Run-specific dbt aliases isolate candidate builds without schema-creation privil
 **Status:** Accepted, 2026-10-16
 
 One active DAG run, one active task, and a one-slot writer pool enforce the existing serialized-writer contract inside this deployment. External manual writers are prohibited while the DAG runs; no distributed cross-deployment lock is claimed. An `all_done` audit task must fail when any required ancestor failed or never executed, otherwise Airflow can treat a successful audit leaf as a successful DAG despite upstream failure. The existing load audit remains authoritative; a narrow task-attempt table adds orchestration metadata only.
+
+## ADR-024 — Extend audit observations; derive monitoring instead of duplicating state
+
+**Status:** Accepted, 2026-10-16
+
+Add a versioned `_monitoring` object to existing task-attempt details. Preserve each attempt and distinguish root failures from downstream audit summaries. Derive run status and metrics from those events, cross-check Airflow, and use publication history/pointer as the publication authority. Legacy events remain immutable and their category attribution is explicitly lower-specificity. Unknown counts remain unknown; verified historical inventory is never summed as new ingestion. No external notification destination or new monitoring service is provisioned.
+
+## ADR-025 — Distinct rejected rows and whole-batch quarantine policy
+
+**Status:** Accepted, 2026-10-16
+
+Count unique source-line identities separately from diagnostic multiplicity. Preserve valid-but-held versus committed counts. Keep the historical production loader fail-closed; demonstrate rejected-record classification and corrected idempotent merge in session temporary tables only. Audit retains synthetic provenance/reason/counts, not source customer payloads. Real source corrections require an approved new immutable version rather than overwriting source truth.

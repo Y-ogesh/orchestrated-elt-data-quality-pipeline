@@ -1,0 +1,5524 @@
+{
+  "status": "Completed and validated",
+  "validation_date": "2026-10-16",
+  "monitoring": {
+    "generated_at": "2026-10-16T22:48:40.833703+00:00",
+    "scope": "existing pipeline task audit; validation runs are not production incidents",
+    "summary": {
+      "total_runs": 9,
+      "successful_runs": 7,
+      "failed_runs": 2,
+      "incomplete_runs": 0,
+      "recovered_by_retry_runs": 4,
+      "success_rate": 0.7777777777777778,
+      "average_task_span_seconds": 143.786,
+      "latest_task_span_seconds": 141.249,
+      "retry_attempts": 6,
+      "failed_attempt_categories": {
+        "data_quality": 4,
+        "snowflake_load": 2,
+        "reconciliation": 1,
+        "publication": 1
+      },
+      "current_reporting_version": "M7_30F3580F9026_",
+      "publications": 7,
+      "load_error_diagnostics": 0,
+      "traceable_rejected_load_lines": 0,
+      "unlocated_load_error_diagnostics": 0,
+      "synthetic_rejected_row_evaluations": 4,
+      "distinct_synthetic_rejected_source_lines": 2,
+      "latest_verified_inventory": {
+        "batches": 26,
+        "files": 129,
+        "key_violations": 0,
+        "raw_tables": 9,
+        "relationship_violations": 0,
+        "rows": 1550922,
+        "schemas": 5
+      },
+      "latest_quality_outcomes": {
+        "pass": 156,
+        "warn": 1
+      },
+      "latest_freshness_outcomes": {
+        "pass": 9
+      },
+      "recorded_quality_rule_failure_evaluations": 1,
+      "failed_quality_gate_attempts": 4,
+      "total_new_raw_rows": 0,
+      "inflight_attempts": 0,
+      "stale_running_attempts": 0,
+      "duplicate_terminal_attempt_keys": 0
+    },
+    "runs": [
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "state": "success",
+        "recovered_by_retry": false,
+        "task_span_seconds": 173.686,
+        "retries": 0,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "state": "success",
+        "recovered_by_retry": false,
+        "task_span_seconds": 126.237,
+        "retries": 0,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "state": "failed",
+        "recovered_by_retry": false,
+        "task_span_seconds": 149.886,
+        "retries": 1,
+        "publication_status": "not_published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": null,
+        "freshness_outcomes": null
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "state": "success",
+        "recovered_by_retry": true,
+        "task_span_seconds": 200.848,
+        "retries": 1,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "state": "failed",
+        "recovered_by_retry": false,
+        "task_span_seconds": 60.773,
+        "retries": 1,
+        "publication_status": "not_published",
+        "inserted_raw_rows": null,
+        "verified_inventory": null,
+        "quality_outcomes": null,
+        "freshness_outcomes": null
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "state": "success",
+        "recovered_by_retry": false,
+        "task_span_seconds": 137.08,
+        "retries": 0,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "state": "success",
+        "recovered_by_retry": true,
+        "task_span_seconds": 145.674,
+        "retries": 1,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "state": "success",
+        "recovered_by_retry": true,
+        "task_span_seconds": 158.644,
+        "retries": 1,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "state": "success",
+        "recovered_by_retry": true,
+        "task_span_seconds": 141.249,
+        "retries": 1,
+        "publication_status": "published",
+        "inserted_raw_rows": 0,
+        "verified_inventory": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        },
+        "quality_outcomes": {
+          "pass": 156,
+          "warn": 1
+        },
+        "freshness_outcomes": {
+          "pass": 9
+        }
+      }
+    ],
+    "attempts": [
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:23:38.217762+00:00",
+        "ended_at": "2026-10-16T18:23:42.596329+00:00",
+        "seconds": 4.379,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:23:45.899287+00:00",
+        "ended_at": "2026-10-16T18:24:02.953600+00:00",
+        "seconds": 17.053,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:24:06.175894+00:00",
+        "ended_at": "2026-10-16T18:24:44.686170+00:00",
+        "seconds": 38.511,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "9c44d8a1-e61b-4f62-8f1e-860c8c0caa58"
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:24:47.422475+00:00",
+        "ended_at": "2026-10-16T18:24:55.434086+00:00",
+        "seconds": 8.012,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:24:59.948340+00:00",
+        "ended_at": "2026-10-16T18:25:29.971640+00:00",
+        "seconds": 30.023,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 28.594
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:25:33.618474+00:00",
+        "ended_at": "2026-10-16T18:25:54.611832+00:00",
+        "seconds": 20.993,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 4.538
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 12.068
+          }
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:25:57.434813+00:00",
+        "ended_at": "2026-10-16T18:26:28.146897+00:00",
+        "seconds": 30.713,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": null,
+          "published": true,
+          "version": "M7_8F8C46CE0D4C_"
+        }
+      },
+      {
+        "run_id": "scheduled__2026-10-12T06:00:00+00:00",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:26:30.700958+00:00",
+        "ended_at": "2026-10-16T18:26:31.903287+00:00",
+        "seconds": 1.202,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": false,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:26:34.924818+00:00",
+        "ended_at": "2026-10-16T18:26:36.193682+00:00",
+        "seconds": 1.269,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:26:38.469630+00:00",
+        "ended_at": "2026-10-16T18:26:51.832615+00:00",
+        "seconds": 13.363,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:26:54.247020+00:00",
+        "ended_at": "2026-10-16T18:27:17.077391+00:00",
+        "seconds": 22.832,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "772ebbd8-6278-4f55-9845-6a85bd9c7865"
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:27:20.758281+00:00",
+        "ended_at": "2026-10-16T18:27:24.494324+00:00",
+        "seconds": 3.736,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:27:26.603070+00:00",
+        "ended_at": "2026-10-16T18:27:50.453242+00:00",
+        "seconds": 23.849,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 22.611
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:27:54.893610+00:00",
+        "ended_at": "2026-10-16T18:28:16.865244+00:00",
+        "seconds": 21.972,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 5.151
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 11.946
+          }
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:28:20.110696+00:00",
+        "ended_at": "2026-10-16T18:28:36.978466+00:00",
+        "seconds": 16.869,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_8F8C46CE0D4C_",
+          "published": true,
+          "version": "M7_2DB9144F8934_"
+        }
+      },
+      {
+        "run_id": "m7_success_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:28:40.070293+00:00",
+        "ended_at": "2026-10-16T18:28:41.161696+00:00",
+        "seconds": 1.091,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:30:32.903863+00:00",
+        "ended_at": "2026-10-16T18:30:34.063366+00:00",
+        "seconds": 1.159,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:30:36.861875+00:00",
+        "ended_at": "2026-10-16T18:30:50.535410+00:00",
+        "seconds": 13.674,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:30:53.845664+00:00",
+        "ended_at": "2026-10-16T18:31:17.083025+00:00",
+        "seconds": 23.236,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "024a0324-30dc-49bc-88e1-bfcf70277354"
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:31:20.152176+00:00",
+        "ended_at": "2026-10-16T18:31:24.310322+00:00",
+        "seconds": 4.158,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:31:26.674176+00:00",
+        "ended_at": "2026-10-16T18:31:53.586809+00:00",
+        "seconds": 26.912,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 25.579
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T18:31:57.233783+00:00",
+        "ended_at": "2026-10-16T18:32:19.777686+00:00",
+        "seconds": 22.545,
+        "failure_category": "data_quality",
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "failure_code": "CONTROLLED_QUALITY_GATE_FAILURE"
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "validate_data_quality",
+        "attempt": 2,
+        "state": "failed",
+        "started_at": "2026-10-16T18:32:38.416078+00:00",
+        "ended_at": "2026-10-16T18:32:57.677131+00:00",
+        "seconds": 19.261,
+        "failure_category": "data_quality",
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "failure_code": "CONTROLLED_QUALITY_GATE_FAILURE"
+        }
+      },
+      {
+        "run_id": "m7_failure_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T18:33:01.204913+00:00",
+        "ended_at": "2026-10-16T18:33:02.790324+00:00",
+        "seconds": 1.585,
+        "failure_category": "infrastructure",
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "failure_code": "PIPELINE_FAILED_PUBLICATION_NOT_COMPLETED"
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:35:20.887523+00:00",
+        "ended_at": "2026-10-16T18:35:23.265399+00:00",
+        "seconds": 2.378,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:35:26.391018+00:00",
+        "ended_at": "2026-10-16T18:35:38.178764+00:00",
+        "seconds": 11.787,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:35:40.866841+00:00",
+        "ended_at": "2026-10-16T18:36:05.653057+00:00",
+        "seconds": 24.787,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "7bc27ab8-3c62-4104-a54b-2de88a572c40"
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:36:09.543734+00:00",
+        "ended_at": "2026-10-16T18:36:14.487605+00:00",
+        "seconds": 4.944,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:36:18.070895+00:00",
+        "ended_at": "2026-10-16T18:37:15.465744+00:00",
+        "seconds": 57.395,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 56.291
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T18:37:18.360251+00:00",
+        "ended_at": "2026-10-16T18:37:40.124442+00:00",
+        "seconds": 21.764,
+        "failure_category": "data_quality",
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "failure_code": "CONTROLLED_TRANSIENT_GATE_FAILURE"
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "validate_data_quality",
+        "attempt": 2,
+        "state": "success",
+        "started_at": "2026-10-16T18:37:58.922612+00:00",
+        "ended_at": "2026-10-16T18:38:18.553409+00:00",
+        "seconds": 19.631,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 3.534
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 118,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 10.108
+          }
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:38:21.317635+00:00",
+        "ended_at": "2026-10-16T18:38:37.822373+00:00",
+        "seconds": 16.505,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_2DB9144F8934_",
+          "published": true,
+          "version": "M7_2DDE830DCF3D_"
+        }
+      },
+      {
+        "run_id": "m7_recovery_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T18:38:40.585229+00:00",
+        "ended_at": "2026-10-16T18:38:41.735379+00:00",
+        "seconds": 1.15,
+        "failure_category": null,
+        "observation": {},
+        "synthetic": true,
+        "classification_origin": "derived_from_legacy_task",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:34:12.725611+00:00",
+        "ended_at": "2026-10-16T22:34:14.821700+00:00",
+        "seconds": 2.096,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "rejected_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "ingestion",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:34:18.115892+00:00",
+        "ended_at": "2026-10-16T22:34:33.173211+00:00",
+        "seconds": 15.057,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "rejected_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "s3_object",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T22:34:36.137737+00:00",
+        "ended_at": "2026-10-16T22:34:41.575110+00:00",
+        "seconds": 5.438,
+        "failure_category": "snowflake_load",
+        "observation": {
+          "accepted_rows": 1,
+          "accounting_scope": "isolated_synthetic",
+          "execution_origin": "airflow",
+          "failure_category": "snowflake_load",
+          "failure_reason": "SYNTHETIC_REJECTED_SOURCE",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": 2,
+          "scenario": "rejected_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": 3,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1,
+            "diagnostics": 3,
+            "held_accepted_rows": 1,
+            "inserted_rows": 0,
+            "open_quarantine_rows": 2,
+            "policy": "hold_entire_batch_on_any_rejection",
+            "quarantine_resolution": "blocked",
+            "rejected_provenance": [
+              [
+                "synthetic://m8/records",
+                2,
+                "NEGATIVE_AMOUNT",
+                "open"
+              ],
+              [
+                "synthetic://m8/records",
+                2,
+                "NULL_KEY",
+                "open"
+              ],
+              [
+                "synthetic://m8/records",
+                3,
+                "NEGATIVE_AMOUNT",
+                "open"
+              ]
+            ],
+            "rejected_rows": 2,
+            "rerun_inserted_rows": 0,
+            "scope": "isolated_synthetic",
+            "source_rows": 3,
+            "target_rows": 0,
+            "updated_rows": 0
+          },
+          "failure_code": "SYNTHETIC_REJECTED_SOURCE"
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 2,
+        "state": "failed",
+        "started_at": "2026-10-16T22:35:00.336200+00:00",
+        "ended_at": "2026-10-16T22:35:05.364856+00:00",
+        "seconds": 5.029,
+        "failure_category": "snowflake_load",
+        "observation": {
+          "accepted_rows": 1,
+          "accounting_scope": "isolated_synthetic",
+          "execution_origin": "airflow",
+          "failure_category": "snowflake_load",
+          "failure_reason": "SYNTHETIC_REJECTED_SOURCE",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": 2,
+          "scenario": "rejected_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": 3,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1,
+            "diagnostics": 3,
+            "held_accepted_rows": 1,
+            "inserted_rows": 0,
+            "open_quarantine_rows": 2,
+            "policy": "hold_entire_batch_on_any_rejection",
+            "quarantine_resolution": "blocked",
+            "rejected_provenance": [
+              [
+                "synthetic://m8/records",
+                2,
+                "NEGATIVE_AMOUNT",
+                "open"
+              ],
+              [
+                "synthetic://m8/records",
+                2,
+                "NULL_KEY",
+                "open"
+              ],
+              [
+                "synthetic://m8/records",
+                3,
+                "NEGATIVE_AMOUNT",
+                "open"
+              ]
+            ],
+            "rejected_rows": 2,
+            "rerun_inserted_rows": 0,
+            "scope": "isolated_synthetic",
+            "source_rows": 3,
+            "target_rows": 0,
+            "updated_rows": 0
+          },
+          "failure_code": "SYNTHETIC_REJECTED_SOURCE"
+        }
+      },
+      {
+        "run_id": "m8_rejected_source_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T22:35:12.539709+00:00",
+        "ended_at": "2026-10-16T22:35:13.498950+00:00",
+        "seconds": 0.959,
+        "failure_category": "infrastructure",
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": "infrastructure",
+          "failure_reason": "RuntimeError",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "rejected_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "infrastructure",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "failure_code": "PIPELINE_FAILED_PUBLICATION_NOT_COMPLETED"
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:35:26.640851+00:00",
+        "ended_at": "2026-10-16T22:35:27.756126+00:00",
+        "seconds": 1.115,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "ingestion",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:35:31.507625+00:00",
+        "ended_at": "2026-10-16T22:35:44.660892+00:00",
+        "seconds": 13.154,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "s3_object",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:35:48.592863+00:00",
+        "ended_at": "2026-10-16T22:36:19.240141+00:00",
+        "seconds": 30.647,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": 1550922,
+          "accounting_scope": "production_raw",
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": 0,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": 1550922,
+          "source_rows": 1550922,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": "1c99ce8f-6138-415f-b844-d8a1b0c8d1ea",
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1550922,
+            "inserted_rows": 0,
+            "rejected_rows": 0,
+            "scope": "production_raw",
+            "skipped_rows": 1550922,
+            "source_rows": 1550922,
+            "updated_rows": 0
+          },
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "1c99ce8f-6138-415f-b844-d8a1b0c8d1ea",
+          "synthetic_recovery": {
+            "accepted_rows": 3,
+            "diagnostics": 0,
+            "held_accepted_rows": 0,
+            "inserted_rows": 3,
+            "open_quarantine_rows": 0,
+            "policy": "hold_entire_batch_on_any_rejection",
+            "quarantine_resolution": "corrected",
+            "rejected_provenance": [],
+            "rejected_rows": 0,
+            "rerun_inserted_rows": 0,
+            "scope": "isolated_synthetic",
+            "source_file": "synthetic://m8/records",
+            "source_rows": 3,
+            "target_rows": 3,
+            "updated_rows": 0
+          }
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:36:22.769889+00:00",
+        "ended_at": "2026-10-16T22:36:26.784322+00:00",
+        "seconds": 4.014,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "reconciliation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:36:29.450231+00:00",
+        "ended_at": "2026-10-16T22:36:57.039063+00:00",
+        "seconds": 27.588,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "transformation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 26.578
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:36:59.787771+00:00",
+        "ended_at": "2026-10-16T22:37:20.530002+00:00",
+        "seconds": 20.742,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "pass",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "data_quality",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 4.795
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 11.243
+          }
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:37:23.414346+00:00",
+        "ended_at": "2026-10-16T22:37:40.547039+00:00",
+        "seconds": 17.134,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "publication",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_2DDE830DCF3D_",
+          "published": true,
+          "version": "M7_16085FF9DBC4_"
+        }
+      },
+      {
+        "run_id": "m8_recovered_source_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:37:42.803283+00:00",
+        "ended_at": "2026-10-16T22:37:43.720494+00:00",
+        "seconds": 0.917,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "downstream_summary",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "recovered_source",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "infrastructure",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:37:59.299660+00:00",
+        "ended_at": "2026-10-16T22:38:00.553955+00:00",
+        "seconds": 1.254,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "ingestion",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:38:03.064570+00:00",
+        "ended_at": "2026-10-16T22:38:15.252009+00:00",
+        "seconds": 12.187,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "s3_object",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:38:18.990509+00:00",
+        "ended_at": "2026-10-16T22:38:41.213049+00:00",
+        "seconds": 22.223,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": 1550922,
+          "accounting_scope": "production_raw",
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": 0,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": 1550922,
+          "source_rows": 1550922,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": "77a58650-ebea-4bef-a7d7-295d471888bc",
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1550922,
+            "inserted_rows": 0,
+            "rejected_rows": 0,
+            "scope": "production_raw",
+            "skipped_rows": 1550922,
+            "source_rows": 1550922,
+            "updated_rows": 0
+          },
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "77a58650-ebea-4bef-a7d7-295d471888bc"
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T22:38:44.481186+00:00",
+        "ended_at": "2026-10-16T22:38:48.154917+00:00",
+        "seconds": 3.674,
+        "failure_category": "reconciliation",
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": "reconciliation",
+          "failure_reason": "SYNTHETIC_EXPECTED_COUNT_MISMATCH",
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "reconciliation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "actual_rows": 1550922,
+          "expected_rows": 1550923,
+          "failure_code": "SYNTHETIC_EXPECTED_COUNT_MISMATCH",
+          "original_validation": {
+            "batches": 26,
+            "files": 129,
+            "key_violations": 0,
+            "raw_tables": 9,
+            "relationship_violations": 0,
+            "rows": 1550922,
+            "schemas": 5
+          },
+          "row_difference": 1
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "reconcile_raw",
+        "attempt": 2,
+        "state": "success",
+        "started_at": "2026-10-16T22:39:06.107433+00:00",
+        "ended_at": "2026-10-16T22:39:09.646680+00:00",
+        "seconds": 3.539,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "retry_succeeded",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "reconciliation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:39:12.528313+00:00",
+        "ended_at": "2026-10-16T22:39:38.422270+00:00",
+        "seconds": 25.894,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "transformation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 24.807
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:39:41.399988+00:00",
+        "ended_at": "2026-10-16T22:40:00.627479+00:00",
+        "seconds": 19.227,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "pass",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "data_quality",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 4.836
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 9.558
+          }
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:40:03.722926+00:00",
+        "ended_at": "2026-10-16T22:40:20.129014+00:00",
+        "seconds": 16.407,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "publication",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_16085FF9DBC4_",
+          "published": true,
+          "version": "M7_406C663CFC71_"
+        }
+      },
+      {
+        "run_id": "m8_reconciliation_retry_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:40:23.807122+00:00",
+        "ended_at": "2026-10-16T22:40:24.973727+00:00",
+        "seconds": 1.167,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "downstream_summary",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "reconciliation_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "infrastructure",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:40:39.380848+00:00",
+        "ended_at": "2026-10-16T22:40:40.603141+00:00",
+        "seconds": 1.223,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "ingestion",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:40:43.613159+00:00",
+        "ended_at": "2026-10-16T22:40:56.136346+00:00",
+        "seconds": 12.523,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "s3_object",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:40:58.736210+00:00",
+        "ended_at": "2026-10-16T22:41:22.071603+00:00",
+        "seconds": 23.335,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": 1550922,
+          "accounting_scope": "production_raw",
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": 0,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": 1550922,
+          "source_rows": 1550922,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": "97af2f86-c83d-47ee-a74c-d8f8af603504",
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1550922,
+            "inserted_rows": 0,
+            "rejected_rows": 0,
+            "scope": "production_raw",
+            "skipped_rows": 1550922,
+            "source_rows": 1550922,
+            "updated_rows": 0
+          },
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "97af2f86-c83d-47ee-a74c-d8f8af603504"
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:41:25.313601+00:00",
+        "ended_at": "2026-10-16T22:41:29.890278+00:00",
+        "seconds": 4.577,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "reconciliation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:41:33.333206+00:00",
+        "ended_at": "2026-10-16T22:41:58.613207+00:00",
+        "seconds": 25.285,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "transformation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 23.918
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T22:42:01.867833+00:00",
+        "ended_at": "2026-10-16T22:42:21.499805+00:00",
+        "seconds": 19.626,
+        "failure_category": "data_quality",
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": "data_quality",
+          "failure_reason": "SYNTHETIC_NEGATIVE_CANDIDATE",
+          "failure_role": "root",
+          "freshness_status": "pass",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "pending",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "data_quality",
+          "synthetic": true,
+          "test_failures": 1,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "failure_code": "SYNTHETIC_NEGATIVE_CANDIDATE",
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 4.888
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "synthetic_quality": {
+            "checked_rows": 1,
+            "violations": 1
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 10.426
+          }
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "validate_data_quality",
+        "attempt": 2,
+        "state": "success",
+        "started_at": "2026-10-16T22:42:38.968395+00:00",
+        "ended_at": "2026-10-16T22:42:56.386499+00:00",
+        "seconds": 17.418,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "pass",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "retry_succeeded",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "data_quality",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 3.992
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "synthetic_quality": {
+            "checked_rows": 1,
+            "violations": 0
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 8.986
+          }
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:42:58.734406+00:00",
+        "ended_at": "2026-10-16T22:43:13.645063+00:00",
+        "seconds": 14.912,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "publication",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_406C663CFC71_",
+          "published": true,
+          "version": "M7_BDD40F9F1093_"
+        }
+      },
+      {
+        "run_id": "m8_quality_retry_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:43:17.047407+00:00",
+        "ended_at": "2026-10-16T22:43:18.024608+00:00",
+        "seconds": 0.977,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "downstream_summary",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "quality_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "infrastructure",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "prepare_source_batch",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:43:33.188454+00:00",
+        "ended_at": "2026-10-16T22:43:34.572916+00:00",
+        "seconds": 1.384,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "ingestion",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batch_count": 26,
+          "batch_ids": [
+            "045aeae487cd6602454a52ad9b2a8f1bdc0f8d1c165e0adeacbe85739b0a6a79",
+            "06d5c23a298c1387f20d77cb79546b753d49b6efbeff02969dbdc815314e8fb5",
+            "120ddd0e717c6f14a3eeb01a44d76a454fb040d6e1aa032df4cba6e31a6f5bc0",
+            "1b59eb2125c277004a9399d2518184bbf97ad134f866011c874559bb43ea738a",
+            "1e674276fd1c5e5a091ba475b8297d38d6a23c60aafe404450bf78fe71cfec2a",
+            "364e670c9f06fba57f9b8b17392819396bdb150c6cc6b9fdb48db3bc4e5cecae",
+            "3cf0d5e84021efd42580a6d953a71aed9fca18b7e3c93c388dcb2d35dfa910e2",
+            "3f874317ddf2ca55d91052edaca2f71ae0e3d4f698705a2f2df696098855599a",
+            "4ebb1f353fe46cce85e14ceae8e2f040eee9d3989584717106e318f3235555b8",
+            "4fde4ed01b35ab972e6df29084cf519d653d8c416e439aa0a3d2321d900d6146",
+            "53a64c2ea6fabc5a75f33441e64c74370b49e48d2f8030f9859b707178ad1a48",
+            "64610680755ad7ab619b0292e5c0d92e283a54df49c9844f079d2846eda2a9dd",
+            "66d83d574c79e22260124cd1c1f2349d0be8f0c80357d13d1d4b8e64617026b3",
+            "82387a759c818692a35ebe58446b31ae297411a5d7f20633e035392685915dc5",
+            "954a2ec58480e4942d300b28373bc59588bb74c3f7cdca18e7984119894c5bd7",
+            "98d60b1d9b9b4433d07caa00539700ee710026f9de9dcffd85f8be5f38c26bc2",
+            "9c75eaf9f83fbe2725437f12840047cfa91f671a9901da9f57c0e826f77053d5",
+            "9da34118539cb6a70c918ae9a1c41bc9cc611d6c8e337c3ba1b0ac6638627cd6",
+            "a7bab4fcf3616593fbe1995f34a43bc8a3893d5406779cca95dbb593107693a4",
+            "a851e3a7854dfef1a087b509b595340ecd2e9521a298c547db907e5465931a90",
+            "aa26dbd77a4efd6e35a2197b885bbceed595b4b06faab44ad7d780b608448815",
+            "ab79ce7bf2701f1bc2395818075ab1c404625cd578893a4283fe2ef40cac7b2d",
+            "c99b2bc7579c8d2ca1993bf29927983edfe0ac86898d94b40224628eaf2582ad",
+            "cebfa4a7c1bb4f37347f9345bb977c71b80afe887e6e901786bd542a35da233f",
+            "e452f11a1261e2dc4e5b11e6324995062781dfac0a05511b25b4d9381010f97e",
+            "e71b0ef59e118c18a8bd59ba9c9c171b792baeef354c29c35d1e812b836485b5"
+          ],
+          "file_count": 129,
+          "object_count": 155,
+          "row_count": 1550922
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "ingest_to_s3",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:43:36.965034+00:00",
+        "ended_at": "2026-10-16T22:43:49.184486+00:00",
+        "seconds": 12.22,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "s3_object",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "objects": 155,
+          "skipped": 155,
+          "uploaded": 0
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "load_snowflake_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:43:52.410947+00:00",
+        "ended_at": "2026-10-16T22:44:12.214601+00:00",
+        "seconds": 19.804,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": 1550922,
+          "accounting_scope": "production_raw",
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": 0,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": 0,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": 1550922,
+          "source_rows": 1550922,
+          "stage": "snowflake_load",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": 0,
+          "warehouse_run_id": "b5cd661f-8434-474e-8663-0533ca34081f",
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "accounting": {
+            "accepted_rows": 1550922,
+            "inserted_rows": 0,
+            "rejected_rows": 0,
+            "scope": "production_raw",
+            "skipped_rows": 1550922,
+            "source_rows": 1550922,
+            "updated_rows": 0
+          },
+          "batches_loaded": 0,
+          "batches_skipped": 26,
+          "files_loaded": 0,
+          "rows_loaded": 0,
+          "run_id": "b5cd661f-8434-474e-8663-0533ca34081f"
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "reconcile_raw",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:44:16.032265+00:00",
+        "ended_at": "2026-10-16T22:44:19.115447+00:00",
+        "seconds": 3.083,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "reconciliation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "batches": 26,
+          "files": 129,
+          "key_violations": 0,
+          "raw_tables": 9,
+          "relationship_violations": 0,
+          "rows": 1550922,
+          "schemas": 5
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "run_dbt_transformations",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:44:22.460784+00:00",
+        "ended_at": "2026-10-16T22:44:46.429766+00:00",
+        "seconds": 23.968,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "transformation",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "exit_code": 0,
+          "outcomes": {
+            "pass": 156,
+            "success": 24,
+            "warn": 1
+          },
+          "seconds": 23.054
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "validate_data_quality",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:44:49.354797+00:00",
+        "ended_at": "2026-10-16T22:45:08.654273+00:00",
+        "seconds": 19.299,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "pass",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "pass",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "data_quality",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 1
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "freshness": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 9
+            },
+            "seconds": 4.426
+          },
+          "reconciliation": {
+            "batches": {
+              "absolute_file_difference": 0,
+              "absolute_row_difference": 0,
+              "count": 26,
+              "expected_files": 129,
+              "expected_rows": 1550922,
+              "loaded_files": 129,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "files": {
+              "audit_rows": 129,
+              "distinct_files": 129,
+              "expected_rows": 1550922,
+              "loaded_rows": 1550922,
+              "non_successful": 0
+            },
+            "freshness": {
+              "category_translation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+                "status": "pass"
+              },
+              "customers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+                "status": "pass"
+              },
+              "geolocation": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+                "status": "pass"
+              },
+              "order_items": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+                "status": "pass"
+              },
+              "order_payments": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+                "status": "pass"
+              },
+              "order_reviews": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+                "status": "pass"
+              },
+              "orders": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+                "status": "pass"
+              },
+              "products": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+                "status": "pass"
+              },
+              "sellers": {
+                "age_hours": 122,
+                "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+                "status": "pass"
+              }
+            },
+            "genuine_source_anomalies": {
+              "carrier_timestamp_before_purchase": 166
+            },
+            "monetary": {
+              "freight": [
+                "2251909.54",
+                "2251909.54",
+                "2251909.54"
+              ],
+              "merchandise": [
+                "13591643.70",
+                "13591643.70",
+                "13591643.70"
+              ],
+              "payments": [
+                "16008872.12",
+                "16008872.12",
+                "16008872.12"
+              ]
+            },
+            "production_synthetic_rows": 0,
+            "raw_to_facts": {
+              "order_items": {
+                "difference": 0,
+                "fact_rows": 112650,
+                "raw_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "fact_rows": 103886,
+                "raw_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "fact_rows": 99224,
+                "raw_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "fact_rows": 99441,
+                "raw_rows": 99441
+              }
+            },
+            "raw_to_staging": {
+              "category_translation": {
+                "difference": 0,
+                "raw_rows": 71,
+                "staging_rows": 71
+              },
+              "customers": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "geolocation": {
+                "difference": 0,
+                "raw_rows": 1000163,
+                "staging_rows": 1000163
+              },
+              "order_items": {
+                "difference": 0,
+                "raw_rows": 112650,
+                "staging_rows": 112650
+              },
+              "order_payments": {
+                "difference": 0,
+                "raw_rows": 103886,
+                "staging_rows": 103886
+              },
+              "order_reviews": {
+                "difference": 0,
+                "raw_rows": 99224,
+                "staging_rows": 99224
+              },
+              "orders": {
+                "difference": 0,
+                "raw_rows": 99441,
+                "staging_rows": 99441
+              },
+              "products": {
+                "difference": 0,
+                "raw_rows": 32951,
+                "staging_rows": 32951
+              },
+              "sellers": {
+                "difference": 0,
+                "raw_rows": 3095,
+                "staging_rows": 3095
+              }
+            }
+          },
+          "tests": {
+            "exit_code": 0,
+            "outcomes": {
+              "pass": 156,
+              "warn": 1
+            },
+            "seconds": 9.328
+          }
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "publish_reporting",
+        "attempt": 1,
+        "state": "failed",
+        "started_at": "2026-10-16T22:45:11.568117+00:00",
+        "ended_at": "2026-10-16T22:45:19.676226+00:00",
+        "seconds": 8.108,
+        "failure_category": "publication",
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": "publication",
+          "failure_reason": "SYNTHETIC_PUBLICATION_INTERRUPTION",
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "pending",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "publication",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "failure_code": "SYNTHETIC_PUBLICATION_INTERRUPTION",
+          "pointer_preserved": true,
+          "previous_version": "M7_BDD40F9F1093_",
+          "published": false,
+          "rolled_back_candidate_rows_remaining": 0,
+          "uncommitted_rows_before_rollback": 74
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "publish_reporting",
+        "attempt": 2,
+        "state": "success",
+        "started_at": "2026-10-16T22:45:37.441709+00:00",
+        "ended_at": "2026-10-16T22:45:51.034834+00:00",
+        "seconds": 13.589,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "root",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "retry_succeeded",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "publication",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "models": 11,
+          "monetary": {
+            "freight": [
+              "2251909.54",
+              "2251909.54",
+              "2251909.54"
+            ],
+            "merchandise": [
+              "13591643.70",
+              "13591643.70",
+              "13591643.70"
+            ],
+            "payments": [
+              "16008872.12",
+              "16008872.12",
+              "16008872.12"
+            ]
+          },
+          "previous_version": "M7_BDD40F9F1093_",
+          "published": true,
+          "version": "M7_30F3580F9026_"
+        }
+      },
+      {
+        "run_id": "m8_publication_retry_20261016",
+        "task": "record_pipeline_audit",
+        "attempt": 1,
+        "state": "success",
+        "started_at": "2026-10-16T22:45:53.461090+00:00",
+        "ended_at": "2026-10-16T22:45:54.437856+00:00",
+        "seconds": 0.977,
+        "failure_category": null,
+        "observation": {
+          "accepted_rows": null,
+          "accounting_scope": null,
+          "execution_origin": "airflow",
+          "failure_category": null,
+          "failure_reason": null,
+          "failure_role": "downstream_summary",
+          "freshness_status": "unknown",
+          "inserted_rows": null,
+          "publication_status": "not_published",
+          "reconciliation_status": "unknown",
+          "recovery_status": "not_applicable",
+          "rejected_rows": null,
+          "scenario": "publication_retry",
+          "schema_version": 1,
+          "skipped_rows": null,
+          "source_rows": null,
+          "stage": "infrastructure",
+          "synthetic": true,
+          "test_failures": 0,
+          "updated_rows": null,
+          "warehouse_run_id": null,
+          "warning_count": 0
+        },
+        "synthetic": true,
+        "classification_origin": "recorded",
+        "result": {
+          "pipeline_state": "success",
+          "tasks": 7
+        }
+      }
+    ],
+    "inflight": [],
+    "publications": [
+      [
+        "M7_8F8C46CE0D4C_",
+        "scheduled__2026-10-12T06:00:00+00:00",
+        "2026-10-16T11:26:26.089000-07:00"
+      ],
+      [
+        "M7_2DB9144F8934_",
+        "m7_success_20261016",
+        "2026-10-16T11:28:34.420000-07:00"
+      ],
+      [
+        "M7_2DDE830DCF3D_",
+        "m7_recovery_20261016",
+        "2026-10-16T11:38:35.620000-07:00"
+      ],
+      [
+        "M7_16085FF9DBC4_",
+        "m8_recovered_source_20261016",
+        "2026-10-16T15:37:37.968000-07:00"
+      ],
+      [
+        "M7_406C663CFC71_",
+        "m8_reconciliation_retry_20261016",
+        "2026-10-16T15:40:18.077000-07:00"
+      ],
+      [
+        "M7_BDD40F9F1093_",
+        "m8_quality_retry_20261016",
+        "2026-10-16T15:43:11.819000-07:00"
+      ],
+      [
+        "M7_30F3580F9026_",
+        "m8_publication_retry_20261016",
+        "2026-10-16T15:45:49.056000-07:00"
+      ]
+    ]
+  },
+  "scenarios": {
+    "rejected_source": {
+      "dag_run_id": "m8_rejected_source_20261016",
+      "state": "failed",
+      "start_date": "2026-10-16T22:34:09.081266Z",
+      "end_date": "2026-10-16T22:35:15.221536Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:34:09.358980Z",
+          "end_date": "2026-10-16T22:34:16.369680Z",
+          "duration": 7.0107
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:34:17.158606Z",
+          "end_date": "2026-10-16T22:34:34.780266Z",
+          "duration": 17.62166
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "upstream_failed",
+          "try_number": 0,
+          "start_date": "2026-10-16T22:35:07.279366Z",
+          "end_date": "2026-10-16T22:35:07.279366Z",
+          "duration": 0.0
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "upstream_failed",
+          "try_number": 0,
+          "start_date": "2026-10-16T22:35:08.328080Z",
+          "end_date": "2026-10-16T22:35:08.328080Z",
+          "duration": 0.0
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "upstream_failed",
+          "try_number": 0,
+          "start_date": "2026-10-16T22:35:09.359733Z",
+          "end_date": "2026-10-16T22:35:09.359733Z",
+          "duration": 0.0
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "upstream_failed",
+          "try_number": 0,
+          "start_date": "2026-10-16T22:35:10.397652Z",
+          "end_date": "2026-10-16T22:35:10.397652Z",
+          "duration": 0.0
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "failed",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:35:11.464530Z",
+          "end_date": "2026-10-16T22:35:14.825354Z",
+          "duration": 3.360824
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "failed",
+          "try_number": 2,
+          "start_date": "2026-10-16T22:34:59.336083Z",
+          "end_date": "2026-10-16T22:35:06.740460Z",
+          "duration": 7.404377
+        }
+      ],
+      "seconds": 66.14
+    },
+    "recovered_source": {
+      "dag_run_id": "m8_recovered_source_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T22:35:25.238341Z",
+      "end_date": "2026-10-16T22:37:45.789805Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:35:25.282996Z",
+          "end_date": "2026-10-16T22:35:29.480872Z",
+          "duration": 4.197876
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:35:30.558092Z",
+          "end_date": "2026-10-16T22:35:46.464732Z",
+          "duration": 15.90664
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:35:47.445680Z",
+          "end_date": "2026-10-16T22:36:20.511112Z",
+          "duration": 33.065432
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:36:21.290732Z",
+          "end_date": "2026-10-16T22:36:28.174652Z",
+          "duration": 6.88392
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:36:28.613807Z",
+          "end_date": "2026-10-16T22:36:58.265484Z",
+          "duration": 29.651677
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:36:58.690018Z",
+          "end_date": "2026-10-16T22:37:21.809305Z",
+          "duration": 23.119287
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:37:22.365471Z",
+          "end_date": "2026-10-16T22:37:41.832172Z",
+          "duration": 19.466701
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:37:41.923551Z",
+          "end_date": "2026-10-16T22:37:44.862327Z",
+          "duration": 2.938776
+        }
+      ],
+      "seconds": 140.551
+    },
+    "reconciliation_retry": {
+      "dag_run_id": "m8_reconciliation_retry_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T22:37:57.890327Z",
+      "end_date": "2026-10-16T22:40:26.373791Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:37:57.957991Z",
+          "end_date": "2026-10-16T22:38:01.826930Z",
+          "duration": 3.868939
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:38:02.159933Z",
+          "end_date": "2026-10-16T22:38:17.728267Z",
+          "duration": 15.568334
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:38:18.034897Z",
+          "end_date": "2026-10-16T22:38:42.520963Z",
+          "duration": 24.486066
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:39:11.367314Z",
+          "end_date": "2026-10-16T22:39:39.969904Z",
+          "duration": 28.60259
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:39:40.358250Z",
+          "end_date": "2026-10-16T22:40:02.166904Z",
+          "duration": 21.808654
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:40:02.470668Z",
+          "end_date": "2026-10-16T22:40:22.372884Z",
+          "duration": 19.902216
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:40:22.734193Z",
+          "end_date": "2026-10-16T22:40:26.194765Z",
+          "duration": 3.460572
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 2,
+          "start_date": "2026-10-16T22:39:05.115829Z",
+          "end_date": "2026-10-16T22:39:10.862123Z",
+          "duration": 5.746294
+        }
+      ],
+      "seconds": 148.483
+    },
+    "quality_retry": {
+      "dag_run_id": "m8_quality_retry_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T22:40:38.458602Z",
+      "end_date": "2026-10-16T22:43:20.207314Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:40:38.508166Z",
+          "end_date": "2026-10-16T22:40:42.105759Z",
+          "duration": 3.597593
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:40:42.763626Z",
+          "end_date": "2026-10-16T22:40:57.499322Z",
+          "duration": 14.735696
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:40:57.540795Z",
+          "end_date": "2026-10-16T22:41:23.657429Z",
+          "duration": 26.116634
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:41:24.021186Z",
+          "end_date": "2026-10-16T22:41:31.169181Z",
+          "duration": 7.147995
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:41:31.813288Z",
+          "end_date": "2026-10-16T22:41:59.879591Z",
+          "duration": 28.066303
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:42:57.939782Z",
+          "end_date": "2026-10-16T22:43:15.125973Z",
+          "duration": 17.186191
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:43:15.973162Z",
+          "end_date": "2026-10-16T22:43:19.281303Z",
+          "duration": 3.308141
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 2,
+          "start_date": "2026-10-16T22:42:37.922773Z",
+          "end_date": "2026-10-16T22:42:57.703696Z",
+          "duration": 19.780923
+        }
+      ],
+      "seconds": 161.749
+    },
+    "publication_retry": {
+      "dag_run_id": "m8_publication_retry_20261016",
+      "state": "success",
+      "start_date": "2026-10-16T22:43:32.229611Z",
+      "end_date": "2026-10-16T22:45:56.505057Z",
+      "tasks": [
+        {
+          "task_id": "prepare_source_batch",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:43:32.271470Z",
+          "end_date": "2026-10-16T22:43:35.724868Z",
+          "duration": 3.453398
+        },
+        {
+          "task_id": "ingest_to_s3",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:43:36.040552Z",
+          "end_date": "2026-10-16T22:43:50.508381Z",
+          "duration": 14.467829
+        },
+        {
+          "task_id": "load_snowflake_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:43:51.359457Z",
+          "end_date": "2026-10-16T22:44:13.460153Z",
+          "duration": 22.100696
+        },
+        {
+          "task_id": "reconcile_raw",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:44:14.496297Z",
+          "end_date": "2026-10-16T22:44:20.689737Z",
+          "duration": 6.19344
+        },
+        {
+          "task_id": "run_dbt_transformations",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:44:21.441371Z",
+          "end_date": "2026-10-16T22:44:47.907523Z",
+          "duration": 26.466152
+        },
+        {
+          "task_id": "validate_data_quality",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:44:48.337635Z",
+          "end_date": "2026-10-16T22:45:10.042684Z",
+          "duration": 21.705049
+        },
+        {
+          "task_id": "record_pipeline_audit",
+          "state": "success",
+          "try_number": 1,
+          "start_date": "2026-10-16T22:45:52.700805Z",
+          "end_date": "2026-10-16T22:45:55.568104Z",
+          "duration": 2.867299
+        },
+        {
+          "task_id": "publish_reporting",
+          "state": "success",
+          "try_number": 2,
+          "start_date": "2026-10-16T22:45:36.414061Z",
+          "end_date": "2026-10-16T22:45:52.223922Z",
+          "duration": 15.809861
+        }
+      ],
+      "seconds": 144.275
+    }
+  },
+  "rejected_accounting": {
+    "accepted_rows": 1,
+    "diagnostics": 3,
+    "held_accepted_rows": 1,
+    "inserted_rows": 0,
+    "open_quarantine_rows": 2,
+    "policy": "hold_entire_batch_on_any_rejection",
+    "quarantine_resolution": "blocked",
+    "rejected_provenance": [
+      [
+        "synthetic://m8/records",
+        2,
+        "NEGATIVE_AMOUNT",
+        "open"
+      ],
+      [
+        "synthetic://m8/records",
+        2,
+        "NULL_KEY",
+        "open"
+      ],
+      [
+        "synthetic://m8/records",
+        3,
+        "NEGATIVE_AMOUNT",
+        "open"
+      ]
+    ],
+    "rejected_rows": 2,
+    "rerun_inserted_rows": 0,
+    "scope": "isolated_synthetic",
+    "source_rows": 3,
+    "target_rows": 0,
+    "updated_rows": 0
+  },
+  "corrected_accounting": {
+    "accepted_rows": 3,
+    "diagnostics": 0,
+    "held_accepted_rows": 0,
+    "inserted_rows": 3,
+    "open_quarantine_rows": 0,
+    "policy": "hold_entire_batch_on_any_rejection",
+    "quarantine_resolution": "corrected",
+    "rejected_provenance": [],
+    "rejected_rows": 0,
+    "rerun_inserted_rows": 0,
+    "scope": "isolated_synthetic",
+    "source_file": "synthetic://m8/records",
+    "source_rows": 3,
+    "target_rows": 3,
+    "updated_rows": 0
+  },
+  "cross_run_recovery": {
+    "failed": "m8_rejected_source_20261016",
+    "recovered": "m8_recovered_source_20261016",
+    "basis": "same isolated source fixture corrected; exactly one publication"
+  },
+  "timeout_evidence": {
+    "origin": "actual_airflow_task_logs",
+    "scenario_origin": "Milestone 7 reused evidence",
+    "run_id": "m7_timeout_verified_20261016",
+    "category": "timeout_interruption",
+    "synthetic": true,
+    "attempts": [
+      {
+        "attempt": 1,
+        "exception_types": [
+          "AirflowTaskTimeout"
+        ]
+      },
+      {
+        "attempt": 2,
+        "exception_types": [
+          "AirflowTaskTimeout"
+        ]
+      }
+    ],
+    "timeout_attempts": 2
+  },
+  "failed_attempt_publication_windows": [
+    {
+      "run_id": "m8_rejected_source_20261016",
+      "task": "load_snowflake_raw",
+      "attempt": 1,
+      "prior_version": "M7_2DDE830DCF3D_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    },
+    {
+      "run_id": "m8_rejected_source_20261016",
+      "task": "load_snowflake_raw",
+      "attempt": 2,
+      "prior_version": "M7_2DDE830DCF3D_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    },
+    {
+      "run_id": "m8_rejected_source_20261016",
+      "task": "record_pipeline_audit",
+      "attempt": 1,
+      "prior_version": "M7_2DDE830DCF3D_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    },
+    {
+      "run_id": "m8_reconciliation_retry_20261016",
+      "task": "reconcile_raw",
+      "attempt": 1,
+      "prior_version": "M7_16085FF9DBC4_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    },
+    {
+      "run_id": "m8_quality_retry_20261016",
+      "task": "validate_data_quality",
+      "attempt": 1,
+      "prior_version": "M7_406C663CFC71_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    },
+    {
+      "run_id": "m8_publication_retry_20261016",
+      "task": "publish_reporting",
+      "attempt": 1,
+      "prior_version": "M7_BDD40F9F1093_",
+      "published_versions_during_failed_attempt": 0,
+      "retained_order_rows": 99441
+    }
+  ],
+  "airflow_runs_missing_cloud_audit": [],
+  "production_regression": {
+    "tests": {
+      "exit_code": 0,
+      "outcomes": {
+        "pass": 156,
+        "warn": 1
+      },
+      "seconds": 13.927
+    },
+    "freshness": {
+      "exit_code": 0,
+      "outcomes": {
+        "pass": 9
+      },
+      "seconds": 4.234
+    },
+    "reconciliation": {
+      "batches": {
+        "count": 26,
+        "expected_files": 129,
+        "loaded_files": 129,
+        "expected_rows": 1550922,
+        "loaded_rows": 1550922,
+        "absolute_file_difference": 0,
+        "absolute_row_difference": 0,
+        "non_successful": 0
+      },
+      "files": {
+        "audit_rows": 129,
+        "distinct_files": 129,
+        "expected_rows": 1550922,
+        "loaded_rows": 1550922,
+        "non_successful": 0
+      },
+      "raw_to_staging": {
+        "customers": {
+          "raw_rows": 99441,
+          "staging_rows": 99441,
+          "difference": 0
+        },
+        "geolocation": {
+          "raw_rows": 1000163,
+          "staging_rows": 1000163,
+          "difference": 0
+        },
+        "order_items": {
+          "raw_rows": 112650,
+          "staging_rows": 112650,
+          "difference": 0
+        },
+        "order_payments": {
+          "raw_rows": 103886,
+          "staging_rows": 103886,
+          "difference": 0
+        },
+        "order_reviews": {
+          "raw_rows": 99224,
+          "staging_rows": 99224,
+          "difference": 0
+        },
+        "orders": {
+          "raw_rows": 99441,
+          "staging_rows": 99441,
+          "difference": 0
+        },
+        "products": {
+          "raw_rows": 32951,
+          "staging_rows": 32951,
+          "difference": 0
+        },
+        "sellers": {
+          "raw_rows": 3095,
+          "staging_rows": 3095,
+          "difference": 0
+        },
+        "category_translation": {
+          "raw_rows": 71,
+          "staging_rows": 71,
+          "difference": 0
+        }
+      },
+      "raw_to_facts": {
+        "orders": {
+          "raw_rows": 99441,
+          "fact_rows": 99441,
+          "difference": 0
+        },
+        "order_items": {
+          "raw_rows": 112650,
+          "fact_rows": 112650,
+          "difference": 0
+        },
+        "order_payments": {
+          "raw_rows": 103886,
+          "fact_rows": 103886,
+          "difference": 0
+        },
+        "order_reviews": {
+          "raw_rows": 99224,
+          "fact_rows": 99224,
+          "difference": 0
+        }
+      },
+      "monetary": {
+        "merchandise": [
+          "13591643.70",
+          "13591643.70",
+          "13591643.70"
+        ],
+        "freight": [
+          "2251909.54",
+          "2251909.54",
+          "2251909.54"
+        ],
+        "payments": [
+          "16008872.12",
+          "16008872.12",
+          "16008872.12"
+        ]
+      },
+      "freshness": {
+        "customers": {
+          "max_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "geolocation": {
+          "max_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "order_items": {
+          "max_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "order_payments": {
+          "max_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "order_reviews": {
+          "max_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "orders": {
+          "max_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "products": {
+          "max_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "sellers": {
+          "max_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        },
+        "category_translation": {
+          "max_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+          "age_hours": 122,
+          "status": "pass"
+        }
+      },
+      "genuine_source_anomalies": {
+        "carrier_timestamp_before_purchase": 166
+      },
+      "production_synthetic_rows": 0
+    }
+  },
+  "reporting_version_counts": {
+    "dim_category": {
+      "M7_8F8C46CE0D4C_": 74,
+      "M7_2DB9144F8934_": 74,
+      "M7_2DDE830DCF3D_": 74,
+      "M7_16085FF9DBC4_": 74,
+      "M7_406C663CFC71_": 74,
+      "M7_BDD40F9F1093_": 74,
+      "M7_30F3580F9026_": 74
+    },
+    "dim_customer": {
+      "M7_2DB9144F8934_": 96096,
+      "M7_2DDE830DCF3D_": 96096,
+      "M7_8F8C46CE0D4C_": 96096,
+      "M7_16085FF9DBC4_": 96096,
+      "M7_406C663CFC71_": 96096,
+      "M7_30F3580F9026_": 96096,
+      "M7_BDD40F9F1093_": 96096
+    },
+    "dim_date": {
+      "M7_30F3580F9026_": 1314,
+      "M7_BDD40F9F1093_": 1314,
+      "M7_406C663CFC71_": 1314,
+      "M7_16085FF9DBC4_": 1314,
+      "M7_2DDE830DCF3D_": 1314,
+      "M7_2DB9144F8934_": 1314,
+      "M7_8F8C46CE0D4C_": 1314
+    },
+    "dim_geography": {
+      "M7_BDD40F9F1093_": 19016,
+      "M7_2DB9144F8934_": 19016,
+      "M7_30F3580F9026_": 19016,
+      "M7_406C663CFC71_": 19016,
+      "M7_16085FF9DBC4_": 19016,
+      "M7_8F8C46CE0D4C_": 19016,
+      "M7_2DDE830DCF3D_": 19016
+    },
+    "dim_order_customer": {
+      "M7_2DB9144F8934_": 99441,
+      "M7_2DDE830DCF3D_": 99441,
+      "M7_8F8C46CE0D4C_": 99441,
+      "M7_16085FF9DBC4_": 99441,
+      "M7_406C663CFC71_": 99441,
+      "M7_30F3580F9026_": 99441,
+      "M7_BDD40F9F1093_": 99441
+    },
+    "dim_product": {
+      "M7_2DB9144F8934_": 32951,
+      "M7_2DDE830DCF3D_": 32951,
+      "M7_8F8C46CE0D4C_": 32951,
+      "M7_406C663CFC71_": 32951,
+      "M7_30F3580F9026_": 32951,
+      "M7_BDD40F9F1093_": 32951,
+      "M7_16085FF9DBC4_": 32951
+    },
+    "dim_seller": {
+      "M7_8F8C46CE0D4C_": 3095,
+      "M7_BDD40F9F1093_": 3095,
+      "M7_406C663CFC71_": 3095,
+      "M7_16085FF9DBC4_": 3095,
+      "M7_2DDE830DCF3D_": 3095,
+      "M7_2DB9144F8934_": 3095,
+      "M7_30F3580F9026_": 3095
+    },
+    "fct_order_items": {
+      "M7_2DB9144F8934_": 112650,
+      "M7_2DDE830DCF3D_": 112650,
+      "M7_8F8C46CE0D4C_": 112650,
+      "M7_16085FF9DBC4_": 112650,
+      "M7_406C663CFC71_": 112650,
+      "M7_30F3580F9026_": 112650,
+      "M7_BDD40F9F1093_": 112650
+    },
+    "fct_order_payments": {
+      "M7_2DB9144F8934_": 103886,
+      "M7_2DDE830DCF3D_": 103886,
+      "M7_8F8C46CE0D4C_": 103886,
+      "M7_16085FF9DBC4_": 103886,
+      "M7_30F3580F9026_": 103886,
+      "M7_BDD40F9F1093_": 103886,
+      "M7_406C663CFC71_": 103886
+    },
+    "fct_order_reviews": {
+      "M7_2DB9144F8934_": 99224,
+      "M7_2DDE830DCF3D_": 99224,
+      "M7_8F8C46CE0D4C_": 99224,
+      "M7_16085FF9DBC4_": 99224,
+      "M7_406C663CFC71_": 99224,
+      "M7_30F3580F9026_": 99224,
+      "M7_BDD40F9F1093_": 99224
+    },
+    "fct_orders": {
+      "M7_2DB9144F8934_": 99441,
+      "M7_2DDE830DCF3D_": 99441,
+      "M7_8F8C46CE0D4C_": 99441,
+      "M7_16085FF9DBC4_": 99441,
+      "M7_406C663CFC71_": 99441,
+      "M7_30F3580F9026_": 99441,
+      "M7_BDD40F9F1093_": 99441
+    }
+  },
+  "remaining_fixture_relations": 0,
+  "integrity_before": {
+    "version": "M7_2DDE830DCF3D_",
+    "reporting": {
+      "dim_category": [
+        74,
+        -7041348044368504969
+      ],
+      "dim_customer": [
+        96096,
+        -5452015148560448243
+      ],
+      "dim_date": [
+        1314,
+        8729275983419675089
+      ],
+      "dim_geography": [
+        19016,
+        -8597869852703951225
+      ],
+      "dim_order_customer": [
+        99441,
+        3886385330925236996
+      ],
+      "dim_product": [
+        32951,
+        -1803501549306003371
+      ],
+      "dim_seller": [
+        3095,
+        -3387140999250729545
+      ],
+      "fct_order_items": [
+        112650,
+        104931790033693274
+      ],
+      "fct_order_payments": [
+        103886,
+        5534799498050440396
+      ],
+      "fct_order_reviews": [
+        99224,
+        -1852830726984277315
+      ],
+      "fct_orders": [
+        99441,
+        -8771682976741290768
+      ]
+    },
+    "production": {
+      "RAW.customers": [
+        99441,
+        -5897413183077584496
+      ],
+      "RAW.geolocation": [
+        1000163,
+        5519439571631174209
+      ],
+      "RAW.order_items": [
+        112650,
+        -7335805973668344902
+      ],
+      "RAW.order_payments": [
+        103886,
+        7627537071257331230
+      ],
+      "RAW.order_reviews": [
+        99224,
+        -5769939279061194868
+      ],
+      "RAW.orders": [
+        99441,
+        -6656042141703610314
+      ],
+      "RAW.products": [
+        32951,
+        -22287027773639129
+      ],
+      "RAW.sellers": [
+        3095,
+        -979423479361569456
+      ],
+      "RAW.category_translation": [
+        71,
+        7631305620925107283
+      ],
+      "MARTS.dim_category": [
+        74,
+        -7041348044368504969
+      ],
+      "MARTS.dim_customer": [
+        96096,
+        -5452015148560448243
+      ],
+      "MARTS.dim_date": [
+        1314,
+        8729275983419675089
+      ],
+      "MARTS.dim_geography": [
+        19016,
+        -8597869852703951225
+      ],
+      "MARTS.dim_order_customer": [
+        99441,
+        3886385330925236996
+      ],
+      "MARTS.dim_product": [
+        32951,
+        -1803501549306003371
+      ],
+      "MARTS.dim_seller": [
+        3095,
+        -3387140999250729545
+      ],
+      "MARTS.fct_order_items": [
+        112650,
+        104931790033693274
+      ],
+      "MARTS.fct_order_payments": [
+        103886,
+        5534799498050440396
+      ],
+      "MARTS.fct_order_reviews": [
+        99224,
+        -1852830726984277315
+      ],
+      "MARTS.fct_orders": [
+        99441,
+        -8771682976741290768
+      ]
+    },
+    "metrics": {
+      "orders": "99441",
+      "merchandise": "13591643.70",
+      "freight": "2251909.54",
+      "payments": "16008872.12"
+    }
+  },
+  "integrity_after": {
+    "version": "M7_30F3580F9026_",
+    "reporting": {
+      "dim_category": [
+        74,
+        -7041348044368504969
+      ],
+      "dim_customer": [
+        96096,
+        -5452015148560448243
+      ],
+      "dim_date": [
+        1314,
+        8729275983419675089
+      ],
+      "dim_geography": [
+        19016,
+        -8597869852703951225
+      ],
+      "dim_order_customer": [
+        99441,
+        3886385330925236996
+      ],
+      "dim_product": [
+        32951,
+        -1803501549306003371
+      ],
+      "dim_seller": [
+        3095,
+        -3387140999250729545
+      ],
+      "fct_order_items": [
+        112650,
+        104931790033693274
+      ],
+      "fct_order_payments": [
+        103886,
+        5534799498050440396
+      ],
+      "fct_order_reviews": [
+        99224,
+        -1852830726984277315
+      ],
+      "fct_orders": [
+        99441,
+        -8771682976741290768
+      ]
+    },
+    "production": {
+      "RAW.customers": [
+        99441,
+        -5897413183077584496
+      ],
+      "RAW.geolocation": [
+        1000163,
+        5519439571631174209
+      ],
+      "RAW.order_items": [
+        112650,
+        -7335805973668344902
+      ],
+      "RAW.order_payments": [
+        103886,
+        7627537071257331230
+      ],
+      "RAW.order_reviews": [
+        99224,
+        -5769939279061194868
+      ],
+      "RAW.orders": [
+        99441,
+        -6656042141703610314
+      ],
+      "RAW.products": [
+        32951,
+        -22287027773639129
+      ],
+      "RAW.sellers": [
+        3095,
+        -979423479361569456
+      ],
+      "RAW.category_translation": [
+        71,
+        7631305620925107283
+      ],
+      "MARTS.dim_category": [
+        74,
+        -7041348044368504969
+      ],
+      "MARTS.dim_customer": [
+        96096,
+        -5452015148560448243
+      ],
+      "MARTS.dim_date": [
+        1314,
+        8729275983419675089
+      ],
+      "MARTS.dim_geography": [
+        19016,
+        -8597869852703951225
+      ],
+      "MARTS.dim_order_customer": [
+        99441,
+        3886385330925236996
+      ],
+      "MARTS.dim_product": [
+        32951,
+        -1803501549306003371
+      ],
+      "MARTS.dim_seller": [
+        3095,
+        -3387140999250729545
+      ],
+      "MARTS.fct_order_items": [
+        112650,
+        104931790033693274
+      ],
+      "MARTS.fct_order_payments": [
+        103886,
+        5534799498050440396
+      ],
+      "MARTS.fct_order_reviews": [
+        99224,
+        -1852830726984277315
+      ],
+      "MARTS.fct_orders": [
+        99441,
+        -8771682976741290768
+      ]
+    },
+    "metrics": {
+      "orders": "99441",
+      "merchandise": "13591643.70",
+      "freight": "2251909.54",
+      "payments": "16008872.12"
+    }
+  },
+  "tests": {
+    "pipeline": {
+      "discovered": 46,
+      "passed": 41,
+      "skipped": 5,
+      "seconds": 12.89
+    },
+    "airflow": {
+      "discovered": 8,
+      "passed": 8,
+      "skipped": 0,
+      "seconds": 1.126
+    },
+    "offline": {
+      "discovered": 46,
+      "passed": 39,
+      "skipped": 7,
+      "seconds": 0.055
+    }
+  },
+  "screenshots": "Not captured; optional authenticated UI task documented"
+}
