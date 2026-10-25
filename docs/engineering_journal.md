@@ -139,3 +139,24 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Rechecked the diff, secret exclusions, lint, formatting, and all 18 required documentation files. Offline regression discovered 46 tests: 39 passed and seven expected skips in 0.063 seconds.
 - Docker inspection found no running Compose services; the scheduler was stopped. Did not restart completed experiments or claim current service health/freshness. The recorded cloud validation remains the milestone acceptance evidence; ordinary startup and current freshness checks are separate operational actions.
 - Finalized the local milestone commit only; no push or Milestone 9 work.
+
+## 2026-10-19 — Milestone 9 reporting backend and specification
+
+- Audited the current clean Milestone 8 baseline, eleven stable publication views, four fact/seven dimension grains, audit events, metric contracts, and repository for existing Power BI artifacts. None existed.
+- Verified that the available host is macOS and no Power BI Desktop authoring application or existing Fabric report is available. Kept the milestone explicitly partial rather than fabricating PBIX/PBIP/pages/screenshots.
+- Reused all eleven business reporting views. Added three operational views only: source freshness, one-row-per-DAG-run operations, and one-row current pipeline health.
+- Deployed the views with the existing least-privilege service identity. The initial statement failed safely on a reserved `current` alias; renamed it, reran deployment, and then completed a read-only validation run.
+- Measured 99,441 orders, R$16,008,872.12 payment value, R$160.99 payment-per-order AOV, 96,096 customers, 32,951 products, 3,095 sellers, 96,478 delivered orders, and 7,826 late delivered orders. Eight delivered orders have unknown timeliness and are not silently counted as on-time.
+- Reconciled 25 monthly rows to full order/payment totals; merchandise, freight and payment totals matched at detail and order grains; tested relationship orphans were zero.
+- Confirmed 1,550,922 production source/accepted rows, zero rejected/missing rows and zero production load-error lines. Current dynamic freshness is warning at 199 hours for all nine sources; this does not rewrite the historical nine-pass result captured at the latest validated publication.
+- Wrote exact semantic relationships, DAX, formatting, two-page layout, filters/interactions, validation SQL, and a Desktop build checklist. Category/seller measures stay at item grain, and selected-item delivery measures propagate distinct order keys without allocating payment to categories.
+- Added PBIP local-cache exclusions. No credentials, keys, connection values, raw data, Power BI binaries, or screenshots were produced.
+- Left all changes uncommitted because actual Desktop pages, interaction validation, and screenshots remain mandatory for Milestone 9 completion.
+
+## 2026-10-24 — Milestone 9 PBIP/TMDL conversion
+
+- Converted the validated semantic contract into a deterministic, source-controlled Power BI Project without touching the user's existing PBIX. The PBIP contains 14 Import partitions, a dedicated Measures table, 41 measures, 12 single-direction relationships (two inactive), two calculated Date columns, formats, display folders, and hidden technical fields.
+- Parameterized Snowflake through four Power Query parameters. The server remains an explicit Desktop placeholder; warehouse, database, and role are non-secret defaults. No credential, token, private-key value, or imported data cache is embedded.
+- Created enhanced PBIR definitions for `Executive Overview` and `Operations & Data Quality` as blank 1280×720 page shells. Visual container JSON was not generated because it cannot be reliably runtime-validated on this macOS host.
+- Validated eight project/report JSON files against Microsoft's published PBIP/PBIR schemas. Microsoft's Analysis Services 19.106.1 TMDL serializer parsed the semantic model as 15 tables, 12 relationships, and 41 measures. Seven focused repository tests pass, and lint passes for the builder/tests.
+- Kept Milestone 9 partially implemented and all work uncommitted. Desktop open/refresh, visual construction, interaction/filter validation, screenshots, and the final completion commit remain.

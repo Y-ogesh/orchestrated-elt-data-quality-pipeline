@@ -1,0 +1,72 @@
+/// Geography: imported from MARTS.REPORT_DIM_GEOGRAPHY.
+table 'Geography'
+
+	column 'GEOGRAPHY_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: GEOGRAPHY_KEY
+
+	column 'POSTAL_CODE_PREFIX'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE_PREFIX
+
+	column 'CITY'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CITY
+
+	column 'STATE_CODE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: STATE_CODE
+
+	column 'LATITUDE'
+		dataType: double
+		formatString: 0.000000
+		summarizeBy: none
+		sourceColumn: LATITUDE
+
+	column 'LONGITUDE'
+		dataType: double
+		formatString: 0.000000
+		summarizeBy: none
+		sourceColumn: LONGITUDE
+
+	column 'OBSERVATION_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: OBSERVATION_COUNT
+
+	column 'EXACT_DUPLICATE_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: EXACT_DUPLICATE_COUNT
+
+	column 'INVALID_COORDINATE_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: INVALID_COORDINATE_COUNT
+
+	column 'IS_UNKNOWN'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_UNKNOWN
+
+	partition 'Geography' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_GEOGRAPHY", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

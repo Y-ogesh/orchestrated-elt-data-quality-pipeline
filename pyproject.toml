@@ -36,6 +36,7 @@ olist-quality = "olist_pipeline.data_quality:main"
 olist-incremental = "olist_pipeline.incremental:main"
 olist-orchestrate = "olist_pipeline.orchestration:main"
 olist-monitor = "olist_pipeline.monitoring:main"
+olist-power-bi = "olist_pipeline.power_bi:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

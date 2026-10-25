@@ -54,6 +54,8 @@ Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separ
 | `make dbt-freshness` | Check all nine RAW sources using warehouse `_loaded_at` timestamps | Ignored dbt artifacts and Snowflake query history |
 | `make quality-reconcile` | Reconcile audit, RAW, staging, facts, and monetary totals | Console-only aggregate evidence |
 | `make quality-synthetic` | Run the isolated seven-defect fail/detect/correct/pass cycle | Session temporary tables only |
+| `make power-bi-project` | Deterministically regenerate the PBIP/TMDL source project | `power_bi/OlistELTReporting/`; no data or credentials |
+| `make power-bi-validate` | Validate existing Power BI reporting views and KPIs against Snowflake | Sanitized aggregate JSON evidence |
 | `make dbt-docs-local` | Generate initial lineage/docs artifacts with an explicitly empty catalog | Ignored `dbt/target/` |
 | `make clean` | Remove Python bytecode caches | Cache directories only |
 
@@ -147,6 +149,18 @@ Follow [the orchestration runbook](orchestration.md) to initialize generated loc
 ## Monitoring and recovery
 
 For read-only operational monitoring, securely load the existing configuration and run `PYTHONPATH=src python -m olist_pipeline.monitoring --output data/processed/monitoring/current.json`. Do not print `.env` or expanded Compose settings. The [monitoring runbook](monitoring_recovery.md) documents controlled failure modes, ignored checkpoints, release validation, and manual evidence capture. Ordinary operation must leave failure probes disabled.
+
+## Power BI backend and Desktop build
+
+With the approved Snowflake configuration loaded, deploy/reconcile the three operational consumer views with:
+
+```bash
+PYTHONPATH=src python -m olist_pipeline.power_bi --apply
+```
+
+Omit `--apply` for read-only validation after the views exist. The shared settings loader also requires the documented non-secret S3 bucket variables, although this command performs no S3 operations. The command writes only aggregate evidence to `reports/power_bi_backend_validation.json`; it never reads or prints key material.
+
+Generate or refresh the deterministic project source with `make power-bi-project`, then open `power_bi/OlistELTReporting/OlistELTReporting.pbip` in a current Power BI Desktop on Windows. Set the `SnowflakeServer` Power Query parameter, authenticate through Desktop's Snowflake connector, and refresh. The warehouse, database, and role parameters contain only non-secret project defaults; credentials remain external. Follow [the dashboard guide](dashboard.md), keep `.pbi/localSettings.json` and `.pbi/cache.abf` ignored, and validate both pages before changing Milestone 9 status.
 
 ## Updating the source snapshot
 

@@ -1,0 +1,7 @@
+expression SnowflakeServer = "SET_IN_POWER_BI_DESKTOP" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+expression SnowflakeWarehouse = "OLIST_ELT_WH" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+expression SnowflakeDatabase = "OLIST_ELT" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+expression SnowflakeRole = "OLIST_ELT_ROLE" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]

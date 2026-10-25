@@ -1,0 +1,48 @@
+/// Sellers: imported from MARTS.REPORT_DIM_SELLER.
+table 'Sellers'
+
+	column 'SELLER_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: SELLER_KEY
+
+	column 'GEOGRAPHY_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: GEOGRAPHY_KEY
+
+	column 'SELLER_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SELLER_ID
+
+	column 'SELLER_ZIP_CODE_PREFIX'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SELLER_ZIP_CODE_PREFIX
+
+	column 'SELLER_CITY'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SELLER_CITY
+
+	column 'SELLER_STATE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: SELLER_STATE
+
+	partition 'Sellers' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_SELLER", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

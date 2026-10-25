@@ -1,0 +1,63 @@
+/// Report Order Payments: imported from MARTS.REPORT_FCT_ORDER_PAYMENTS.
+table 'Report Order Payments'
+
+	column 'PAYMENT_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: PAYMENT_KEY
+
+	column 'ORDER_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: ORDER_KEY
+
+	column 'ORDER_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ORDER_ID
+
+	column 'PAYMENT_SEQUENTIAL'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PAYMENT_SEQUENTIAL
+
+	column 'PAYMENT_TYPE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PAYMENT_TYPE
+
+	column 'PAYMENT_INSTALLMENTS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PAYMENT_INSTALLMENTS
+
+	column 'PAYMENT_VALUE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: PAYMENT_VALUE
+
+	column 'SOURCE_LOADED_AT'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: SOURCE_LOADED_AT
+
+	partition 'Report Order Payments' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_FCT_ORDER_PAYMENTS", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

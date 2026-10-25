@@ -1,0 +1,102 @@
+/// Pipeline Runs: imported from AUDIT.PBI_PIPELINE_RUNS.
+table 'Pipeline Runs'
+
+	column 'RUN_ID'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: RUN_ID
+
+	column 'FINAL_STATE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: FINAL_STATE
+
+	column 'STARTED_AT'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: STARTED_AT
+
+	column 'ENDED_AT'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ENDED_AT
+
+	column 'OBSERVED_TASK_SPAN_SECONDS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: OBSERVED_TASK_SPAN_SECONDS
+
+	column 'RETRY_ATTEMPT_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: RETRY_ATTEMPT_COUNT
+
+	column 'ROOT_FAILED_ATTEMPT_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: ROOT_FAILED_ATTEMPT_COUNT
+
+	column 'WARNING_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: WARNING_COUNT
+
+	column 'QUALITY_FAILURE_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: QUALITY_FAILURE_COUNT
+
+	column 'VERIFIED_SOURCE_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: VERIFIED_SOURCE_ROWS
+
+	column 'ACCEPTED_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: ACCEPTED_ROWS
+
+	column 'REJECTED_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: REJECTED_ROWS
+
+	column 'PUBLISHED_VERSION'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PUBLISHED_VERSION
+
+	column 'PUBLISHED_AT'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: PUBLISHED_AT
+
+	column 'IS_PUBLISHED'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_PUBLISHED
+
+	partition 'Pipeline Runs' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="AUDIT", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="PBI_PIPELINE_RUNS", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

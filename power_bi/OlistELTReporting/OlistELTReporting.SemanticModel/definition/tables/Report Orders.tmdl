@@ -1,0 +1,180 @@
+/// Report Orders: imported from MARTS.REPORT_FCT_ORDERS.
+table 'Report Orders'
+
+	column 'ORDER_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: ORDER_KEY
+
+	column 'ORDER_CUSTOMER_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: ORDER_CUSTOMER_KEY
+
+	column 'CUSTOMER_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: CUSTOMER_KEY
+
+	column 'PURCHASE_DATE_KEY'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PURCHASE_DATE_KEY
+
+	column 'ORDER_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ORDER_ID
+
+	column 'ORDER_STATUS'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ORDER_STATUS
+
+	column 'ORDER_PURCHASE_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ORDER_PURCHASE_TIMESTAMP
+
+	column 'ORDER_APPROVED_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ORDER_APPROVED_TIMESTAMP
+
+	column 'ORDER_DELIVERED_CARRIER_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ORDER_DELIVERED_CARRIER_TIMESTAMP
+
+	column 'ORDER_DELIVERED_CUSTOMER_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ORDER_DELIVERED_CUSTOMER_TIMESTAMP
+
+	column 'ORDER_ESTIMATED_DELIVERY_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: ORDER_ESTIMATED_DELIVERY_TIMESTAMP
+
+	column 'ORDER_ITEM_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: ORDER_ITEM_COUNT
+
+	column 'DISTINCT_PRODUCT_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DISTINCT_PRODUCT_COUNT
+
+	column 'DISTINCT_SELLER_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DISTINCT_SELLER_COUNT
+
+	column 'ITEM_MERCHANDISE_VALUE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: ITEM_MERCHANDISE_VALUE
+
+	column 'FREIGHT_VALUE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: FREIGHT_VALUE
+
+	column 'ITEM_TOTAL_VALUE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: ITEM_TOTAL_VALUE
+
+	column 'PAYMENT_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PAYMENT_COUNT
+
+	column 'DISTINCT_PAYMENT_TYPE_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DISTINCT_PAYMENT_TYPE_COUNT
+
+	column 'MAXIMUM_PAYMENT_INSTALLMENTS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: MAXIMUM_PAYMENT_INSTALLMENTS
+
+	column 'PAYMENT_TOTAL_VALUE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: PAYMENT_TOTAL_VALUE
+
+	column 'PAYMENT_ITEM_DIFFERENCE'
+		dataType: decimal
+		formatString: R$ #,0.00
+		summarizeBy: none
+		sourceColumn: PAYMENT_ITEM_DIFFERENCE
+
+	column 'IS_PAYMENT_RECONCILIATION_EXCEPTION'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_PAYMENT_RECONCILIATION_EXCEPTION
+
+	column 'IS_MISSING_ITEMS'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_MISSING_ITEMS
+
+	column 'IS_MISSING_PAYMENTS'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_MISSING_PAYMENTS
+
+	column 'DELIVERY_DAYS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DELIVERY_DAYS
+
+	column 'IS_LATE_DELIVERY'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_LATE_DELIVERY
+
+	column 'SOURCE_LOADED_AT'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: SOURCE_LOADED_AT
+
+	partition 'Report Orders' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_FCT_ORDERS", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

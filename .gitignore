@@ -39,3 +39,7 @@ airflow-webserver.pid
 .idea/
 .vscode/
 .DS_Store
+
+# Power BI local caches and connection settings (PBIP source remains trackable)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

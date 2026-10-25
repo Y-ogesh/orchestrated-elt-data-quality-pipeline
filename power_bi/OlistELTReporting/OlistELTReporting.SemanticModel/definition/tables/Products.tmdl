@@ -1,0 +1,80 @@
+/// Products: imported from MARTS.REPORT_DIM_PRODUCT.
+table 'Products'
+
+	column 'PRODUCT_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: PRODUCT_KEY
+
+	column 'CATEGORY_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: CATEGORY_KEY
+
+	column 'PRODUCT_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PRODUCT_ID
+
+	column 'PRODUCT_CATEGORY_NAME'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PRODUCT_CATEGORY_NAME
+
+	column 'PRODUCT_NAME_LENGTH'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PRODUCT_NAME_LENGTH
+
+	column 'PRODUCT_DESCRIPTION_LENGTH'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PRODUCT_DESCRIPTION_LENGTH
+
+	column 'PRODUCT_PHOTOS_QUANTITY'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: PRODUCT_PHOTOS_QUANTITY
+
+	column 'PRODUCT_WEIGHT_GRAMS'
+		dataType: decimal
+		formatString: 0.000
+		summarizeBy: none
+		sourceColumn: PRODUCT_WEIGHT_GRAMS
+
+	column 'PRODUCT_LENGTH_CM'
+		dataType: decimal
+		formatString: 0.000
+		summarizeBy: none
+		sourceColumn: PRODUCT_LENGTH_CM
+
+	column 'PRODUCT_HEIGHT_CM'
+		dataType: decimal
+		formatString: 0.000
+		summarizeBy: none
+		sourceColumn: PRODUCT_HEIGHT_CM
+
+	column 'PRODUCT_WIDTH_CM'
+		dataType: decimal
+		formatString: 0.000
+		summarizeBy: none
+		sourceColumn: PRODUCT_WIDTH_CM
+
+	partition 'Products' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_PRODUCT", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table
