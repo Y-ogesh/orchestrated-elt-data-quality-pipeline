@@ -568,23 +568,35 @@ def visual_filter(name, field, kind="Advanced"):
     }
 
 
-def card_visual(page, measure, x, y, width, height, z):
+def card_visual(page, measure, x, y, width, height, z, label_font_size=None):
     field = measure_field(measure)
     query_ref = f"_Measures.{measure}"
+    visual = {
+        "visualType": "cardVisual",
+        "query": {
+            "queryState": {"Data": {"projections": [projection(field, query_ref, measure)]}},
+            "sortDefinition": {
+                "sort": [{"field": field, "direction": "Descending"}],
+                "isDefaultSort": True,
+            },
+        },
+    }
+    if label_font_size is not None:
+        visual["objects"] = {
+            "label": [
+                {
+                    "properties": {
+                        "fontSize": {"expr": {"Literal": {"Value": f"{label_font_size}D"}}}
+                    },
+                    "selector": {"id": "default"},
+                }
+            ]
+        }
     return {
         "$schema": SCHEMA_VISUAL,
         "name": visual_id(page, f"card:{measure}"),
         "position": visual_position(x, y, width, height, z),
-        "visual": {
-            "visualType": "cardVisual",
-            "query": {
-                "queryState": {"Data": {"projections": [projection(field, query_ref, measure)]}},
-                "sortDefinition": {
-                    "sort": [{"field": field, "direction": "Descending"}],
-                    "isDefaultSort": True,
-                },
-            },
-        },
+        "visual": visual,
         "filterConfig": {"filters": [visual_filter(f"{page}:{measure}", field)]},
     }
 
@@ -797,17 +809,32 @@ def report_visuals():
         "Current Freshness Status",
     )
     for index, measure in enumerate(operation_measures[:5]):
-        page_two.append(card_visual(operations, measure, 15 + index * 245, 10, 230, 72, index))
+        page_two.append(
+            card_visual(
+                operations, measure, 15 + index * 245, 10, 230, 72, index, label_font_size=11
+            )
+        )
     pipeline_cards = (
         ("Latest Pipeline Status", 15, 92, 230),
         ("Latest Validated Pipeline Run", 260, 92, 475),
         ("Current Published Version", 750, 92, 485),
     )
     for offset, (measure, x, y, width) in enumerate(pipeline_cards, start=5):
-        page_two.append(card_visual(operations, measure, x, y, width, 82, offset))
+        page_two.append(
+            card_visual(operations, measure, x, y, width, 82, offset, label_font_size=11)
+        )
     for offset, measure in enumerate(operation_measures[8:], start=8):
         page_two.append(
-            card_visual(operations, measure, 15 + (offset - 8) * 175, 184, 165, 72, offset)
+            card_visual(
+                operations,
+                measure,
+                15 + (offset - 8) * 175,
+                184,
+                165,
+                72,
+                offset,
+                label_font_size=9,
+            )
         )
     page_two.extend(
         [
