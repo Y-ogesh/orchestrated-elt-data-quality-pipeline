@@ -227,9 +227,9 @@ New DAG durations: source rejection 66.140 seconds; corrected source 140.551; re
 
 The five pipeline skips are four Airflow-runtime tests (passed separately) and the previously completed AWS upload/delete integration. Real S3 was exercised by the five new DAG runs. Genuine source anomalies remain unchanged. No screenshots or external notification delivery are claimed; optional capture instructions and operational limitations are documented. Final DAGs are paused with probes disabled; no Milestone 9 work was started.
 
-## Milestone 9 partial result
+## Milestone 9 result
 
-**Partially implemented on 2026-10-24.** Real Snowflake backend validation succeeded. A source-controlled PBIP/TMDL artifact now exists, and Microsoft schema/TMDL parsers accept its structure. No supported Power BI Desktop authoring surface exists in this macOS environment, so no refresh, rendered visual, UI filter/relationship test, screenshot, or completion commit is claimed.
+**Completed and validated on 2026-10-25.** Real Snowflake backend validation and a Power BI Desktop runtime refresh succeeded. The source-controlled PBIP/TMDL artifact opened with 15 tables, 41 measures, 12 relationships, two polished pages, and 33 native visuals.
 
 | Check | Actual result |
 |---|---|
@@ -246,10 +246,10 @@ The five pipeline skips are four Airflow-runtime tests (passed separately) and t
 | Relationship checks | 0 order-date, item-product, or item-seller orphans |
 | Production accounting | 1,550,922 source = 1,550,922 accepted + 0 rejected/missing; 0 traceable production rejected lines |
 | Latest quality result | 156 pass / 1 warning / 0 failures; nine sources passed at the validated publication |
-| Current freshness at query | Warning: all nine sources at 199 hours; below 720-hour error threshold |
+| Current freshness at final Desktop refresh | Warning: all nine sources at 346 hours; below 720-hour error threshold |
 | Current publication | Version `M7_30F3580F9026_`; validated run `m8_publication_retry_20261016` |
 | Reproducible assets | Semantic YAML, exact DAX, two-page report YAML, deterministic PBIP/TMDL generator and project, deployment/validation Python, SQL, JSON evidence, build guide |
-| PBIP/TMDL validation | 14 imported tables + one measure table; 41 measures; 12 relationships; two blank named pages; eight PBIP/PBIR JSON files accepted by Microsoft schemas; semantic model accepted by Microsoft's TMDL serializer |
-| Power BI/UI state | Page shells only; refresh, visuals and interactions not tested; zero screenshots |
+| PBIP/TMDL validation | 14 imported tables + one measure table; 41 measures; 12 relationships; two completed named pages; PBIP/PBIR JSON accepted by Microsoft schemas; semantic model accepted by Microsoft's TMDL serializer |
+| Power BI/UI state | Both pages and all 33 visuals rendered; Year-Month, category, and seller cross-filter behavior validated; disconnected operational cards stayed unchanged; three genuine screenshots captured |
 
-`reports/power_bi_backend_validation.json` is the measured aggregate evidence. `sql/power_bi/002_validation_queries.sql` provides independent validation queries. Seven focused Power BI repository tests pass. UI completion requires the exact remaining steps in [dashboard](dashboard.md). Milestone 9 therefore does not meet its completion rule.
+`reports/power_bi_backend_validation.json` remains the measured backend evidence, while `sql/power_bi/002_validation_queries.sql` and the saved DAX query provide independent reconciliation paths. Desktop returned the required KPI row exactly: 99,441 orders; R$16,008,872.12 tendered payment value; R$160.99 AOV; R$13,591,643.70 merchandise; R$2,251,909.54 freight; 96,096 customers; 32,951 products; 3,095 sellers; 96,478 delivered orders; 7,826 late; 88,644 on time; 8 unknown; 1,550,922 accepted; 0 rejected; and quality 156 pass / 1 warning / 0 failure. The report screenshots are in `docs/screenshots/`.

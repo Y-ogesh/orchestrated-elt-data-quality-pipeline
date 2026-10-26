@@ -28,6 +28,8 @@ class PowerBiAssetTests(unittest.TestCase):
             path.read_text(encoding="utf-8")
             for path in Path("power_bi").rglob("*")
             if path.is_file()
+            and ".pbi" not in path.parts
+            and path.suffix.lower() in {".dax", ".json", ".md", ".pbip", ".pbir", ".tmdl", ".yaml"}
         )
         for marker in (
             "PRIVATE KEY",
@@ -50,6 +52,7 @@ class PowerBiAssetTests(unittest.TestCase):
         ):
             self.assertNotIn(f" {table}[", dax)
             self.assertIn(f"'{table}'[", dax)
+        self.assertIn("[IS_LATE_DELIVERY] == FALSE ()", dax)
 
     def test_pbip_project_inventory_and_linkage(self):
         root = Path("power_bi/OlistELTReporting")
@@ -73,6 +76,8 @@ class PowerBiAssetTests(unittest.TestCase):
         expressions = (definition / "expressions.tmdl").read_text(encoding="utf-8")
         self.assertEqual(14, table_text.count("\tmode: import") - 1)  # Exclude measure table.
         self.assertEqual(41, table_text.count("\n\tmeasure "))
+        self.assertIn("table _Measures", table_text)
+        self.assertIn("partition _Measures = calculated", table_text)
         relationship_count = relationships.count("\nrelationship ") + relationships.startswith(
             "relationship "
         )
@@ -108,7 +113,7 @@ class PowerBiAssetTests(unittest.TestCase):
         )
         self.assertNotIn("cardinality: one-to-one", semantic_spec)
 
-    def test_pbip_contains_two_blank_named_page_shells(self):
+    def test_pbip_contains_two_populated_named_pages(self):
         pages_root = Path("power_bi/OlistELTReporting/OlistELTReporting.Report/definition/pages")
         pages = [
             json.loads(path.read_text(encoding="utf-8")) for path in pages_root.glob("*/page.json")
@@ -117,8 +122,18 @@ class PowerBiAssetTests(unittest.TestCase):
             {"Executive Overview", "Operations & Data Quality"},
             {page["displayName"] for page in pages},
         )
-        visual_folders = [path.parent / "visuals" for path in pages_root.glob("*/page.json")]
-        self.assertFalse(any(path.exists() for path in visual_folders))
+        visuals = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in pages_root.glob("*/visuals/*/visual.json")
+        ]
+        self.assertEqual(33, len(visuals))
+        visual_types = [item["visual"]["visualType"] for item in visuals]
+        self.assertEqual(19, visual_types.count("cardVisual"))
+        self.assertEqual(6, visual_types.count("slicer"))
+        self.assertEqual(3, visual_types.count("tableEx"))
+        self.assertEqual(2, visual_types.count("lineChart"))
+        self.assertEqual(3, visual_types.count("barChart"))
+        self.assertTrue(all(item["position"]["width"] > 0 for item in visuals))
 
 
 if __name__ == "__main__":

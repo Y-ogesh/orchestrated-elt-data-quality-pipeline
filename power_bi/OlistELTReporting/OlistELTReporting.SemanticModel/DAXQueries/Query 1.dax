@@ -1,0 +1,22 @@
+EVALUATE
+ROW (
+  "Total Orders", [Total Orders],
+  "Total Payment Value", [Total Payment Value],
+  "Average Order Value", [Average Order Value],
+  "Merchandise Value", [Merchandise Value],
+  "Freight Value", [Freight Value],
+  "Customers", [Customer Count],
+  "Products", [Product Count],
+  "Sellers", [Seller Count],
+  "Delivered Orders", [Delivered Orders],
+  "Late Deliveries", [Late Deliveries],
+  "On-Time Deliveries", [On-Time Delivered Orders],
+  "Unknown Timeliness", [Delivered Orders with Unknown Timeliness],
+  "Accepted Rows", [Accepted Rows],
+  "Rejected Rows", [Rejected Rows],
+  "Quality Passed", [Quality Tests Passed],
+  "Quality Warnings", [Quality Test Warnings],
+  "Quality Failures", [Quality Test Failures],
+  "Freshness Age Hours", [Data Freshness Age Hours],
+  "Freshness Status", [Current Freshness Status]
+)

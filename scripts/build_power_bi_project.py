@@ -4,6 +4,7 @@
 import hashlib
 import json
 import re
+import shutil
 from pathlib import Path
 from uuid import NAMESPACE_URL, uuid5
 
@@ -40,6 +41,10 @@ SCHEMA_PAGES = (
 SCHEMA_PAGE = (
     "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/"
     "page/2.1.0/schema.json"
+)
+SCHEMA_VISUAL = (
+    "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/"
+    "visualContainer/2.14.0/schema.json"
 )
 
 
@@ -458,7 +463,7 @@ def table_tmdl(display_name, schema, source_name, source_columns, key):
 def measures_tmdl(measures):
     lines = [
         "/// Dedicated measure home table; the placeholder column is hidden.",
-        "table Measures",
+        "table _Measures",
         "",
     ]
     for name, expression, folder in measures:
@@ -480,7 +485,7 @@ def measures_tmdl(measures):
             "\t\tsummarizeBy: none",
             "\t\tsourceColumn: [Value]",
             "",
-            "\tpartition Measures = calculated",
+            "\tpartition _Measures = calculated",
             "\t\tmode: import",
             '\t\tsource = ROW("Value", "Measures")',
         ]
@@ -515,6 +520,360 @@ def page_id(name):
     return hashlib.sha1(("olist-power-bi:" + name).encode()).hexdigest()[:20]
 
 
+def visual_id(page_name, label):
+    return hashlib.sha1(f"olist-power-bi:{page_name}:{label}".encode()).hexdigest()[:20]
+
+
+def column_field(table, column):
+    return {
+        "Column": {
+            "Expression": {"SourceRef": {"Entity": table}},
+            "Property": column,
+        }
+    }
+
+
+def measure_field(measure):
+    return {
+        "Measure": {
+            "Expression": {"SourceRef": {"Entity": "_Measures"}},
+            "Property": measure,
+        }
+    }
+
+
+def projection(field, query_ref, native_ref, active=False):
+    result = {"field": field, "queryRef": query_ref, "nativeQueryRef": native_ref}
+    if active:
+        result["active"] = True
+    return result
+
+
+def visual_position(x, y, width, height, z):
+    return {
+        "x": x,
+        "y": y,
+        "z": z,
+        "height": height,
+        "width": width,
+        "tabOrder": z,
+    }
+
+
+def visual_filter(name, field, kind="Advanced"):
+    return {
+        "name": hashlib.sha1(("olist-power-bi:filter:" + name).encode()).hexdigest()[:20],
+        "field": field,
+        "type": kind,
+    }
+
+
+def card_visual(page, measure, x, y, width, height, z):
+    field = measure_field(measure)
+    query_ref = f"_Measures.{measure}"
+    return {
+        "$schema": SCHEMA_VISUAL,
+        "name": visual_id(page, f"card:{measure}"),
+        "position": visual_position(x, y, width, height, z),
+        "visual": {
+            "visualType": "cardVisual",
+            "query": {
+                "queryState": {"Data": {"projections": [projection(field, query_ref, measure)]}},
+                "sortDefinition": {
+                    "sort": [{"field": field, "direction": "Descending"}],
+                    "isDefaultSort": True,
+                },
+            },
+        },
+        "filterConfig": {"filters": [visual_filter(f"{page}:{measure}", field)]},
+    }
+
+
+def chart_visual(
+    page,
+    label,
+    category,
+    measure,
+    x,
+    y,
+    width,
+    height,
+    z,
+    visual_type="lineChart",
+):
+    table, column = category
+    category_value = column_field(table, column)
+    measure_value = measure_field(measure)
+    return {
+        "$schema": SCHEMA_VISUAL,
+        "name": visual_id(page, f"chart:{label}"),
+        "position": visual_position(x, y, width, height, z),
+        "visual": {
+            "visualType": visual_type,
+            "query": {
+                "queryState": {
+                    "Category": {
+                        "projections": [
+                            projection(
+                                category_value,
+                                f"{table}.{column}",
+                                column,
+                                active=True,
+                            )
+                        ]
+                    },
+                    "Y": {
+                        "projections": [projection(measure_value, f"_Measures.{measure}", measure)]
+                    },
+                },
+                "sortDefinition": {
+                    "sort": [{"field": measure_value, "direction": "Descending"}],
+                    "isDefaultSort": True,
+                },
+            },
+        },
+        "filterConfig": {
+            "filters": [
+                visual_filter(f"{page}:{label}:category", category_value, "Categorical"),
+                visual_filter(f"{page}:{label}:measure", measure_value),
+            ]
+        },
+    }
+
+
+def table_visual(page, label, fields, x, y, width, height, z):
+    projections = []
+    filters = []
+    for table, name, kind in fields:
+        if kind == "measure":
+            field = measure_field(name)
+            query_ref = f"_Measures.{name}"
+        else:
+            field = column_field(table, name)
+            query_ref = f"{table}.{name}"
+        projections.append(projection(field, query_ref, name))
+        filters.append(visual_filter(f"{page}:{label}:{query_ref}", field))
+    return {
+        "$schema": SCHEMA_VISUAL,
+        "name": visual_id(page, f"table:{label}"),
+        "position": visual_position(x, y, width, height, z),
+        "visual": {
+            "visualType": "tableEx",
+            "query": {"queryState": {"Values": {"projections": projections}}},
+        },
+        "filterConfig": {"filters": filters},
+    }
+
+
+def slicer_visual(page, label, table, column, x, y, width, height, z):
+    field = column_field(table, column)
+    return {
+        "$schema": SCHEMA_VISUAL,
+        "name": visual_id(page, f"slicer:{label}"),
+        "position": visual_position(x, y, width, height, z),
+        "visual": {
+            "visualType": "slicer",
+            "query": {
+                "queryState": {
+                    "Values": {
+                        "projections": [projection(field, f"{table}.{column}", column, active=True)]
+                    }
+                }
+            },
+            "objects": {
+                "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Basic'"}}}}}]
+            },
+        },
+        "filterConfig": {"filters": [visual_filter(f"{page}:{label}", field, "Categorical")]},
+    }
+
+
+def report_visuals():
+    executive = "Executive Overview"
+    operations = "Operations & Data Quality"
+
+    page_one = []
+    for index, measure in enumerate(
+        ("Total Orders", "Total Payment Value", "Average Order Value", "Customer Count")
+    ):
+        page_one.append(card_visual(executive, measure, 15 + 305 * index, 10, 290, 90, index))
+    page_one.extend(
+        [
+            slicer_visual(executive, "Month", "Date", "Year Month", 15, 110, 395, 70, 4),
+            slicer_visual(
+                executive, "Status", "Report Orders", "ORDER_STATUS", 425, 110, 395, 70, 5
+            ),
+            slicer_visual(
+                executive,
+                "Category",
+                "Categories",
+                "PRODUCT_CATEGORY_NAME_ENGLISH",
+                835,
+                110,
+                400,
+                70,
+                6,
+            ),
+            chart_visual(
+                executive,
+                "Monthly Orders",
+                ("Date", "Year Month"),
+                "Total Orders",
+                15,
+                190,
+                600,
+                240,
+                7,
+            ),
+            chart_visual(
+                executive,
+                "Monthly Payment Value",
+                ("Date", "Year Month"),
+                "Total Payment Value",
+                635,
+                190,
+                600,
+                240,
+                8,
+            ),
+            chart_visual(
+                executive,
+                "Order Status",
+                ("Report Orders", "ORDER_STATUS"),
+                "Total Orders",
+                15,
+                445,
+                350,
+                255,
+                9,
+                "barChart",
+            ),
+            chart_visual(
+                executive,
+                "Category Performance",
+                ("Categories", "PRODUCT_CATEGORY_NAME_ENGLISH"),
+                "Item Merchandise Value",
+                380,
+                445,
+                425,
+                255,
+                10,
+                "barChart",
+            ),
+            table_visual(
+                executive,
+                "Customer Performance",
+                [
+                    ("Order Customers", "CUSTOMER_STATE", "column"),
+                    ("_Measures", "Total Orders", "measure"),
+                    ("_Measures", "Customer Count", "measure"),
+                    ("_Measures", "Total Payment Value", "measure"),
+                ],
+                820,
+                445,
+                415,
+                255,
+                11,
+            ),
+        ]
+    )
+
+    page_two = []
+    operation_measures = (
+        "Delivered Orders",
+        "Delivery Success Rate",
+        "Late Deliveries",
+        "On-Time Delivery Rate",
+        "Average Delivery Days",
+        "Latest Pipeline Status",
+        "Latest Validated Pipeline Run",
+        "Current Published Version",
+        "Accepted Rows",
+        "Rejected Rows",
+        "Quality Tests Passed",
+        "Quality Test Warnings",
+        "Quality Test Failures",
+        "Data Freshness Age Hours",
+        "Current Freshness Status",
+    )
+    for index, measure in enumerate(operation_measures[:5]):
+        page_two.append(card_visual(operations, measure, 15 + index * 245, 10, 230, 72, index))
+    pipeline_cards = (
+        ("Latest Pipeline Status", 15, 92, 230),
+        ("Latest Validated Pipeline Run", 260, 92, 475),
+        ("Current Published Version", 750, 92, 485),
+    )
+    for offset, (measure, x, y, width) in enumerate(pipeline_cards, start=5):
+        page_two.append(card_visual(operations, measure, x, y, width, 82, offset))
+    for offset, measure in enumerate(operation_measures[8:], start=8):
+        page_two.append(
+            card_visual(operations, measure, 15 + (offset - 8) * 175, 184, 165, 72, offset)
+        )
+    page_two.extend(
+        [
+            slicer_visual(operations, "Month", "Date", "Year Month", 15, 270, 395, 70, 15),
+            slicer_visual(
+                operations, "Status", "Report Orders", "ORDER_STATUS", 425, 270, 395, 70, 16
+            ),
+            slicer_visual(
+                operations,
+                "Category",
+                "Categories",
+                "PRODUCT_CATEGORY_NAME_ENGLISH",
+                835,
+                270,
+                400,
+                70,
+                17,
+            ),
+            table_visual(
+                operations,
+                "Seller Operations",
+                [
+                    ("Sellers", "SELLER_STATE", "column"),
+                    ("Sellers", "SELLER_ID", "column"),
+                    ("_Measures", "Item Orders", "measure"),
+                    ("_Measures", "Item Merchandise Value", "measure"),
+                    ("_Measures", "Late Delivery Rate for Selected Items", "measure"),
+                ],
+                15,
+                350,
+                400,
+                350,
+                18,
+            ),
+            table_visual(
+                operations,
+                "Source Freshness",
+                [
+                    ("Source Freshness", "SOURCE_NAME", "column"),
+                    ("Source Freshness", "LAST_LOADED_AT", "column"),
+                    ("Source Freshness", "FRESHNESS_AGE_HOURS", "column"),
+                    ("Source Freshness", "FRESHNESS_STATUS", "column"),
+                ],
+                430,
+                350,
+                350,
+                350,
+                19,
+            ),
+            chart_visual(
+                operations,
+                "Category Late Deliveries",
+                ("Categories", "PRODUCT_CATEGORY_NAME_ENGLISH"),
+                "Late Deliveries for Selected Items",
+                795,
+                350,
+                440,
+                350,
+                20,
+                "barChart",
+            ),
+        ]
+    )
+    return {executive: page_one, operations: page_two}
+
+
 def build():
     measures = parse_measures(ROOT / "power_bi" / "measures.dax")
     write_json(
@@ -534,7 +893,7 @@ def build():
         DEFINITION_ROOT / "database.tmdl",
         "database OlistELTReporting\n\tcompatibilityLevel: 1600\n\tcompatibilityMode: powerBI",
     )
-    refs = "\n".join(f"ref table {quote(name)}" for name in (*TABLES, "Measures"))
+    refs = "\n".join(f"ref table {quote(name)}" for name in (*TABLES, "_Measures"))
     write(
         DEFINITION_ROOT / "model.tmdl",
         """model Model
@@ -569,7 +928,10 @@ annotation __PBI_TimeIntelligenceEnabled = 0
             TABLE_ROOT / f"{display_name}.tmdl",
             table_tmdl(display_name, schema, source_name, source_columns, key),
         )
-    write(TABLE_ROOT / "Measures.tmdl", measures_tmdl(measures))
+    legacy_measure_path = TABLE_ROOT / "Measures.tmdl"
+    if legacy_measure_path.exists():
+        legacy_measure_path.unlink()
+    write(TABLE_ROOT / "_Measures.tmdl", measures_tmdl(measures))
     write(DEFINITION_ROOT / "relationships.tmdl", relationship_tmdl())
 
     write_json(
@@ -594,9 +956,11 @@ annotation __PBI_TimeIntelligenceEnabled = 0
         REPORT_ROOT / "definition" / "pages" / "pages.json",
         {"$schema": SCHEMA_PAGES, "pageOrder": page_ids, "activePageName": page_ids[0]},
     )
+    visuals_by_page = report_visuals()
     for name, identifier in zip(page_names, page_ids):
+        page_root = REPORT_ROOT / "definition" / "pages" / identifier
         write_json(
-            REPORT_ROOT / "definition" / "pages" / identifier / "page.json",
+            page_root / "page.json",
             {
                 "$schema": SCHEMA_PAGE,
                 "name": identifier,
@@ -606,6 +970,11 @@ annotation __PBI_TimeIntelligenceEnabled = 0
                 "width": 1280,
             },
         )
+        visuals_root = page_root / "visuals"
+        if visuals_root.exists():
+            shutil.rmtree(visuals_root)
+        for visual in visuals_by_page[name]:
+            write_json(visuals_root / visual["name"] / "visual.json", visual)
     print(
         json.dumps(
             {
@@ -615,7 +984,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
                 "measures": len(measures),
                 "relationships": len(RELATIONSHIPS),
                 "report_pages": len(page_names),
-                "visuals": 0,
+                "visuals": sum(len(items) for items in visuals_by_page.values()),
             }
         )
     )

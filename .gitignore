@@ -26,6 +26,7 @@ data/processed/*
 !data/processed/.gitkeep
 logs/
 tmp/
+.tmp/
 
 # dbt / Airflow / IDE / OS
 target/
@@ -41,5 +42,4 @@ airflow-webserver.pid
 .DS_Store
 
 # Power BI local caches and connection settings (PBIP source remains trackable)
-**/.pbi/localSettings.json
-**/.pbi/cache.abf
+**/.pbi/

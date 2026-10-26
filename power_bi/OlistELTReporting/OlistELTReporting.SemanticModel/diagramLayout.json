@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 2173.3319426561397,
+            "y": 427.75226521942704
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "d21466a0-eee3-41b6-8e11-2873496c5265",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1939.3319426561402,
+            "y": 356.43175280348271
+          },
+          "nodeIndex": "Categories",
+          "nodeLineageTag": "52beb6e2-fcdb-4456-bc2f-9fe16565fd35",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 933.32680540393881,
+            "y": 586.8529183334698
+          },
+          "nodeIndex": "Customers",
+          "nodeLineageTag": "e8ea61c8-6c41-4dc0-a4e4-290dcd65fb73",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 919.77328029153887,
+            "y": 129.70268779983144
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "29dab072-4d0e-4b91-b892-6b5a10884943",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 805.504530438854
+          },
+          "nodeIndex": "Geography",
+          "nodeLineageTag": "be4b6356-a186-4270-9e04-7a8cf60e31fd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 339.92503471508758,
+            "y": 626.34440524941624
+          },
+          "nodeIndex": "Order Customers",
+          "nodeLineageTag": "302652f0-80e0-416d-b946-b1610f43afc4",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 2457.3319426561397,
+            "y": 427.75226521942704
+          },
+          "nodeIndex": "Pipeline Health",
+          "nodeLineageTag": "36c2cc67-493a-411f-bc89-36f0fe8ef92e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 2741.3319426561397,
+            "y": 427.75226521942704
+          },
+          "nodeIndex": "Pipeline Runs",
+          "nodeLineageTag": "719cab01-9cd1-4137-8987-8b0e82790f44",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1655.0898328922469,
+            "y": 230.55510208340775
+          },
+          "nodeIndex": "Products",
+          "nodeLineageTag": "17545768-7475-4d88-87e1-263c75f326fb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1209.6750759089728,
+            "y": 230.47368106829424
+          },
+          "nodeIndex": "Report Order Items",
+          "nodeLineageTag": "bc002ef9-9d18-434f-a291-696d05729167",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 111.19643296538425,
+            "y": 299.63889927469654
+          },
+          "nodeIndex": "Report Order Payments",
+          "nodeLineageTag": "6e9c085d-1aa9-4b00-9f26-9e9c8b5b45ae",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 610.56060223192071,
+            "y": 41.063576585423334
+          },
+          "nodeIndex": "Report Order Reviews",
+          "nodeLineageTag": "7f973154-39b4-48a8-b159-44930684c2ed",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 629.91134680892537,
+            "y": 398.33661765085731
+          },
+          "nodeIndex": "Report Orders",
+          "nodeLineageTag": "155fced8-9333-49e5-a4b4-3a4e4d4b5e76",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1479.3830654938633,
+            "y": -50
+          },
+          "nodeIndex": "Sellers",
+          "nodeLineageTag": "25483fa9-7b7d-48f0-87ce-93d0ce8af8ef",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 3025.3319426561397,
+            "y": 489.75226521942704
+          },
+          "nodeIndex": "Source Freshness",
+          "nodeLineageTag": "dceaca1f-3b0c-4200-b896-0dc4eb021efa",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 14
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 34.757542531244148,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

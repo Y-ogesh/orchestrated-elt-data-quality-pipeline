@@ -81,7 +81,7 @@ On-Time Delivered Orders =
 CALCULATE (
     [Total Orders],
     KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ),
-    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] = FALSE () )
+    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] == FALSE () )
 )
 
 Delivered Orders with Unknown Timeliness =

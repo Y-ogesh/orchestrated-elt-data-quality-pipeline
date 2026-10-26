@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–8 are **Completed and validated**. Milestone 9 is **Partially implemented**: its Snowflake reporting backend, exact metric reconciliation, and a Microsoft-parser-validated PBIP/TMDL semantic model are complete. The project includes two blank named report-page shells, but Desktop refresh, visuals, interactions, and screenshots remain. Airflow is paused after validation; failure probes are disabled.
+> **Status:** Milestones 1–9 are **Completed and validated**. The Power BI project opens and refreshes in Power BI Desktop, its two polished report pages contain 33 native visuals, live measures reconcile to Snowflake, and genuine runtime screenshots are included. Airflow is paused after validation; failure probes are disabled.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Milestones 1–8 are implemented; Milestones 2–8 are validated against real cloud infrastructure. Milestone 9 backend work is partial:
+Milestones 1–9 are implemented and validated; Milestones 2–9 include real cloud or Power BI Desktop runtime evidence:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -70,7 +70,7 @@ Milestones 1–8 are implemented; Milestones 2–8 are validated against real cl
 
 - Structured operational observations extend the existing audit events: typed failure categories, accepted/rejected/held accounting, preserved retry history, and reproducible run summaries. Five new real Airflow scenarios demonstrated quarantine correction, reconciliation/quality retries, and rollback of 74 uncommitted publication rows without changing production fingerprints. See [monitoring and recovery](docs/monitoring_recovery.md) and [lightweight monitoring summary](reports/monitoring_summary.json).
 
-- Power BI preparation reuses the eleven safe-publication views and adds only three operational views. The generated PBIP/TMDL project encodes all 14 Import tables, 12 relationships, two Date columns, and 41 formatted measures in a dedicated measure table. Microsoft JSON schemas and the official Analysis Services TMDL serializer accept the source. Two blank named page shells are present; visuals, refresh, interactions, and screenshots must still be completed and tested in Power BI Desktop. See the [dashboard guide](docs/dashboard.md).
+- Power BI reuses the eleven safe-publication views and three operational views. The validated PBIP contains 14 Import tables plus a dedicated measure table, 41 measures, 12 relationships, two pages, and 33 native visuals. Desktop refresh, DAX reconciliation, Date/category/seller interactions, disconnected operational behavior, and screenshots are documented in the [dashboard guide](docs/dashboard.md).
 
 Planned—not yet implemented: external alert delivery. The measured validation-run success rate is not a production availability SLO.
 

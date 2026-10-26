@@ -1,0 +1,71 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "9f7c90c211f28c75cb20",
+  "position": {
+    "x": 425,
+    "y": 270,
+    "z": 16,
+    "height": 70,
+    "width": 395,
+    "tabOrder": 16
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Report Orders"
+                    }
+                  },
+                  "Property": "ORDER_STATUS"
+                }
+              },
+              "queryRef": "Report Orders.ORDER_STATUS",
+              "nativeQueryRef": "ORDER_STATUS",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8da81441e2859eebed9f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Report Orders"
+              }
+            },
+            "Property": "ORDER_STATUS"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

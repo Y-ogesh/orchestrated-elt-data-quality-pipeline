@@ -1,0 +1,167 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "da3cc5331669f67e8349",
+  "position": {
+    "x": 15,
+    "y": 350,
+    "z": 18,
+    "height": 350,
+    "width": 400,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sellers"
+                    }
+                  },
+                  "Property": "SELLER_STATE"
+                }
+              },
+              "queryRef": "Sellers.SELLER_STATE",
+              "nativeQueryRef": "SELLER_STATE"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sellers"
+                    }
+                  },
+                  "Property": "SELLER_ID"
+                }
+              },
+              "queryRef": "Sellers.SELLER_ID",
+              "nativeQueryRef": "SELLER_ID"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Item Orders"
+                }
+              },
+              "queryRef": "_Measures.Item Orders",
+              "nativeQueryRef": "Item Orders"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Item Merchandise Value"
+                }
+              },
+              "queryRef": "_Measures.Item Merchandise Value",
+              "nativeQueryRef": "Item Merchandise Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Late Delivery Rate for Selected Items"
+                }
+              },
+              "queryRef": "_Measures.Late Delivery Rate for Selected Items",
+              "nativeQueryRef": "Late Delivery Rate for Selected Items"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4c010b711e58048b1a89",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sellers"
+              }
+            },
+            "Property": "SELLER_STATE"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e31bba81bf692169b91f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Sellers"
+              }
+            },
+            "Property": "SELLER_ID"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c875e0627cc6c80ce27e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Item Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b5bb3c9637ab6540b5af",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Item Merchandise Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a424281b937ea4833e24",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Late Delivery Rate for Selected Items"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

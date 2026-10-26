@@ -157,6 +157,14 @@ The first local Milestone 2 commit directly parented the initial repository comm
 
 - Converted the validated semantic contract into a deterministic, source-controlled Power BI Project without touching the user's existing PBIX. The PBIP contains 14 Import partitions, a dedicated Measures table, 41 measures, 12 single-direction relationships (two inactive), two calculated Date columns, formats, display folders, and hidden technical fields.
 - Parameterized Snowflake through four Power Query parameters. The server remains an explicit Desktop placeholder; warehouse, database, and role are non-secret defaults. No credential, token, private-key value, or imported data cache is embedded.
-- Created enhanced PBIR definitions for `Executive Overview` and `Operations & Data Quality` as blank 1280×720 page shells. Visual container JSON was not generated because it cannot be reliably runtime-validated on this macOS host.
+- Created the initial enhanced PBIR definitions for `Executive Overview` and `Operations & Data Quality`; these were subsequently completed and runtime-validated in the Windows Power BI Desktop environment.
 - Validated eight project/report JSON files against Microsoft's published PBIP/PBIR schemas. Microsoft's Analysis Services 19.106.1 TMDL serializer parsed the semantic model as 15 tables, 12 relationships, and 41 measures. Seven focused repository tests pass, and lint passes for the builder/tests.
 - Kept Milestone 9 partially implemented and all work uncommitted. Desktop open/refresh, visual construction, interaction/filter validation, screenshots, and the final completion commit remain.
+
+## 2026-10-25 — Milestone 9 Power BI Desktop completion
+
+- Opened the PBIP in Power BI Desktop on Windows, restored the Snowflake server value only in the local Desktop session, and refreshed all 14 Import tables without storing the account host or credentials in tracked source.
+- Verified the 15-table model, 41 measures, 12 relationships, both polished report pages, and all 33 native visuals. The compact seller-performance table completed its live query and rendered item-safe order, merchandise, and late-delivery measures; the late-delivery category chart received more space.
+- Reconciled the requested DAX KPIs exactly. Final live freshness was 346 hours with `warn`; the earlier publication-time freshness evidence remains historical rather than being overwritten.
+- Tested Year-Month filtering, category filtering at item grain, and seller cross-filtering. Order/payment cards did not inherit item-grain category or seller filters, avoiding item/payment fanout, while disconnected operational cards remained stable.
+- Captured genuine Executive Overview, Operations & Data Quality, and Model view screenshots under `docs/screenshots/`. No connection, user, or authentication details are visible.
