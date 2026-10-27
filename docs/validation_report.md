@@ -226,3 +226,30 @@ Five pipeline-suite skips comprise four tests requiring Airflow's separate envir
 New DAG durations: source rejection 66.140 seconds; corrected source 140.551; reconciliation retry 148.483; quality retry 161.749; publication retry 144.275. Combined nine-run average Airflow runtime is 147.736 seconds. The 77.78% success rate includes intentional validation failures and must not be represented as a production SLO. Two rejected lines evaluated twice produce four rejection evaluations, not four distinct bad source records.
 
 The five pipeline skips are four Airflow-runtime tests (passed separately) and the previously completed AWS upload/delete integration. Real S3 was exercised by the five new DAG runs. Genuine source anomalies remain unchanged. No screenshots or external notification delivery are claimed; optional capture instructions and operational limitations are documented. Final DAGs are paused with probes disabled; no Milestone 9 work was started.
+
+## Milestone 9 result
+
+**Completed and validated on 2026-10-26.** Real Snowflake backend validation and a Power BI Desktop runtime refresh succeeded. The source-controlled PBIP/TMDL artifact opened with 15 tables, 41 measures, 12 relationships, two polished pages, and 33 native visuals.
+
+| Check | Actual result |
+|---|---|
+| Existing business layer | Reused 11 atomic-publication `MARTS.REPORT_*` views; no business mart/view duplication |
+| New operational layer | Deployed 3 `AUDIT.PBI_*` views for source freshness, DAG runs, and current pipeline health |
+| Reporting inventory | 14/14 expected views present |
+| Orders / customers / products / sellers | 99,441 / 96,096 / 32,951 / 3,095 |
+| Payment / merchandise / freight | R$16,008,872.12 / R$13,591,643.70 / R$2,251,909.54 |
+| Average order value | R$160.99 tendered payment per order; not accounting revenue |
+| Delivery outcomes | 96,478 delivered; 7,826 late; 88,644 on-time; 8 with unknown timeliness |
+| Delivery rates | 97.0203% delivered; 91.8800% on-time among delivered; 8.1117% late among delivered |
+| Monthly reconciliation | 25 purchase month rows; monthly order/payment totals equal all-order totals |
+| Monetary fanout guard | Item/order merchandise, item/order freight, and payment/order totals match exactly |
+| Relationship checks | 0 order-date, item-product, or item-seller orphans |
+| Production accounting | 1,550,922 source = 1,550,922 accepted + 0 rejected/missing; 0 traceable production rejected lines |
+| Latest quality result | 156 pass / 1 warning / 0 failures; nine sources passed at the validated publication |
+| Current freshness at final Desktop refresh | Warning: all nine sources at 367 hours; below 720-hour error threshold |
+| Current publication | Version `M7_30F3580F9026_`; validated run `m8_publication_retry_20261016` |
+| Reproducible assets | Semantic YAML, exact DAX, two-page report YAML, deterministic PBIP/TMDL generator and project, deployment/validation Python, SQL, JSON evidence, build guide |
+| PBIP/TMDL validation | 14 imported tables + one measure table; 41 measures; 12 relationships; two completed named pages; PBIP/PBIR JSON accepted by Microsoft schemas; semantic model accepted by Microsoft's TMDL serializer |
+| Power BI/UI state | Both pages and all 33 visuals rendered; Year-Month, category, and seller cross-filter behavior validated; disconnected operational cards stayed unchanged; three genuine screenshots captured |
+
+`reports/power_bi_backend_validation.json` remains the measured backend evidence, while `sql/power_bi/002_validation_queries.sql` and the saved DAX query provide independent reconciliation paths. Desktop returned the required KPI row exactly: 99,441 orders; R$16,008,872.12 tendered payment value; R$160.99 AOV; R$13,591,643.70 merchandise; R$2,251,909.54 freight; 96,096 customers; 32,951 products; 3,095 sellers; 96,478 delivered orders; 7,826 late; 88,644 on time; 8 unknown; 1,550,922 accepted; 0 rejected; and quality 156 pass / 1 warning / 0 failure. The report screenshots are in `docs/screenshots/`.

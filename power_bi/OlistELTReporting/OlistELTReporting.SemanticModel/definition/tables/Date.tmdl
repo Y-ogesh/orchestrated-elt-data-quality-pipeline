@@ -1,0 +1,94 @@
+/// Date: imported from MARTS.REPORT_DIM_DATE.
+table 'Date'
+	dataCategory: Time
+
+	column 'DATE_KEY'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DATE_KEY
+
+	column 'DATE_DAY'
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: DATE_DAY
+
+	column 'DAY_OF_MONTH'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DAY_OF_MONTH
+
+	column 'DAY_OF_WEEK_NUMBER'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: DAY_OF_WEEK_NUMBER
+
+	column 'DAY_OF_WEEK_NAME'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: DAY_OF_WEEK_NAME
+		sortByColumn: DAY_OF_WEEK_NUMBER
+
+	column 'ISO_WEEK_NUMBER'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: ISO_WEEK_NUMBER
+
+	column 'MONTH_NUMBER'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: MONTH_NUMBER
+
+	column 'MONTH_NAME'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: MONTH_NAME
+		sortByColumn: MONTH_NUMBER
+
+	column 'QUARTER_NUMBER'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: QUARTER_NUMBER
+
+	column 'YEAR_NUMBER'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: YEAR_NUMBER
+
+	column 'IS_WEEKEND'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: IS_WEEKEND
+
+	column 'Year Month' = FORMAT ( 'Date'[DATE_DAY], "yyyy-MM" )
+		dataType: string
+		summarizeBy: none
+		sortByColumn: 'Year Month Sort'
+
+	column 'Year Month Sort' = YEAR ( 'Date'[DATE_DAY] ) * 100 + MONTH ( 'Date'[DATE_DAY] )
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+
+	partition 'Date' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_DATE", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

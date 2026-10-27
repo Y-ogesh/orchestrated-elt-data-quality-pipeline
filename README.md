@@ -2,7 +2,7 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–8 are **Completed and validated**, including real AWS/Snowflake execution, Airflow orchestration, rejected-record accounting, operational monitoring, and recovery. Power BI / Milestone 9 remains **Not started**. Airflow is paused after validation; failure probes are disabled.
+> **Status:** Milestones 1–9 are **Completed and validated**. The Power BI project opens and refreshes in Power BI Desktop, its two polished report pages contain 33 native visuals, live measures reconcile to Snowflake, and genuine runtime screenshots are included. Airflow is paused after validation; failure probes are disabled.
 
 ## Business problem
 
@@ -45,7 +45,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Implemented through Milestone 8; Milestones 2–8 are validated against real cloud infrastructure:
+Milestones 1–9 are implemented and validated; Milestones 2–9 include real cloud or Power BI Desktop runtime evidence:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -70,7 +70,9 @@ Implemented through Milestone 8; Milestones 2–8 are validated against real clo
 
 - Structured operational observations extend the existing audit events: typed failure categories, accepted/rejected/held accounting, preserved retry history, and reproducible run summaries. Five new real Airflow scenarios demonstrated quarantine correction, reconciliation/quality retries, and rollback of 74 uncommitted publication rows without changing production fingerprints. See [monitoring and recovery](docs/monitoring_recovery.md) and [lightweight monitoring summary](reports/monitoring_summary.json).
 
-Planned—not yet implemented: external alert delivery and Power BI dashboards. The measured validation-run success rate is not a production availability SLO.
+- Power BI reuses the eleven safe-publication views and three operational views. The validated PBIP contains 14 Import tables plus a dedicated measure table, 41 measures, 12 relationships, two pages, and 33 native visuals. Desktop refresh, DAX reconciliation, Date/category/seller interactions, disconnected operational behavior, and screenshots are documented in the [dashboard guide](docs/dashboard.md).
+
+Planned—not yet implemented: external alert delivery. The measured validation-run success rate is not a production availability SLO.
 
 ## Warehouse design
 
@@ -109,8 +111,10 @@ data/processed/        # ignored local derivatives
 dbt/                   # Snowflake dbt project, models, tests, macros, profile template
 docker/                # planned container definitions
 docs/                  # architecture, plans, runbooks, evidence
+power_bi/              # PBIP/TMDL project, exact DAX, semantic and report specifications
 reports/               # committed aggregate profiling evidence
 scripts/               # operator entry points
+sql/power_bi/          # operational reporting views and KPI validation queries
 sql/snowflake/         # versioned warehouse and RAW loading infrastructure
 src/olist_pipeline/    # Python contracts, ingestion, warehouse loading, validation
 tests/                 # fast unit tests
@@ -136,3 +140,5 @@ tests/                 # fast unit tests
 - [Validation report](docs/validation_report.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Engineering journal](docs/engineering_journal.md)
+- [Power BI dashboard specification and build guide](docs/dashboard.md)
+- [Machine-readable Power BI backend evidence](reports/power_bi_backend_validation.json)

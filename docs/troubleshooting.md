@@ -1,5 +1,37 @@
 # Troubleshooting
 
+## Power BI reporting
+
+### PBIP opens but requests a server or credentials
+
+This is intentional. Open the top-level `power_bi/OlistELTReporting/OlistELTReporting.pbip`, set the `SnowflakeServer` Power Query parameter in Desktop, then use **Close & Apply** (or the report-canvas **Apply changes** banner) before refreshing. Until the pending query change is applied, Desktop continues to resolve the connector scope as `SET_IN_POWER_BI_DESKTOP;OLIST_ELT_WH`. Authenticate through **Data source settings** only after the applied scope shows the approved host. The PBIP contains Import-mode query metadata but no server-specific account name or credentials. Do not replace the placeholder with a password, token, or key path in tracked source.
+
+All 14 Import partitions call `Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, ...)`; none hardcodes the placeholder. There is exactly one `SnowflakeServer` definition, in `OlistELTReporting.SemanticModel/definition/expressions.tmdl`. Running the deterministic generator intentionally restores its tracked default, so finish regeneration before setting the local Desktop value and do not accept later external source changes during the same validation session.
+
+### PBIP opens with blank report pages
+
+The two named page shells are intentional. The repository safely generates the semantic model, but it does not fabricate unsupported visual-container JSON. Build the visuals from `power_bi/report_spec.yaml`, then validate interactions and totals before treating Milestone 9 as complete.
+
+### The backend validator reports missing `S3_BUCKET`
+
+The Power BI command reuses the secure Snowflake settings object, whose preflight contract includes the project S3 bucket even though reporting validation performs no S3 operation. Load the ignored `.env`, then export the documented non-secret `S3_BUCKET` and `S3_RAW_PREFIX` values before rerunning. Do not add AWS credentials to `.env`.
+
+### Power BI totals grow after selecting a seller or category
+
+Do not use order-level Payment Value or Merchandise Value directly in seller/category visuals and do not enable bidirectional relationships. Use the item-safe measures in `power_bi/measures.dax`: `Item Orders`, `Item Merchandise Value`, and the distinct-order item-selection delivery measures. An order can contain multiple items/categories and no defensible category payment allocation exists.
+
+### Delivered Orders does not equal On-time plus Late
+
+Eight published delivered orders have null delivery timeliness. Keep `Delivered Orders with Unknown Timeliness` visible; do not classify null as on-time merely to force two-way reconciliation.
+
+### Power BI current freshness differs from the latest validated run
+
+`PBI_SOURCE_FRESHNESS` calculates age at query time from RAW `_loaded_at`, so a fixed snapshot becomes older. `freshness_sources_passed_at_validation` is the historical result stored with the last successful quality task. The dashboard must label current freshness separately from validation-time freshness.
+
+### PBIP opens with local credentials or cache changes
+
+Connection settings and imported cache are local artifacts. Confirm `**/.pbi/localSettings.json` and `**/.pbi/cache.abf` remain ignored and remove them from staging if Power BI Desktop created them. Never commit server tokens, passwords, private keys, or exported row-level data.
+
 ## Download cannot resolve or reach Kaggle
 
 Confirm network/DNS access and open the [official dataset page](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce). Retry `make download`. In restricted environments, download the archive manually from the official page and extract exactly nine CSVs into `data/raw/`. Do not commit them.

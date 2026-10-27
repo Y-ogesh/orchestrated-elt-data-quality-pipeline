@@ -1,0 +1,80 @@
+/// Report Order Reviews: imported from MARTS.REPORT_FCT_ORDER_REVIEWS.
+table 'Report Order Reviews'
+
+	column 'REVIEW_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: REVIEW_KEY
+
+	column 'ORDER_KEY'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: ORDER_KEY
+
+	column 'REVIEW_CREATION_DATE_KEY'
+		dataType: int64
+		isHidden
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: REVIEW_CREATION_DATE_KEY
+
+	column 'REVIEW_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: REVIEW_ID
+
+	column 'ORDER_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ORDER_ID
+
+	column 'REVIEW_SCORE'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: REVIEW_SCORE
+
+	column 'REVIEW_COMMENT_TITLE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: REVIEW_COMMENT_TITLE
+
+	column 'REVIEW_COMMENT_MESSAGE'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: REVIEW_COMMENT_MESSAGE
+
+	column 'REVIEW_CREATION_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: REVIEW_CREATION_TIMESTAMP
+
+	column 'REVIEW_ANSWER_TIMESTAMP'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: REVIEW_ANSWER_TIMESTAMP
+
+	column 'SOURCE_LOADED_AT'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: SOURCE_LOADED_AT
+
+	partition 'Report Order Reviews' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_FCT_ORDER_REVIEWS", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

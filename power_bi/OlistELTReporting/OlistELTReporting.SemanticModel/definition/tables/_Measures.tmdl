@@ -1,0 +1,293 @@
+/// Dedicated measure home table; the placeholder column is hidden.
+table _Measures
+
+	measure 'Total Orders' = ```
+			DISTINCTCOUNT ( 'Report Orders'[ORDER_ID] )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Total Payment Value' = ```
+			SUM ( 'Report Orders'[PAYMENT_TOTAL_VALUE] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Average Order Value' = ```
+			DIVIDE ( [Total Payment Value], [Total Orders] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Delivered GMV' = ```
+			CALCULATE (
+			    [Merchandise Value],
+			    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" )
+			)
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Delivered GMV per Delivered Order' = ```
+			DIVIDE ( [Delivered GMV], [Delivered Orders] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Merchandise Value' = ```
+			SUM ( 'Report Orders'[ITEM_MERCHANDISE_VALUE] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Freight Value' = ```
+			SUM ( 'Report Orders'[FREIGHT_VALUE] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Customer Count' = ```
+			DISTINCTCOUNT ( 'Report Orders'[CUSTOMER_KEY] )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Product Count' = ```
+			DISTINCTCOUNT ( 'Report Order Items'[PRODUCT_KEY] )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Seller Count' = ```
+			DISTINCTCOUNT ( 'Report Order Items'[SELLER_KEY] )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Item Orders' = ```
+			DISTINCTCOUNT ( 'Report Order Items'[ORDER_ID] )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Item Merchandise Value' = ```
+			SUM ( 'Report Order Items'[ITEM_PRICE] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Item Freight Value' = ```
+			SUM ( 'Report Order Items'[FREIGHT_VALUE] )
+			```
+		formatString: R$ #,0.00
+		displayFolder: "Executive KPIs"
+
+	measure 'Late Deliveries for Selected Items' = ```
+			VAR SelectedOrders = VALUES ( 'Report Order Items'[ORDER_KEY] )
+			RETURN
+			    CALCULATE (
+			        [Late Deliveries],
+			        TREATAS ( SelectedOrders, 'Report Orders'[ORDER_KEY] )
+			    )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Late Delivery Rate for Selected Items' = ```
+			VAR SelectedOrders = VALUES ( 'Report Order Items'[ORDER_KEY] )
+			VAR DeliveredSelectedOrders =
+			    CALCULATE (
+			        [Delivered Orders],
+			        TREATAS ( SelectedOrders, 'Report Orders'[ORDER_KEY] )
+			    )
+			RETURN
+			    DIVIDE ( [Late Deliveries for Selected Items], DeliveredSelectedOrders )
+			```
+		formatString: 0.0%
+		displayFolder: "Executive KPIs"
+
+	measure 'Delivered Orders' = ```
+			CALCULATE ( [Total Orders], KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ) )
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Late Deliveries' = ```
+			CALCULATE (
+			    [Total Orders],
+			    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ),
+			    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] = TRUE () )
+			)
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'On-Time Delivered Orders' = ```
+			CALCULATE (
+			    [Total Orders],
+			    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ),
+			    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] == FALSE () )
+			)
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Delivered Orders with Unknown Timeliness' = ```
+			[Delivered Orders] - [Late Deliveries] - [On-Time Delivered Orders]
+			```
+		formatString: #,0
+		displayFolder: "Executive KPIs"
+
+	measure 'Delivery Success Rate' = ```
+			DIVIDE ( [Delivered Orders], [Total Orders] )
+			```
+		formatString: 0.0%
+		displayFolder: "Executive KPIs"
+
+	measure 'On-Time Delivery Rate' = ```
+			DIVIDE ( [On-Time Delivered Orders], [Delivered Orders] )
+			```
+		formatString: 0.0%
+		displayFolder: "Executive KPIs"
+
+	measure 'Late Delivery Rate' = ```
+			DIVIDE ( [Late Deliveries], [Delivered Orders] )
+			```
+		formatString: 0.0%
+		displayFolder: "Executive KPIs"
+
+	measure 'Average Delivery Days' = ```
+			AVERAGEX (
+			    FILTER ( 'Report Orders', NOT ISBLANK ( 'Report Orders'[DELIVERY_DAYS] ) ),
+			    'Report Orders'[DELIVERY_DAYS]
+			)
+			```
+		formatString: 0.0
+		displayFolder: "Operations"
+
+	measure 'Payment Reconciliation Exceptions' = ```
+			CALCULATE (
+			    [Total Orders],
+			    KEEPFILTERS ( 'Report Orders'[IS_PAYMENT_RECONCILIATION_EXCEPTION] = TRUE () )
+			)
+			```
+		formatString: #,0
+		displayFolder: "Operations"
+
+	measure 'Average Review Score' = ```
+			AVERAGE ( 'Report Order Reviews'[REVIEW_SCORE] )
+			```
+		formatString: 0.00
+		displayFolder: "Operations"
+
+	measure 'Accepted Rows' = ```
+			MAX ( 'Pipeline Health'[ACCEPTED_ROWS] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Rejected Rows' = ```
+			MAX ( 'Pipeline Health'[TRACEABLE_REJECTED_ROWS] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Rejection Diagnostics' = ```
+			MAX ( 'Pipeline Health'[REJECTION_DIAGNOSTICS] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Quality Tests Passed' = ```
+			MAX ( 'Pipeline Health'[QUALITY_TESTS_PASSED] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Quality Test Warnings' = ```
+			MAX ( 'Pipeline Health'[QUALITY_TEST_WARNINGS] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Quality Test Failures' = ```
+			MAX ( 'Pipeline Health'[QUALITY_TEST_FAILURES] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Data Freshness Age Hours' = ```
+			MAX ( 'Pipeline Health'[MAXIMUM_FRESHNESS_AGE_HOURS] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Latest Pipeline Status' = ```
+			SELECTEDVALUE ( 'Pipeline Health'[LATEST_PIPELINE_STATUS], "unknown" )
+			```
+		formatString: General
+		displayFolder: "Pipeline Health"
+
+	measure 'Current Freshness Status' = ```
+			SELECTEDVALUE ( 'Pipeline Health'[CURRENT_FRESHNESS_STATUS], "unknown" )
+			```
+		formatString: General
+		displayFolder: "Pipeline Health"
+
+	measure 'Latest Validated Pipeline Run' = ```
+			SELECTEDVALUE ( 'Pipeline Health'[LATEST_VALIDATED_RUN_ID], "unavailable" )
+			```
+		formatString: General
+		displayFolder: "Pipeline Health"
+
+	measure 'Latest Validated At' = ```
+			MAX ( 'Pipeline Health'[LATEST_VALIDATED_AT] )
+			```
+		formatString: General Date
+		displayFolder: "Pipeline Health"
+
+	measure 'Current Published Version' = ```
+			SELECTEDVALUE ( 'Pipeline Health'[CURRENT_REPORTING_VERSION], "unavailable" )
+			```
+		formatString: General
+		displayFolder: "Pipeline Health"
+
+	measure 'Successful Pipeline Runs' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'Pipeline Runs'[RUN_ID] ),
+			    KEEPFILTERS ( 'Pipeline Runs'[FINAL_STATE] = "success" )
+			)
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Failed Pipeline Runs' = ```
+			CALCULATE (
+			    DISTINCTCOUNT ( 'Pipeline Runs'[RUN_ID] ),
+			    KEEPFILTERS ( 'Pipeline Runs'[FINAL_STATE] = "failed" )
+			)
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	measure 'Pipeline Run Success Rate' = ```
+			DIVIDE ( [Successful Pipeline Runs], [Successful Pipeline Runs] + [Failed Pipeline Runs] )
+			```
+		formatString: 0.0%
+		displayFolder: "Pipeline Health"
+
+	measure 'Retry Attempts' = ```
+			SUM ( 'Pipeline Runs'[RETRY_ATTEMPT_COUNT] )
+			```
+		formatString: #,0
+		displayFolder: "Pipeline Health"
+
+	column _Placeholder
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: [Value]
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("Value", "Measures")

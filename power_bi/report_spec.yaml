@@ -1,0 +1,57 @@
+report:
+  title: Olist Marketplace Performance and Pipeline Health
+  canvas: {ratio: '16:9', width: 1280, height: 720}
+  theme: accessible high-contrast, restrained blue/teal business palette
+  report_filters: []
+pages:
+  - name: Executive Overview
+    page_filters: []
+    slicers:
+      - {field: Date.DATE_DAY, type: between, sync: true}
+      - {field: Report Orders.ORDER_STATUS, type: dropdown, sync: true}
+      - {field: Categories.PRODUCT_CATEGORY_NAME_ENGLISH, type: dropdown, sync: true}
+    visuals:
+      - {type: card, measure: Total Orders}
+      - {type: card, measure: Total Payment Value, subtitle: Tendered payment value; not accounting revenue}
+      - {type: card, measure: Average Order Value}
+      - {type: card, measure: Customer Count}
+      - {type: line_and_clustered_column, axis: Date.Year Month, columns: Total Orders, line: Total Payment Value, drill: [Date.YEAR_NUMBER, Date.MONTH_NUMBER]}
+      - {type: donut, legend: Report Orders.ORDER_STATUS, value: Total Orders}
+      - {type: bar, axis: Order Customers.CUSTOMER_STATE, value: Total Orders, title: Orders by delivery state}
+      - {type: bar, axis: Categories.PRODUCT_CATEGORY_NAME_ENGLISH, value: Item Merchandise Value, filter: Top 10 by Item Merchandise Value}
+    interactions:
+      - Date and order-status slicers filter all business visuals.
+      - Category filters item-grain category visuals only; it must not allocate order-level payment across multiple items.
+      - Selecting state cross-filters order-grain business visuals.
+      - Operational tables are absent from this page and remain disconnected.
+  - name: Operations & Data Quality
+    sections:
+      - name: Business Operations
+        visuals:
+          - {type: card, measure: Delivered Orders}
+          - {type: card, measure: Late Deliveries}
+          - {type: gauge, measure: On-Time Delivery Rate, minimum: 0, maximum: 1}
+          - {type: card, measure: Average Delivery Days}
+          - {type: matrix, rows: [Sellers.SELLER_STATE, Sellers.SELLER_ID], values: [Item Orders, Item Merchandise Value, Late Delivery Rate for Selected Items], drill: true}
+          - {type: bar, axis: Categories.PRODUCT_CATEGORY_NAME_ENGLISH, value: Late Deliveries for Selected Items, filter: Top 10 by Late Deliveries for Selected Items}
+      - name: Pipeline and Data Quality
+        visuals:
+          - {type: card, measure: Latest Pipeline Status}
+          - {type: card, measure: Current Published Version}
+          - {type: card, measure: Accepted Rows}
+          - {type: card, measure: Rejected Rows}
+          - {type: card, measure: Quality Tests Passed}
+          - {type: card, measure: Quality Test Warnings}
+          - {type: card, measure: Data Freshness Age Hours}
+          - {type: table, source: Source Freshness, columns: [SOURCE_NAME, LAST_LOADED_AT, FRESHNESS_AGE_HOURS, FRESHNESS_STATUS], conditional_format: FRESHNESS_STATUS}
+          - {type: stacked_column, axis: Pipeline Runs.STARTED_AT, values: [Successful Pipeline Runs, Failed Pipeline Runs], note: validation runs include deliberate failures}
+    slicers:
+      - {field: Date.DATE_DAY, type: between, sync: true, scope: business operations only}
+      - {field: Report Orders.ORDER_STATUS, type: dropdown, sync: true, scope: business operations only}
+      - {field: Categories.PRODUCT_CATEGORY_NAME_ENGLISH, type: dropdown, sync: true, scope: business operations only}
+    interactions:
+      - Business slicers do not filter pipeline-health visuals because operational tables are intentionally disconnected.
+      - Seller and category selections cross-filter business operations only.
+      - Pipeline run chart selection may filter a run-detail table but must not filter current health cards.
+drillthrough:
+  - {page: Order Detail, optional: true, key: Report Orders.ORDER_ID, fields: [ORDER_STATUS, ORDER_PURCHASE_TIMESTAMP, ITEM_MERCHANDISE_VALUE, FREIGHT_VALUE, PAYMENT_TOTAL_VALUE, DELIVERY_DAYS, IS_LATE_DELIVERY]}

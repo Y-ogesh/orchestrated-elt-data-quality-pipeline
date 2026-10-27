@@ -1,0 +1,3 @@
+database OlistELTReporting
+	compatibilityLevel: 1600
+	compatibilityMode: powerBI

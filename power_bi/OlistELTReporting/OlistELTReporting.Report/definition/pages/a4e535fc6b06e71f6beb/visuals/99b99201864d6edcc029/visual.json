@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "99b99201864d6edcc029",
+  "position": {
+    "x": 725,
+    "y": 350,
+    "z": 20,
+    "height": 350,
+    "width": 510,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Categories"
+                    }
+                  },
+                  "Property": "PRODUCT_CATEGORY_NAME_ENGLISH"
+                }
+              },
+              "queryRef": "Categories.PRODUCT_CATEGORY_NAME_ENGLISH",
+              "nativeQueryRef": "Product Category",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Late Deliveries for Selected Items"
+                }
+              },
+              "queryRef": "_Measures.Late Deliveries for Selected Items",
+              "nativeQueryRef": "Late Deliveries for Selected Items"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Late Deliveries for Selected Items"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d81aaeae116ba73ba38b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Categories"
+              }
+            },
+            "Property": "PRODUCT_CATEGORY_NAME_ENGLISH"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "15734378b3e9154516e1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Late Deliveries for Selected Items"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

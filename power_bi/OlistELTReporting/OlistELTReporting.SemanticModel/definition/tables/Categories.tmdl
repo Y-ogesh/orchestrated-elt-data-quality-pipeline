@@ -1,0 +1,37 @@
+/// Categories: imported from MARTS.REPORT_DIM_CATEGORY.
+table 'Categories'
+
+	column 'CATEGORY_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: CATEGORY_KEY
+
+	column 'PRODUCT_CATEGORY_NAME'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PRODUCT_CATEGORY_NAME
+
+	column 'PRODUCT_CATEGORY_NAME_ENGLISH'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PRODUCT_CATEGORY_NAME_ENGLISH
+
+	column 'TRANSLATION_STATUS'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: TRANSLATION_STATUS
+
+	partition 'Categories' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_CATEGORY", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

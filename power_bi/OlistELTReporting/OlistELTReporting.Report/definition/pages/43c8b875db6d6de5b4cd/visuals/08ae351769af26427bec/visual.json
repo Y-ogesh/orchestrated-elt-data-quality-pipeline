@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "08ae351769af26427bec",
+  "position": {
+    "x": 380,
+    "y": 445,
+    "z": 10,
+    "height": 255,
+    "width": 425,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Categories"
+                    }
+                  },
+                  "Property": "PRODUCT_CATEGORY_NAME_ENGLISH"
+                }
+              },
+              "queryRef": "Categories.PRODUCT_CATEGORY_NAME_ENGLISH",
+              "nativeQueryRef": "Product Category",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Item Merchandise Value"
+                }
+              },
+              "queryRef": "_Measures.Item Merchandise Value",
+              "nativeQueryRef": "Item Merchandise Value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Item Merchandise Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0629df7daa136541787e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Categories"
+              }
+            },
+            "Property": "PRODUCT_CATEGORY_NAME_ENGLISH"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "503ccb8f1f8edc6d6659",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Item Merchandise Value"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

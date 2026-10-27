@@ -144,7 +144,8 @@ Expected counts derive from the committed aggregate source profile and declared 
 | `payment_total_value` | Sum of `payment_value` at payment grain | Aggregate before any item join |
 | `payment_item_difference` | `payment_total_value - item_total_value` | Keep exceptions visible; tolerance R$0.01 |
 | `delivered_gmv` | Item merchandise value for delivered orders | Label as GMV, not recognized revenue |
-| `average_order_value` | Delivered GMV / distinct delivered orders | Never average item rows |
+| `average_order_value` | Tendered payment total / distinct orders under the same report filters | Never average payment or item rows; not accounting revenue |
+| `delivered_gmv_per_order` | Delivered GMV / distinct delivered orders | Merchandise-only operational metric; separate from tendered-payment AOV |
 | `late_delivery` | Delivered timestamp after estimated date | Null when not delivered |
 
 ## Ingestion metadata contract
@@ -208,3 +209,13 @@ The freshness policy warns after 168 hours and errors after 720 hours. The synth
 Eleven reporting views expose seven dimensions and four facts. Run-specific `M7_<hash>_` candidates are build/validation objects, not consumer reporting endpoints. The publication stores and candidate copies are retained intentionally; consumer queries must not join across versions. See [orchestration](orchestration.md) for atomicity, rollback and retention limitations.
 
 Milestone 8 adds versioned `details._monitoring` fields to the existing task-attempt event: stage, execution origin, synthetic/scenario labels, failure category/reason/role, nullable source/accepted/rejected/inserted/updated/skipped counts, accounting scope, test failures, warning count, freshness/reconciliation/publication/recovery status, and warehouse run linkage. Null means unmeasured/not applicable. Counts from isolated synthetic fixtures must not be combined with production inventory. Valid-but-held rows are accepted by row rules but not inserted. A source line can have multiple diagnostic reasons; count distinct provenance identities for rejected rows. See [monitoring and recovery](monitoring_recovery.md).
+
+## Power BI operational contract
+
+| Relation | Grain | Purpose |
+|---|---|---|
+| `AUDIT.PBI_SOURCE_FRESHNESS` | One RAW source table | Current `_loaded_at` age and pass/warn/error policy |
+| `AUDIT.PBI_PIPELINE_RUNS` | One orchestrated DAG run | Final state, attempts, retries, measured counts, and publication version |
+| `AUDIT.PBI_PIPELINE_HEALTH` | One current snapshot | Published version, last validation, quality outcomes, production accepted/rejected accounting, and freshness rollup |
+
+These views contain aggregate operational metadata only. Synthetic failure counts are not represented as production rejected rows. The Power BI business model consumes the stable `MARTS.REPORT_*` views; it never aggregates retained stores across reporting versions. See [dashboard](dashboard.md) for the exact measure and relationship contract.

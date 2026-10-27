@@ -12,7 +12,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 6. Incremental ELT and idempotency | Sequential historical replay, duplicates, corrections, late arrivals, recovery, full-refresh equivalence | **Completed and validated** | 26 real replay batches; zero differences across 9 RAW datasets and 24 models; duplicate/correction/late-arrival/recovery checks pass; production unchanged |
 | 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, historical batch orchestration and failure recovery | **Completed and validated** | Scheduled/manual/recovery runs passed; failed quality gate blocked publication; reporting/production fingerprints unchanged; overlap and timeout enforcement verified |
 | 8. Failure handling, recovery and monitoring | Typed audit observations, rejected-row accounting, isolated quarantine, recovery, monitoring summaries | **Completed and validated** | Five new real DAG scenarios; 3 = 1 accepted + 2 rejected rows; corrected merge adds zero on rerun; 74 publication rows rolled back; 73 terminal events and seven publications reconcile |
-| 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Not started** | Reconciled dashboard and reproducible end-to-end run |
+| 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Completed and validated** | PBIP opened and refreshed in Desktop; 15 tables, 41 measures, 12 relationships, 33 visuals, slicer/cross-filter tests, KPI reconciliation, and genuine screenshots passed |
 
 ## Milestone 1 acceptance criteria
 
@@ -116,6 +116,20 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Final production dbt suite: 156 pass / one genuine warning; nine freshness checks pass; reconciliation and fingerprints unchanged.
 - [x] Final repository suite: 41 pass / five expected skips; Airflow tests: eight pass. Sanitized summary and detailed evidence preserved.
 - [x] DAGs paused, probes disabled, secrets/runtime artifacts untracked; no Milestone 9 work or external alert service provisioned.
+
+## Milestone 9 acceptance criteria
+
+- [x] Existing eleven published reporting views and dimensional grains audited and reused.
+- [x] Three nonredundant operational Power BI views deployed and validated in real Snowflake.
+- [x] Metric definitions, safe grains, currency, filters, and limitations documented.
+- [x] Exact semantic-model, relationship, DAX, page, visual, filter, and interaction specifications created.
+- [x] Total orders, payment value, AOV, customers, products, sellers, delivery outcomes, monthly totals, quality, accepted/rejected rows, freshness, and current publication reconciled against Snowflake.
+- [x] Merchandise, freight, and payment totals match detail and order grains; tested relationship orphans are zero.
+- [x] Reproducible PBIP/TMDL source created, accepted by Microsoft's TMDL serializer, and opened/refreshed in Desktop.
+- [x] Executive Overview and Operations & Data Quality pages built and polished in Power BI Desktop.
+- [x] Refresh, slicers, relationships, interactions, and filtered totals validated in Power BI.
+- [x] Genuine redacted screenshots captured under `docs/screenshots/`.
+- [x] Final Milestone 9 completion commit created only after the preceding UI evidence exists.
 
 ## Delivery conventions
 

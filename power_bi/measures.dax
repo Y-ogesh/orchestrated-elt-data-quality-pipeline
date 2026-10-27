@@ -1,0 +1,168 @@
+// Display folder: Executive KPIs
+// Calculated column on Date; sort Year Month by Year Month Sort.
+Year Month = FORMAT ( 'Date'[DATE_DAY], "yyyy-MM" )
+
+Year Month Sort = YEAR ( 'Date'[DATE_DAY] ) * 100 + MONTH ( 'Date'[DATE_DAY] )
+
+Total Orders =
+DISTINCTCOUNT ( 'Report Orders'[ORDER_ID] )
+
+Total Payment Value =
+SUM ( 'Report Orders'[PAYMENT_TOTAL_VALUE] )
+
+Average Order Value =
+DIVIDE ( [Total Payment Value], [Total Orders] )
+
+// This existing portfolio metric is intentionally distinct from Average Order Value.
+Delivered GMV =
+CALCULATE (
+    [Merchandise Value],
+    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" )
+)
+
+Delivered GMV per Delivered Order =
+DIVIDE ( [Delivered GMV], [Delivered Orders] )
+
+Merchandise Value =
+SUM ( 'Report Orders'[ITEM_MERCHANDISE_VALUE] )
+
+Freight Value =
+SUM ( 'Report Orders'[FREIGHT_VALUE] )
+
+Customer Count =
+DISTINCTCOUNT ( 'Report Orders'[CUSTOMER_KEY] )
+
+Product Count =
+DISTINCTCOUNT ( 'Report Order Items'[PRODUCT_KEY] )
+
+Seller Count =
+DISTINCTCOUNT ( 'Report Order Items'[SELLER_KEY] )
+
+// Use these measures for product/category/seller visuals. They stay at item grain and
+// do not allocate order-level payments across items.
+Item Orders =
+DISTINCTCOUNT ( 'Report Order Items'[ORDER_ID] )
+
+Item Merchandise Value =
+SUM ( 'Report Order Items'[ITEM_PRICE] )
+
+Item Freight Value =
+SUM ( 'Report Order Items'[FREIGHT_VALUE] )
+
+Late Deliveries for Selected Items =
+VAR SelectedOrders = VALUES ( 'Report Order Items'[ORDER_KEY] )
+RETURN
+    CALCULATE (
+        [Late Deliveries],
+        TREATAS ( SelectedOrders, 'Report Orders'[ORDER_KEY] )
+    )
+
+Late Delivery Rate for Selected Items =
+VAR SelectedOrders = VALUES ( 'Report Order Items'[ORDER_KEY] )
+VAR DeliveredSelectedOrders =
+    CALCULATE (
+        [Delivered Orders],
+        TREATAS ( SelectedOrders, 'Report Orders'[ORDER_KEY] )
+    )
+RETURN
+    DIVIDE ( [Late Deliveries for Selected Items], DeliveredSelectedOrders )
+
+Delivered Orders =
+CALCULATE ( [Total Orders], KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ) )
+
+Late Deliveries =
+CALCULATE (
+    [Total Orders],
+    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ),
+    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] = TRUE () )
+)
+
+On-Time Delivered Orders =
+CALCULATE (
+    [Total Orders],
+    KEEPFILTERS ( 'Report Orders'[ORDER_STATUS] = "delivered" ),
+    KEEPFILTERS ( 'Report Orders'[IS_LATE_DELIVERY] == FALSE () )
+)
+
+Delivered Orders with Unknown Timeliness =
+[Delivered Orders] - [Late Deliveries] - [On-Time Delivered Orders]
+
+Delivery Success Rate =
+DIVIDE ( [Delivered Orders], [Total Orders] )
+
+On-Time Delivery Rate =
+DIVIDE ( [On-Time Delivered Orders], [Delivered Orders] )
+
+Late Delivery Rate =
+DIVIDE ( [Late Deliveries], [Delivered Orders] )
+
+// Display folder: Operations
+Average Delivery Days =
+AVERAGEX (
+    FILTER ( 'Report Orders', NOT ISBLANK ( 'Report Orders'[DELIVERY_DAYS] ) ),
+    'Report Orders'[DELIVERY_DAYS]
+)
+
+Payment Reconciliation Exceptions =
+CALCULATE (
+    [Total Orders],
+    KEEPFILTERS ( 'Report Orders'[IS_PAYMENT_RECONCILIATION_EXCEPTION] = TRUE () )
+)
+
+Average Review Score =
+AVERAGE ( 'Report Order Reviews'[REVIEW_SCORE] )
+
+// Display folder: Pipeline Health
+Accepted Rows =
+MAX ( 'Pipeline Health'[ACCEPTED_ROWS] )
+
+Rejected Rows =
+MAX ( 'Pipeline Health'[TRACEABLE_REJECTED_ROWS] )
+
+Rejection Diagnostics =
+MAX ( 'Pipeline Health'[REJECTION_DIAGNOSTICS] )
+
+Quality Tests Passed =
+MAX ( 'Pipeline Health'[QUALITY_TESTS_PASSED] )
+
+Quality Test Warnings =
+MAX ( 'Pipeline Health'[QUALITY_TEST_WARNINGS] )
+
+Quality Test Failures =
+MAX ( 'Pipeline Health'[QUALITY_TEST_FAILURES] )
+
+Data Freshness Age Hours =
+MAX ( 'Pipeline Health'[MAXIMUM_FRESHNESS_AGE_HOURS] )
+
+Latest Pipeline Status =
+SELECTEDVALUE ( 'Pipeline Health'[LATEST_PIPELINE_STATUS], "unknown" )
+
+Current Freshness Status =
+SELECTEDVALUE ( 'Pipeline Health'[CURRENT_FRESHNESS_STATUS], "unknown" )
+
+Latest Validated Pipeline Run =
+SELECTEDVALUE ( 'Pipeline Health'[LATEST_VALIDATED_RUN_ID], "unavailable" )
+
+Latest Validated At =
+MAX ( 'Pipeline Health'[LATEST_VALIDATED_AT] )
+
+Current Published Version =
+SELECTEDVALUE ( 'Pipeline Health'[CURRENT_REPORTING_VERSION], "unavailable" )
+
+Successful Pipeline Runs =
+CALCULATE (
+    DISTINCTCOUNT ( 'Pipeline Runs'[RUN_ID] ),
+    KEEPFILTERS ( 'Pipeline Runs'[FINAL_STATE] = "success" )
+)
+
+Failed Pipeline Runs =
+CALCULATE (
+    DISTINCTCOUNT ( 'Pipeline Runs'[RUN_ID] ),
+    KEEPFILTERS ( 'Pipeline Runs'[FINAL_STATE] = "failed" )
+)
+
+Pipeline Run Success Rate =
+DIVIDE ( [Successful Pipeline Runs], [Successful Pipeline Runs] + [Failed Pipeline Runs] )
+
+Retry Attempts =
+SUM ( 'Pipeline Runs'[RETRY_ATTEMPT_COUNT] )

@@ -1,0 +1,38 @@
+/// Source Freshness: imported from AUDIT.PBI_SOURCE_FRESHNESS.
+table 'Source Freshness'
+
+	column 'SOURCE_NAME'
+		dataType: string
+		isKey
+		summarizeBy: none
+		sourceColumn: SOURCE_NAME
+
+	column 'LAST_LOADED_AT'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: LAST_LOADED_AT
+
+	column 'FRESHNESS_AGE_HOURS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: FRESHNESS_AGE_HOURS
+
+	column 'FRESHNESS_STATUS'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: FRESHNESS_STATUS
+
+	partition 'Source Freshness' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="AUDIT", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="PBI_SOURCE_FRESHNESS", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,61 @@
+relationship 49f390ef-5207-5893-8d87-6530e7124283
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Orders'.'PURCHASE_DATE_KEY'
+	toColumn: 'Date'.'DATE_KEY'
+
+relationship 0aad304d-4056-578c-b0c2-de16f46a8f6f
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Orders'.'CUSTOMER_KEY'
+	toColumn: 'Customers'.'CUSTOMER_KEY'
+
+relationship d8c6c321-0006-58e9-8cd6-fbd5243fe6ab
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Orders'.'ORDER_CUSTOMER_KEY'
+	toColumn: 'Order Customers'.'ORDER_CUSTOMER_KEY'
+
+relationship 1e381255-f729-5b2c-bf6e-cb171b56ae98
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Items'.'ORDER_KEY'
+	toColumn: 'Report Orders'.'ORDER_KEY'
+
+relationship 50b6fa01-132d-582c-a499-c7b08df6aa02
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Payments'.'ORDER_KEY'
+	toColumn: 'Report Orders'.'ORDER_KEY'
+
+relationship f964f3b6-ab34-5293-a92a-50e5e099a18a
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Reviews'.'ORDER_KEY'
+	toColumn: 'Report Orders'.'ORDER_KEY'
+
+relationship 5237c3c6-bece-5b5d-a704-2902e3b0686a
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Items'.'PRODUCT_KEY'
+	toColumn: 'Products'.'PRODUCT_KEY'
+
+relationship a6ed0c70-11e6-5729-a060-9ca4dea558cc
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Products'.'CATEGORY_KEY'
+	toColumn: 'Categories'.'CATEGORY_KEY'
+
+relationship e555f876-7196-5346-bdb5-b216bebf1e2f
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Items'.'SELLER_KEY'
+	toColumn: 'Sellers'.'SELLER_KEY'
+
+relationship 269081e2-d3bc-5e81-95d4-e296bb40fc00
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Order Customers'.'GEOGRAPHY_KEY'
+	toColumn: 'Geography'.'GEOGRAPHY_KEY'
+
+relationship dc72927e-6731-547a-aa4d-a995be751907
+	isActive: false
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Items'.'SHIPPING_LIMIT_DATE_KEY'
+	toColumn: 'Date'.'DATE_KEY'
+
+relationship e4250e90-e083-5b32-82de-bc5b5bf8972c
+	isActive: false
+	crossFilteringBehavior: oneDirection
+	fromColumn: 'Report Order Reviews'.'REVIEW_CREATION_DATE_KEY'
+	toColumn: 'Date'.'DATE_KEY'

@@ -1,0 +1,45 @@
+model: Olist ELT Reporting
+storage_mode: Import
+source: Snowflake OLIST_ELT database
+tables:
+  - {name: Report Orders, source: MARTS.REPORT_FCT_ORDERS, role: fact, grain: one order}
+  - {name: Report Order Items, source: MARTS.REPORT_FCT_ORDER_ITEMS, role: fact, grain: one order item}
+  - {name: Report Order Payments, source: MARTS.REPORT_FCT_ORDER_PAYMENTS, role: fact, grain: one payment component}
+  - {name: Report Order Reviews, source: MARTS.REPORT_FCT_ORDER_REVIEWS, role: fact, grain: one normalized review record}
+  - {name: Date, source: MARTS.REPORT_DIM_DATE, role: dimension, grain: one calendar date, mark_as_date_table: DATE_DAY}
+  - {name: Customers, source: MARTS.REPORT_DIM_CUSTOMER, role: dimension, grain: one unique customer}
+  - {name: Order Customers, source: MARTS.REPORT_DIM_ORDER_CUSTOMER, role: dimension, grain: one order-specific customer}
+  - {name: Products, source: MARTS.REPORT_DIM_PRODUCT, role: dimension, grain: one product}
+  - {name: Categories, source: MARTS.REPORT_DIM_CATEGORY, role: dimension, grain: one source category}
+  - {name: Sellers, source: MARTS.REPORT_DIM_SELLER, role: dimension, grain: one seller}
+  - {name: Geography, source: MARTS.REPORT_DIM_GEOGRAPHY, role: dimension, grain: one postal prefix}
+  - {name: Pipeline Runs, source: AUDIT.PBI_PIPELINE_RUNS, role: disconnected operational fact, grain: one Airflow DAG run}
+  - {name: Pipeline Health, source: AUDIT.PBI_PIPELINE_HEALTH, role: disconnected snapshot, grain: one current pipeline snapshot}
+  - {name: Source Freshness, source: AUDIT.PBI_SOURCE_FRESHNESS, role: disconnected operational dimension, grain: one source table}
+relationships:
+  - {from: Date.DATE_KEY, to: Report Orders.PURCHASE_DATE_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Customers.CUSTOMER_KEY, to: Report Orders.CUSTOMER_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Report Orders.ORDER_CUSTOMER_KEY, to: Order Customers.ORDER_CUSTOMER_KEY, cardinality: many-to-one, direction: single, active: true}
+  - {from: Report Orders.ORDER_KEY, to: Report Order Items.ORDER_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Report Orders.ORDER_KEY, to: Report Order Payments.ORDER_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Report Orders.ORDER_KEY, to: Report Order Reviews.ORDER_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Products.PRODUCT_KEY, to: Report Order Items.PRODUCT_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Categories.CATEGORY_KEY, to: Products.CATEGORY_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Sellers.SELLER_KEY, to: Report Order Items.SELLER_KEY, cardinality: one-to-many, direction: single, active: true}
+  - {from: Geography.GEOGRAPHY_KEY, to: Order Customers.GEOGRAPHY_KEY, cardinality: one-to-many, direction: single, active: true}
+inactive_relationships:
+  - {from: Date.DATE_KEY, to: Report Order Items.SHIPPING_LIMIT_DATE_KEY, reason: preserve purchase-date reporting as the default}
+  - {from: Date.DATE_KEY, to: Report Order Reviews.REVIEW_CREATION_DATE_KEY, reason: preserve purchase-date reporting as the default}
+disconnected_tables: [Pipeline Runs, Pipeline Health, Source Freshness]
+hidden_columns:
+  patterns: ['*_KEY', SOURCE_LOADED_AT]
+  exceptions: []
+  notes: Keep natural identifiers available for drill-through but hidden from executive pages.
+formatting:
+  currency: {measures: [Total Payment Value, Average Order Value, Merchandise Value, Freight Value, Delivered GMV, Delivered GMV per Delivered Order, Item Merchandise Value, Item Freight Value], format: 'R$ #,0.00'}
+  percentages: {measures: [Delivery Success Rate, On-Time Delivery Rate, Late Delivery Rate, Late Delivery Rate for Selected Items, Pipeline Run Success Rate], format: '0.0%'}
+  whole_numbers: {measures: [Total Orders, Customer Count, Product Count, Seller Count, Delivered Orders, Late Deliveries, On-Time Delivered Orders, Delivered Orders with Unknown Timeliness, Item Orders, Late Deliveries for Selected Items, Accepted Rows, Rejected Rows], format: '#,0'}
+security:
+  credentials: external
+  row_level_security: none
+  limitation: Portfolio dataset has no tenant/entitlement field; add RLS only with a real authorization contract.

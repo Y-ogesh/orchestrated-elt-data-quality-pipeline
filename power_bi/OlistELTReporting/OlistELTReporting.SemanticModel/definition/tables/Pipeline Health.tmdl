@@ -1,0 +1,125 @@
+/// Pipeline Health: imported from AUDIT.PBI_PIPELINE_HEALTH.
+table 'Pipeline Health'
+
+	column 'CURRENT_REPORTING_VERSION'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CURRENT_REPORTING_VERSION
+
+	column 'LATEST_VALIDATED_RUN_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: LATEST_VALIDATED_RUN_ID
+
+	column 'LATEST_VALIDATED_AT'
+		dataType: dateTime
+		formatString: General Date
+		summarizeBy: none
+		sourceColumn: LATEST_VALIDATED_AT
+
+	column 'LATEST_PIPELINE_STATUS'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: LATEST_PIPELINE_STATUS
+
+	column 'QUALITY_TESTS_PASSED'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: QUALITY_TESTS_PASSED
+
+	column 'QUALITY_TEST_WARNINGS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: QUALITY_TEST_WARNINGS
+
+	column 'QUALITY_TEST_FAILURES'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: QUALITY_TEST_FAILURES
+
+	column 'FRESHNESS_SOURCES_PASSED_AT_VALIDATION'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: FRESHNESS_SOURCES_PASSED_AT_VALIDATION
+
+	column 'SOURCE_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: SOURCE_ROWS
+
+	column 'ACCEPTED_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: ACCEPTED_ROWS
+
+	column 'REJECTED_OR_MISSING_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: REJECTED_OR_MISSING_ROWS
+
+	column 'TRACEABLE_REJECTED_ROWS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: TRACEABLE_REJECTED_ROWS
+
+	column 'REJECTION_DIAGNOSTICS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: REJECTION_DIAGNOSTICS
+
+	column 'UNLOCATED_REJECTION_DIAGNOSTICS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: UNLOCATED_REJECTION_DIAGNOSTICS
+
+	column 'MAXIMUM_FRESHNESS_AGE_HOURS'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: MAXIMUM_FRESHNESS_AGE_HOURS
+
+	column 'CURRENT_FRESHNESS_PASS_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: CURRENT_FRESHNESS_PASS_COUNT
+
+	column 'CURRENT_FRESHNESS_WARNING_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: CURRENT_FRESHNESS_WARNING_COUNT
+
+	column 'CURRENT_FRESHNESS_ERROR_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: CURRENT_FRESHNESS_ERROR_COUNT
+
+	column 'CURRENT_FRESHNESS_STATUS'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CURRENT_FRESHNESS_STATUS
+
+	partition 'Pipeline Health' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="AUDIT", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="PBI_PIPELINE_HEALTH", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

@@ -84,7 +84,7 @@ Milestone 8 extends those same task-attempt events with versioned operational ob
 - CSV pre-validation failure: rejected-record details are written to `AUDIT.LOAD_ERRORS`; no RAW COPY begins.
 - COPY or row-count mismatch: the current batch transaction rolls back and a failed batch audit record is committed separately.
 - dbt compile/build/test or reconciliation failure: reporting views are not advanced to the candidate build.
-- Future Power BI consumers must use the last validated reporting views; Power BI is not yet implemented.
+- Power BI consumers use only the last validated reporting views. The backend and parser-validated PBIP/TMDL semantic model are implemented; two named blank page shells exist, while report visuals and Desktop behavior remain unbuilt and unverified.
 - Every retry reuses the same Airflow run ID, candidate prefix, and deterministic source batch IDs.
 
 ## Dimensional model
@@ -118,6 +118,23 @@ orders         = orders left join item_totals left join payment_totals
 ```
 
 `item_merchandise_value`, `freight_value`, `item_total_value`, and `payment_total_value` remain separate measures. Differences are surfaced, not forced to zero. “Revenue” is intentionally avoided because the dataset does not expose commission, refunds, taxes, seller payouts, or accounting recognition.
+
+## Power BI consumer boundary
+
+Eleven stable `MARTS.REPORT_*` views preserve the published dimensional grains. Power BI uses Report Orders for order/payment KPIs and Report Order Items for seller/product/category analysis; distinct-order `TREATAS` measures carry an item selection to delivery KPIs without a bidirectional relationship or item/payment fanout. Three narrow `AUDIT.PBI_*` views expose run, freshness, quality, accepted/rejected, and publication state. These operational tables are disconnected from business dimensions so a category or date selection cannot rewrite the meaning of current pipeline health.
+
+The source-controlled PBIP links an enhanced PBIR report folder to a TMDL semantic-model folder by relative path. Four Power Query parameters configure the Snowflake Import partitions; only the server placeholder requires local input and authentication remains in Desktop's external credential store. The semantic model is reproducible independently of Desktop-local caches.
+
+```mermaid
+flowchart LR
+    P["AUDIT.REPORTING_CURRENT"] --> V["11 MARTS.REPORT_* views"]
+    V --> B["Power BI business model"]
+    A["Existing AUDIT events/reconciliation"] --> O["3 AUDIT.PBI_* views"]
+    O --> H["Power BI health model"]
+    B -. disconnected .- H
+```
+
+The model, DAX, and two-page visual contract are source-controlled, but the Desktop artifact and UI validation remain manual. This boundary is detailed in [dashboard](dashboard.md).
 
 ## Resource and cleanup estimate
 

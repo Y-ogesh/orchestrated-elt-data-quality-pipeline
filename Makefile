@@ -1,4 +1,4 @@
-.PHONY: download test profile validate ingest-local warehouse-validate quality-reconcile quality-synthetic incremental-replay dbt-parse dbt-compile dbt-freshness dbt-docs-local dbt-expectations docs clean
+.PHONY: download test profile validate ingest-local warehouse-validate quality-reconcile quality-synthetic incremental-replay power-bi-project power-bi-validate dbt-parse dbt-compile dbt-freshness dbt-docs-local dbt-expectations docs clean
 
 download:
 	PYTHONPATH=src python3 scripts/download_dataset.py --output-dir data/raw
@@ -26,6 +26,12 @@ quality-synthetic:
 
 incremental-replay:
 	PYTHONPATH=src python3 -m olist_pipeline.incremental --phase replay
+
+power-bi-project:
+	python3 scripts/build_power_bi_project.py
+
+power-bi-validate:
+	PYTHONPATH=src python3 -m olist_pipeline.power_bi
 
 dbt-parse:
 	dbt parse --project-dir dbt

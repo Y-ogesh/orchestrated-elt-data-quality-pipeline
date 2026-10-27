@@ -1,0 +1,45 @@
+/// Customers: imported from MARTS.REPORT_DIM_CUSTOMER.
+table 'Customers'
+
+	column 'CUSTOMER_KEY'
+		dataType: string
+		isKey
+		isHidden
+		summarizeBy: none
+		sourceColumn: CUSTOMER_KEY
+
+	column 'CUSTOMER_UNIQUE_ID'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CUSTOMER_UNIQUE_ID
+
+	column 'FIRST_ORDER_DATE'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: FIRST_ORDER_DATE
+
+	column 'LAST_ORDER_DATE'
+		dataType: dateTime
+		formatString: Short Date
+		summarizeBy: none
+		sourceColumn: LAST_ORDER_DATE
+
+	column 'LIFETIME_ORDER_COUNT'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: none
+		sourceColumn: LIFETIME_ORDER_COUNT
+
+	partition 'Customers' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, [Role=SnowflakeRole, Implementation="2.0", CreateNavigationProperties=false]),
+				    Database = Source{[Name=SnowflakeDatabase, Kind="Database"]}[Data],
+				    Schema = Database{[Name="MARTS", Kind="Schema"]}[Data],
+				    ReportingView = Schema{[Name="REPORT_DIM_CUSTOMER", Kind="View"]}[Data]
+				in
+				    ReportingView
+
+	annotation PBI_ResultType = Table

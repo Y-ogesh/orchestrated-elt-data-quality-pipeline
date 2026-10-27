@@ -1,0 +1,139 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "cefbccf832804f79114e",
+  "position": {
+    "x": 330,
+    "y": 350,
+    "z": 19,
+    "height": 350,
+    "width": 380,
+    "tabOrder": 19
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Source Freshness"
+                    }
+                  },
+                  "Property": "SOURCE_NAME"
+                }
+              },
+              "queryRef": "Source Freshness.SOURCE_NAME",
+              "nativeQueryRef": "SOURCE_NAME"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Source Freshness"
+                    }
+                  },
+                  "Property": "LAST_LOADED_AT"
+                }
+              },
+              "queryRef": "Source Freshness.LAST_LOADED_AT",
+              "nativeQueryRef": "LAST_LOADED_AT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Source Freshness"
+                    }
+                  },
+                  "Property": "FRESHNESS_AGE_HOURS"
+                }
+              },
+              "queryRef": "Source Freshness.FRESHNESS_AGE_HOURS",
+              "nativeQueryRef": "FRESHNESS_AGE_HOURS"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Source Freshness"
+                    }
+                  },
+                  "Property": "FRESHNESS_STATUS"
+                }
+              },
+              "queryRef": "Source Freshness.FRESHNESS_STATUS",
+              "nativeQueryRef": "FRESHNESS_STATUS"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8a31ede6f759a69cac80",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Source Freshness"
+              }
+            },
+            "Property": "SOURCE_NAME"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7422cbbc90806b560a96",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Source Freshness"
+              }
+            },
+            "Property": "LAST_LOADED_AT"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fa0f23e7635b771e152e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Source Freshness"
+              }
+            },
+            "Property": "FRESHNESS_AGE_HOURS"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0894cb6c991aa8cd572c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Source Freshness"
+              }
+            },
+            "Property": "FRESHNESS_STATUS"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

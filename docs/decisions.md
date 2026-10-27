@@ -151,3 +151,9 @@ Add a versioned `_monitoring` object to existing task-attempt details. Preserve 
 **Status:** Accepted, 2026-10-16
 
 Count unique source-line identities separately from diagnostic multiplicity. Preserve valid-but-held versus committed counts. Keep the historical production loader fail-closed; demonstrate rejected-record classification and corrected idempotent merge in session temporary tables only. Audit retains synthetic provenance/reason/counts, not source customer payloads. Real source corrections require an approved new immutable version rather than overwriting source truth.
+
+## ADR-026 — Reuse published marts and isolate Power BI operations metadata
+
+**Status:** Accepted, 2026-10-19
+
+Power BI consumes the eleven stable publication views rather than rebuilding business SQL or reading retained stores directly. Add only three `AUDIT.PBI_*` views for source freshness, run rollups, and current health. Keep operational tables disconnected from business dimensions. Use order-grain measures for payment/order metrics and item-grain measures for product/category/seller metrics; propagate item selections to delivery metrics with distinct order keys. Do not allocate a complete order payment to each item or category. Use Import mode for the fixed public snapshot. Preserve the semantic model as deterministic PBIP/TMDL source with external credentials and parameterized Snowflake metadata. A parser-valid semantic artifact and empty page shells are not a completed report: Desktop refresh, both visual pages, interaction validation, reconciliation, and screenshots remain required.

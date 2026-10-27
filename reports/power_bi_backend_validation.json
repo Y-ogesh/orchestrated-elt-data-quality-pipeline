@@ -1,0 +1,316 @@
+{
+  "status": "backend_validated_power_bi_ui_not_built",
+  "backend_validated_at": "2026-10-19T20:07:43.806000-07:00",
+  "latest_publication_validated_at": "2026-10-16T15:45:49.056000-07:00",
+  "kpis": {
+    "total_orders": "99441",
+    "total_payment_value": "16008872.12",
+    "average_order_value": "160.99",
+    "merchandise_value": "13591643.70",
+    "freight_value": "2251909.54",
+    "customer_count": "96096",
+    "delivered_orders": "96478",
+    "late_deliveries": "7826",
+    "on_time_delivered_orders": "88644",
+    "unknown_timeliness_delivered_orders": "8",
+    "delivery_success_rate": "0.970203",
+    "on_time_delivery_rate": "0.9188",
+    "late_delivery_rate": "0.081117",
+    "product_count": "32951",
+    "seller_count": "3095"
+  },
+  "order_status": {
+    "approved": {
+      "total_orders": 2,
+      "total_payment_value": "241.08"
+    },
+    "canceled": {
+      "total_orders": 625,
+      "total_payment_value": "143255.60"
+    },
+    "created": {
+      "total_orders": 5,
+      "total_payment_value": "688.10"
+    },
+    "delivered": {
+      "total_orders": 96478,
+      "total_payment_value": "15422461.77"
+    },
+    "invoiced": {
+      "total_orders": 314,
+      "total_payment_value": "69137.99"
+    },
+    "processing": {
+      "total_orders": 301,
+      "total_payment_value": "69394.11"
+    },
+    "shipped": {
+      "total_orders": 1107,
+      "total_payment_value": "177213.96"
+    },
+    "unavailable": {
+      "total_orders": 609,
+      "total_payment_value": "126479.51"
+    }
+  },
+  "monthly": [
+    {
+      "year": 2016,
+      "month": 9,
+      "total_orders": 4,
+      "total_payment_value": "252.24"
+    },
+    {
+      "year": 2016,
+      "month": 10,
+      "total_orders": 324,
+      "total_payment_value": "59090.48"
+    },
+    {
+      "year": 2016,
+      "month": 12,
+      "total_orders": 1,
+      "total_payment_value": "19.62"
+    },
+    {
+      "year": 2017,
+      "month": 1,
+      "total_orders": 800,
+      "total_payment_value": "138488.04"
+    },
+    {
+      "year": 2017,
+      "month": 2,
+      "total_orders": 1780,
+      "total_payment_value": "291908.01"
+    },
+    {
+      "year": 2017,
+      "month": 3,
+      "total_orders": 2682,
+      "total_payment_value": "449863.60"
+    },
+    {
+      "year": 2017,
+      "month": 4,
+      "total_orders": 2404,
+      "total_payment_value": "417788.03"
+    },
+    {
+      "year": 2017,
+      "month": 5,
+      "total_orders": 3700,
+      "total_payment_value": "592918.82"
+    },
+    {
+      "year": 2017,
+      "month": 6,
+      "total_orders": 3245,
+      "total_payment_value": "511276.38"
+    },
+    {
+      "year": 2017,
+      "month": 7,
+      "total_orders": 4026,
+      "total_payment_value": "592382.92"
+    },
+    {
+      "year": 2017,
+      "month": 8,
+      "total_orders": 4331,
+      "total_payment_value": "674396.32"
+    },
+    {
+      "year": 2017,
+      "month": 9,
+      "total_orders": 4285,
+      "total_payment_value": "727762.45"
+    },
+    {
+      "year": 2017,
+      "month": 10,
+      "total_orders": 4631,
+      "total_payment_value": "779677.88"
+    },
+    {
+      "year": 2017,
+      "month": 11,
+      "total_orders": 7544,
+      "total_payment_value": "1194882.80"
+    },
+    {
+      "year": 2017,
+      "month": 12,
+      "total_orders": 5673,
+      "total_payment_value": "878401.48"
+    },
+    {
+      "year": 2018,
+      "month": 1,
+      "total_orders": 7269,
+      "total_payment_value": "1115004.18"
+    },
+    {
+      "year": 2018,
+      "month": 2,
+      "total_orders": 6728,
+      "total_payment_value": "992463.34"
+    },
+    {
+      "year": 2018,
+      "month": 3,
+      "total_orders": 7211,
+      "total_payment_value": "1159652.12"
+    },
+    {
+      "year": 2018,
+      "month": 4,
+      "total_orders": 6939,
+      "total_payment_value": "1160785.48"
+    },
+    {
+      "year": 2018,
+      "month": 5,
+      "total_orders": 6873,
+      "total_payment_value": "1153982.15"
+    },
+    {
+      "year": 2018,
+      "month": 6,
+      "total_orders": 6167,
+      "total_payment_value": "1023880.50"
+    },
+    {
+      "year": 2018,
+      "month": 7,
+      "total_orders": 6292,
+      "total_payment_value": "1066540.75"
+    },
+    {
+      "year": 2018,
+      "month": 8,
+      "total_orders": 6512,
+      "total_payment_value": "1022425.32"
+    },
+    {
+      "year": 2018,
+      "month": 9,
+      "total_orders": 16,
+      "total_payment_value": "4439.54"
+    },
+    {
+      "year": 2018,
+      "month": 10,
+      "total_orders": 4,
+      "total_payment_value": "589.67"
+    }
+  ],
+  "pipeline_health": {
+    "current_reporting_version": "M7_30F3580F9026_",
+    "latest_validated_run_id": "m8_publication_retry_20261016",
+    "latest_validated_at": "2026-10-16 15:45:49.056000-07:00",
+    "latest_pipeline_status": "success",
+    "quality_tests_passed": "156",
+    "quality_test_warnings": "1",
+    "quality_test_failures": "0",
+    "freshness_sources_passed_at_validation": "9",
+    "source_rows": "1550922",
+    "accepted_rows": "1550922",
+    "rejected_or_missing_rows": "0",
+    "traceable_rejected_rows": "0",
+    "rejection_diagnostics": "0",
+    "unlocated_rejection_diagnostics": "None",
+    "maximum_freshness_age_hours": "199",
+    "current_freshness_pass_count": "0",
+    "current_freshness_warning_count": "9",
+    "current_freshness_error_count": "0",
+    "current_freshness_status": "warn"
+  },
+  "source_freshness": [
+    {
+      "source_name": "category_translation",
+      "last_loaded_at": "2026-10-11T13:16:13.129000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "customers",
+      "last_loaded_at": "2026-10-11T13:19:59.991000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "geolocation",
+      "last_loaded_at": "2026-10-11T13:16:14.343000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "order_items",
+      "last_loaded_at": "2026-10-11T13:20:01.572000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "order_payments",
+      "last_loaded_at": "2026-10-11T13:20:03.205000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "order_reviews",
+      "last_loaded_at": "2026-10-11T13:20:05.174000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "orders",
+      "last_loaded_at": "2026-10-11T13:20:06.685000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "products",
+      "last_loaded_at": "2026-10-11T13:16:20.817000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    },
+    {
+      "source_name": "sellers",
+      "last_loaded_at": "2026-10-11T13:16:22.420000-07:00",
+      "freshness_age_hours": 199,
+      "freshness_status": "warn"
+    }
+  ],
+  "monetary_reconciliation": {
+    "item_detail_merchandise": "13591643.70",
+    "order_merchandise": "13591643.70",
+    "item_detail_freight": "2251909.54",
+    "order_freight": "2251909.54",
+    "payment_detail": "16008872.12",
+    "order_payment": "16008872.12"
+  },
+  "relationship_orphans": {
+    "order_date_orphans": 0,
+    "item_product_orphans": 0,
+    "item_seller_orphans": 0
+  },
+  "reporting_views": [
+    "AUDIT.PBI_PIPELINE_HEALTH",
+    "AUDIT.PBI_PIPELINE_RUNS",
+    "AUDIT.PBI_SOURCE_FRESHNESS",
+    "MARTS.REPORT_DIM_CATEGORY",
+    "MARTS.REPORT_DIM_CUSTOMER",
+    "MARTS.REPORT_DIM_DATE",
+    "MARTS.REPORT_DIM_GEOGRAPHY",
+    "MARTS.REPORT_DIM_ORDER_CUSTOMER",
+    "MARTS.REPORT_DIM_PRODUCT",
+    "MARTS.REPORT_DIM_SELLER",
+    "MARTS.REPORT_FCT_ORDERS",
+    "MARTS.REPORT_FCT_ORDER_ITEMS",
+    "MARTS.REPORT_FCT_ORDER_PAYMENTS",
+    "MARTS.REPORT_FCT_ORDER_REVIEWS"
+  ],
+  "power_bi_ui_validation": "not_performed",
+  "screenshots": []
+}
