@@ -10,7 +10,6 @@ from pathlib import Path
 
 from olist_pipeline.dataset import TABLES
 
-
 DATASET_URL = "https://www.kaggle.com/api/v1/datasets/download/olistbr/brazilian-ecommerce"
 
 
@@ -19,12 +18,17 @@ def download(output_dir: Path) -> None:
     with tempfile.TemporaryDirectory(prefix="olist-download-") as directory:
         archive = Path(directory) / "olist.zip"
         print(f"Downloading {DATASET_URL}")
-        with urllib.request.urlopen(DATASET_URL, timeout=60) as response, archive.open("wb") as target:
-            shutil.copyfileobj(response, target)
+        with urllib.request.urlopen(DATASET_URL, timeout=60) as response:
+            with archive.open("wb") as target:
+                shutil.copyfileobj(response, target)
 
         with zipfile.ZipFile(archive) as source:
             members = [member for member in source.infolist() if not member.is_dir()]
-            unsafe = [member.filename for member in members if Path(member.filename).name != member.filename]
+            unsafe = [
+                member.filename
+                for member in members
+                if Path(member.filename).name != member.filename
+            ]
             if unsafe:
                 raise ValueError(f"Archive contains unsafe paths: {unsafe}")
             actual = {member.filename for member in members}

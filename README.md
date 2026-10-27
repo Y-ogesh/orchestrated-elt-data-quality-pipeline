@@ -2,11 +2,23 @@
 
 A portfolio-grade analytics engineering project that turns the Olist Brazilian e-commerce public dataset into a reproducible dimensional warehouse. The target platform is Python → Amazon S3 → Snowflake → dbt Core → Apache Airflow → Power BI, with data contracts, reconciliation, audit logging, and safe replay built into the design.
 
-> **Status:** Milestones 1–9 are **Completed and validated**. The Power BI project opens and refreshes in Power BI Desktop, its two polished report pages contain 33 native visuals, live measures reconcile to Snowflake, and genuine runtime screenshots are included. Airflow is paused after validation; failure probes are disabled.
+> **Status:** Milestones 1–10 are **Completed and validated**. The repository preserves real AWS, Snowflake, dbt, Airflow, monitoring/recovery, and Power BI Desktop evidence together with reproducible local checks. It is ready for final pull-request review as a GitHub portfolio project. Airflow is paused after validation; failure probes are disabled.
 
 ## Business problem
 
 Marketplace reporting can overstate sales when order-item rows are joined directly to payment rows. It can also hide late deliveries, incomplete order lifecycles, and inconsistent reference data. This project designs a trusted reporting layer with explicit grains, independently aggregated monetary measures, and automated quality evidence.
+
+## Verified at a glance
+
+| Area | Validated result |
+|---|---|
+| Source and ingestion | 9 datasets; 26 deterministic batches; 129 CSV files; 155 S3 objects; 1,550,922 rows |
+| Warehouse | 26 batches and 1,550,922 RAW rows reconciled with zero file/row differences |
+| dbt | 24 models: 9 staging, 4 intermediate, 7 dimensions, 4 facts; 667,188 MARTS rows |
+| Data quality | 156 tests passed, 1 documented source warning, 0 failures; 7/7 synthetic defects detected and recovered |
+| Orchestration and recovery | 8-task Airflow DAG; publication blocked on failure; retry, rollback, and last-known-good preservation validated |
+| Power BI | 15-table model; 41 DAX measures; 12 relationships; 2 pages; 33 native visuals |
+| Reporting | 99,441 orders; R$16,008,872.12 tendered payment value; R$160.99 average order value |
 
 ## Architecture
 
@@ -28,6 +40,17 @@ flowchart LR
 
 See [architecture](docs/architecture.md) for schemas, replay behavior, and failure boundaries.
 
+## Technology stack
+
+| Layer | Technologies |
+|---|---|
+| Ingestion and storage | Python, Amazon S3, SHA-256 manifests, boto3 |
+| Warehouse and transformation | Snowflake, SQL, dbt Core, `dbt-snowflake` |
+| Orchestration | Apache Airflow 3.3.2, Docker Compose, PostgreSQL, LocalExecutor |
+| Quality and observability | dbt tests, Python validation, Snowflake audit tables, Airflow task/run metadata |
+| Reporting | Power BI PBIP/TMDL/PBIR, DAX, Snowflake Import mode |
+| Engineering workflow | Git, pytest, Ruff, GitHub Actions, Markdown/Mermaid documentation |
+
 ## Dataset
 
 [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), version 2, was published by Olist under **CC BY-NC-SA 4.0**. The snapshot contains nine CSV files describing 99,441 orders from 2016-09-04 through 2018-10-17, including customers, items, payments, reviews, products, sellers, geolocation, and category translations. Raw files are intentionally excluded from Git.
@@ -45,7 +68,7 @@ Full evidence is in [dataset profiling](docs/dataset_profiling.md) and the machi
 
 ## Engineering features
 
-Milestones 1–9 are implemented and validated; Milestones 2–9 include real cloud or Power BI Desktop runtime evidence:
+Milestones 1–10 are implemented and validated; Milestones 2–9 include real cloud or Power BI Desktop runtime evidence, while Milestone 10 reconciles and statically verifies the preserved results:
 
 - Dependency-free dataset downloader, profiler, and contract validator.
 - SHA-256 checksums, row/column/null/distinct/duplicate/date/range profiling.
@@ -103,14 +126,14 @@ No credentials are required for the public download, local ingestion, or source-
 ## Repository structure
 
 ```text
+.github/workflows/       # lightweight local/static CI validation
 dags/                  # Airflow DAG and opt-in timeout probe
 docker/                # pinned image, dependency lock, local-secret initializer
 compose.yaml           # local Airflow/PostgreSQL services
 data/raw/              # ignored source CSVs
 data/processed/        # ignored local derivatives
 dbt/                   # Snowflake dbt project, models, tests, macros, profile template
-docker/                # planned container definitions
-docs/                  # architecture, plans, runbooks, evidence
+docs/                  # architecture, runbooks, final audit, and screenshots
 power_bi/              # PBIP/TMDL project, exact DAX, semantic and report specifications
 reports/               # committed aggregate profiling evidence
 scripts/               # operator entry points
@@ -119,6 +142,23 @@ sql/snowflake/         # versioned warehouse and RAW loading infrastructure
 src/olist_pipeline/    # Python contracts, ingestion, warehouse loading, validation
 tests/                 # fast unit tests
 ```
+
+## Dashboard preview
+
+| Executive Overview | Operations & Data Quality |
+|---|---|
+| ![Executive Overview](docs/screenshots/executive_overview.png) | ![Operations and Data Quality](docs/screenshots/operations_data_quality.png) |
+
+The [semantic-model screenshot](docs/screenshots/semantic_model.png) shows the dimensional relationships and intentionally disconnected operational tables.
+
+## Scope and limitations
+
+- This is a validated single-host portfolio implementation, not a production deployment, HA architecture, or enterprise-scale benchmark.
+- The Olist source is a fixed historical snapshot. Incremental arrival, corrections, failures, and recovery are deterministic replay/test scenarios, not real-time streaming or CDC.
+- Airflow overlap protection covers the documented serialized deployment; no distributed lock or host-loss disaster-recovery guarantee is claimed.
+- Tendered payment value is not accounting revenue: the dataset omits commissions, refunds, taxes, seller payouts, and recognition policy.
+- Freshness measures pipeline load activity and will age for the fixed snapshot until the load/validation workflow is intentionally rerun.
+- Cloud reproduction requires approved AWS/Snowflake resources and credentials; local checks and all setup contracts remain reproducible without storing secrets.
 
 ## Documentation
 
@@ -135,10 +175,21 @@ tests/                 # fast unit tests
 - [Dimensional model](docs/dimensional_model.md)
 - [Automated data quality and lineage](docs/data_quality.md)
 - [Machine-readable data-quality evidence](reports/data_quality_validation.json)
+- [Incremental loading and idempotency](docs/incremental_loading.md)
+- [Machine-readable incremental evidence](reports/incremental_validation.json)
+- [Airflow orchestration](docs/orchestration.md)
+- [Machine-readable orchestration evidence](reports/orchestration_validation.json)
+- [Monitoring and recovery](docs/monitoring_recovery.md)
+- [Machine-readable monitoring evidence](reports/monitoring_validation.json)
 - [Decisions](docs/decisions.md)
 - [Setup guide](docs/setup_guide.md)
 - [Validation report](docs/validation_report.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Engineering journal](docs/engineering_journal.md)
+- [Final validation and portfolio audit](docs/final_audit.md)
 - [Power BI dashboard specification and build guide](docs/dashboard.md)
 - [Machine-readable Power BI backend evidence](reports/power_bi_backend_validation.json)
+
+## License
+
+The project code and documentation are available under the [MIT License](LICENSE). The Olist dataset retains its separate CC BY-NC-SA 4.0 attribution and is not redistributed in this repository.

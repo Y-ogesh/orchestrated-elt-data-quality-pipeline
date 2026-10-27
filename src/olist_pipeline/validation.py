@@ -1,15 +1,16 @@
 """Validate the Olist snapshot against the Milestone 1 source contract."""
 
 import argparse
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Optional
 
 from .dataset import TABLES
 from .profiling import profile_dataset
 
 
-def validate_profile(profile: dict) -> List[str]:
-    errors: List[str] = []
+def validate_profile(profile: dict) -> list[str]:
+    errors: list[str] = []
     for name, contract in TABLES.items():
         table = profile["tables"][name]
         if table["rows"] == 0:
@@ -23,9 +24,7 @@ def validate_profile(profile: dict) -> List[str]:
             )
     for relationship in profile["relationships"]:
         if relationship["orphan_rows"]:
-            errors.append(
-                "{child}->{parent}: {orphan_rows} orphan rows".format(**relationship)
-            )
+            errors.append("{child}->{parent}: {orphan_rows} orphan rows".format(**relationship))
     return errors
 
 

@@ -24,6 +24,7 @@ REQUIRED = (
     "docs/validation_report.md",
     "docs/setup_guide.md",
     "docs/troubleshooting.md",
+    "docs/final_audit.md",
 )
 LINK = re.compile(r"\[[^]]+\]\(([^)]+)\)")
 

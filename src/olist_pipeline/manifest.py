@@ -2,10 +2,10 @@
 
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, Optional, Tuple
-
+from typing import Optional
 
 MANIFEST_SCHEMA_VERSION = 1
 
@@ -34,7 +34,7 @@ class ManifestFile:
     source_sha256: str
     source_row_count: int
 
-    def to_dict(self) -> Dict[str, object]:
+    def to_dict(self) -> dict[str, object]:
         return {
             "byte_count": self.byte_count,
             "filename": self.filename,
@@ -58,7 +58,7 @@ class BatchManifest:
     logical_ingestion_timestamp_utc: str
     window_start_utc: Optional[str]
     window_end_utc: Optional[str]
-    files: Tuple[ManifestFile, ...]
+    files: tuple[ManifestFile, ...]
     batch_id: str
 
     @classmethod
@@ -88,9 +88,13 @@ class BatchManifest:
             "window_start_utc": window_start_utc,
         }
         batch_id = hashlib.sha256(canonical_json(identity)).hexdigest()
-        return cls(files=sorted_files, batch_id=batch_id, **{k: v for k, v in identity.items() if k != "files"})
+        return cls(
+            files=sorted_files,
+            batch_id=batch_id,
+            **{k: v for k, v in identity.items() if k != "files"},
+        )
 
-    def to_dict(self) -> Dict[str, object]:
+    def to_dict(self) -> dict[str, object]:
         return {
             "manifest_schema_version": MANIFEST_SCHEMA_VERSION,
             "batch_id": self.batch_id,

@@ -1,13 +1,12 @@
 """Safe SQL rendering for Snowflake infrastructure and raw COPY commands."""
 
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, Tuple
 
 from .dataset import TABLES
 from .manifest import BatchManifest, ManifestFile
-
 
 IDENTIFIER = re.compile(r"^[A-Za-z_][A-Za-z0-9_$]*$")
 SAFE_STAGE_PATH = re.compile(r"^[A-Za-z0-9_./=\-]+$")
@@ -71,9 +70,11 @@ def infrastructure_context(
     *,
     s3_url: str,
     storage_integration: str,
-) -> Dict[str, str]:
+) -> dict[str, str]:
     names.validate()
-    file_format_fqn = f"{names.database.upper()}.{names.raw_schema.upper()}.{names.file_format.upper()}"
+    file_format_fqn = (
+        f"{names.database.upper()}.{names.raw_schema.upper()}.{names.file_format.upper()}"
+    )
     return {
         "DATABASE": quote_identifier(names.database),
         "RAW_SCHEMA": quote_identifier(names.raw_schema),
@@ -107,16 +108,13 @@ def render_infrastructure(
     *,
     s3_url: str,
     storage_integration: str,
-) -> List[Tuple[str, str]]:
-    context = infrastructure_context(
-        names, s3_url=s3_url, storage_integration=storage_integration
-    )
+) -> list[tuple[str, str]]:
+    context = infrastructure_context(names, s3_url=s3_url, storage_integration=storage_integration)
     files = sorted(sql_dir.glob("[0-9][0-9][0-9]_*.sql"))
     if not files:
         raise FileNotFoundError(f"No Snowflake SQL files found in {sql_dir}")
     return [
-        (path.name, render_template(path.read_text(encoding="utf-8"), context))
-        for path in files
+        (path.name, render_template(path.read_text(encoding="utf-8"), context)) for path in files
     ]
 
 
@@ -130,7 +128,7 @@ def stage_relative_path(manifest: BatchManifest, item: ManifestFile) -> str:
     return value
 
 
-def _stage_directory_and_file(manifest: BatchManifest, item: ManifestFile) -> Tuple[str, str]:
+def _stage_directory_and_file(manifest: BatchManifest, item: ManifestFile) -> tuple[str, str]:
     relative = stage_relative_path(manifest, item)
     directory, filename = relative.rsplit("/", 1)
     return directory, filename
@@ -147,7 +145,7 @@ def build_validation_sql(
     return f"""COPY INTO {target}
 FROM @{names.stage_fqn}/{directory}/
 FILES = ({quote_literal(filename)})
-FILE_FORMAT = (FORMAT_NAME = {quote_literal(names.file_format_fqn.replace(chr(34), ''))})
+FILE_FORMAT = (FORMAT_NAME = {quote_literal(names.file_format_fqn.replace(chr(34), ""))})
 VALIDATION_MODE = 'RETURN_ALL_ERRORS'"""
 
 
@@ -182,13 +180,13 @@ def build_copy_sql(
     )
     directory, filename = _stage_directory_and_file(manifest, item)
     target = names.table(names.raw_schema, item.table)
-    return f"""COPY INTO {target} ({', '.join(columns + metadata_columns)})
+    return f"""COPY INTO {target} ({", ".join(columns + metadata_columns)})
 FROM (
-    SELECT {', '.join(selections)}
+    SELECT {", ".join(selections)}
     FROM @{names.stage_fqn}/{directory}/
 )
 FILES = ({quote_literal(filename)})
-FILE_FORMAT = (FORMAT_NAME = {quote_literal(names.file_format_fqn.replace(chr(34), ''))})
+FILE_FORMAT = (FORMAT_NAME = {quote_literal(names.file_format_fqn.replace(chr(34), ""))})
 ON_ERROR = 'ABORT_STATEMENT'
 FORCE = FALSE"""
 
@@ -199,7 +197,7 @@ def validation_table_sql(table: str, validation_table: str) -> str:
     return f"CREATE OR REPLACE TEMPORARY TABLE {quote_identifier(validation_table)} ({definitions})"
 
 
-def expected_raw_columns(table: str) -> Tuple[str, ...]:
+def expected_raw_columns(table: str) -> tuple[str, ...]:
     return TABLES[table].required_columns + (
         "_batch_id",
         "_source_file",

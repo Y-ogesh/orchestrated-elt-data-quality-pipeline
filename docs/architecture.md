@@ -35,7 +35,7 @@ flowchart TB
     H --> I
 ```
 
-Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 built the complete 24-model dbt DAG in Snowflake: 9 staging views, 4 intermediate views, 7 dimensions, and 4 facts. Milestone 5 added load-timestamp freshness, audit/row reconciliation, 157 dbt tests, and isolated temporary-table failure injection without changing production data.
+Milestone 2's S3 layer is populated and validated with 26 immutable batches and 155 objects. Milestone 3 loaded and reconciled all 1,550,922 source rows into Snowflake RAW. Milestone 4 built the complete 24-model dbt DAG in Snowflake: 9 staging views, 4 intermediate views, 7 dimensions, and 4 facts. Milestone 5 added load-timestamp freshness, audit/row reconciliation, 157 dbt tests, and isolated temporary-table failure injection without changing production data. Milestones 6–8 validated replay, idempotency, Airflow publication gates, monitoring, rollback, and recovery. Milestone 9 validated the 15-table Power BI model and two-page report in Desktop.
 
 ## Snowflake organization
 
@@ -84,7 +84,7 @@ Milestone 8 extends those same task-attempt events with versioned operational ob
 - CSV pre-validation failure: rejected-record details are written to `AUDIT.LOAD_ERRORS`; no RAW COPY begins.
 - COPY or row-count mismatch: the current batch transaction rolls back and a failed batch audit record is committed separately.
 - dbt compile/build/test or reconciliation failure: reporting views are not advanced to the candidate build.
-- Power BI consumers use only the last validated reporting views. The backend and parser-validated PBIP/TMDL semantic model are implemented; two named blank page shells exist, while report visuals and Desktop behavior remain unbuilt and unverified.
+- Power BI consumers use only the last validated reporting views. The source-controlled PBIP/TMDL model and 33 PBIR visuals were refreshed and interaction-tested in Power BI Desktop; the three committed screenshots contain no connection identifiers.
 - Every retry reuses the same Airflow run ID, candidate prefix, and deterministic source batch IDs.
 
 ## Dimensional model
@@ -92,7 +92,7 @@ Milestone 8 extends those same task-attempt events with versioned operational ob
 ```mermaid
 erDiagram
     DIM_CUSTOMER ||--o{ FCT_ORDERS : places
-    DIM_ORDER_CUSTOMER ||--|| FCT_ORDERS : ships_to
+    DIM_ORDER_CUSTOMER ||--o{ FCT_ORDERS : ships_to
     DIM_DATE ||--o{ FCT_ORDERS : purchase_date
     FCT_ORDERS ||--o{ FCT_ORDER_ITEMS : contains
     FCT_ORDERS ||--o{ FCT_ORDER_PAYMENTS : paid_by
@@ -134,7 +134,7 @@ flowchart LR
     B -. disconnected .- H
 ```
 
-The model, DAX, and two-page visual contract are source-controlled, but the Desktop artifact and UI validation remain manual. This boundary is detailed in [dashboard](dashboard.md).
+The model, DAX, two-page visual definitions, and screenshots are source-controlled. Reproduction still requires a local approved Snowflake connection in Power BI Desktop because the tracked server parameter is deliberately scrubbed. This boundary is detailed in [dashboard](dashboard.md).
 
 ## Resource and cleanup estimate
 

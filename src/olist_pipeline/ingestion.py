@@ -7,10 +7,11 @@ import logging
 import os
 import shutil
 import tempfile
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
+from typing import Optional
 
 from .dataset import TABLES
 from .manifest import BatchManifest, ManifestFile, sha256_file
@@ -22,7 +23,6 @@ from .storage import (
     S3ObjectStore,
     with_retry,
 )
-
 
 LOGGER = logging.getLogger("olist_pipeline.ingestion")
 SOURCE = "olist"
@@ -36,7 +36,7 @@ def _log(event: str, **fields: object) -> None:
     LOGGER.info(json.dumps({"event": event, **fields}, sort_keys=True))
 
 
-def _month_bounds(month: str) -> Tuple[str, str, str]:
+def _month_bounds(month: str) -> tuple[str, str, str]:
     year, month_number = (int(value) for value in month.split("-"))
     start = date(year, month_number, 1)
     if month_number == 12:
@@ -55,7 +55,7 @@ def _count_rows(path: Path) -> int:
         return sum(1 for _ in csv.DictReader(stream))
 
 
-def _source_metadata(data_dir: Path) -> Dict[str, Tuple[str, int]]:
+def _source_metadata(data_dir: Path) -> dict[str, tuple[str, int]]:
     return {
         name: (sha256_file(data_dir / contract.filename), _count_rows(data_dir / contract.filename))
         for name, contract in TABLES.items()
@@ -69,16 +69,17 @@ def _write_filtered_csv(
 ) -> int:
     destination.parent.mkdir(parents=True, exist_ok=True)
     count = 0
-    with source.open(newline="", encoding="utf-8-sig") as input_stream, destination.open(
-        "w", newline="", encoding="utf-8"
-    ) as output_stream:
-        reader = csv.DictReader(input_stream)
-        writer = csv.DictWriter(output_stream, fieldnames=reader.fieldnames, lineterminator="\n")
-        writer.writeheader()
-        for row in reader:
-            if predicate(row):
-                writer.writerow(row)
-                count += 1
+    with source.open(newline="", encoding="utf-8-sig") as input_stream:
+        with destination.open("w", newline="", encoding="utf-8") as output_stream:
+            reader = csv.DictReader(input_stream)
+            writer = csv.DictWriter(
+                output_stream, fieldnames=reader.fieldnames, lineterminator="\n"
+            )
+            writer.writeheader()
+            for row in reader:
+                if predicate(row):
+                    writer.writerow(row)
+                    count += 1
     return count
 
 
@@ -122,15 +123,19 @@ def build_batches(
     *,
     source_version: str = DEFAULT_SOURCE_VERSION,
     reference_ingestion_date: str = "2021-10-01",
-) -> List[Path]:
-    missing = [contract.filename for contract in TABLES.values() if not (data_dir / contract.filename).is_file()]
+) -> list[Path]:
+    missing = [
+        contract.filename
+        for contract in TABLES.values()
+        if not (data_dir / contract.filename).is_file()
+    ]
     if missing:
         raise FileNotFoundError("Missing dataset files: " + ", ".join(missing))
     build_dir.mkdir(parents=True, exist_ok=True)
     source_metadata = _source_metadata(data_dir)
 
-    order_month: Dict[str, str] = {}
-    customer_month: Dict[str, str] = {}
+    order_month: dict[str, str] = {}
+    customer_month: dict[str, str] = {}
     orders_path = data_dir / TABLES["orders"].filename
     with orders_path.open(newline="", encoding="utf-8-sig") as stream:
         for row in csv.DictReader(stream):
@@ -138,11 +143,11 @@ def build_batches(
             order_month[row["order_id"]] = month
             customer_month[row["customer_id"]] = month
 
-    completed: List[Path] = []
+    completed: list[Path] = []
     for month in sorted(set(order_month.values())):
         with tempfile.TemporaryDirectory(prefix=f"olist-{month}-", dir=build_dir) as temporary:
             temp_dir = Path(temporary)
-            files: List[ManifestFile] = []
+            files: list[ManifestFile] = []
             predicates = {
                 "orders": lambda row, value=month: order_month[row["order_id"]] == value,
                 "customers": lambda row, value=month: customer_month[row["customer_id"]] == value,
@@ -177,7 +182,12 @@ def build_batches(
                 files=files,
             )
             completed.append(_finalize_batch(temp_dir, build_dir, manifest))
-            _log("batch_built", batch_id=manifest.batch_id, batch_kind=manifest.batch_kind, month=month)
+            _log(
+                "batch_built",
+                batch_id=manifest.batch_id,
+                batch_kind=manifest.batch_kind,
+                month=month,
+            )
 
     with tempfile.TemporaryDirectory(prefix="olist-reference-", dir=build_dir) as temporary:
         temp_dir = Path(temporary)
@@ -267,9 +277,9 @@ class BatchValidationSummary:
 
 
 def validate_built_batches(batch_dirs: Sequence[Path]) -> BatchValidationSummary:
-    batch_ids: Set[str] = set()
-    table_rows: Dict[str, int] = {name: 0 for name in TABLES}
-    source_rows: Dict[str, int] = {}
+    batch_ids: set[str] = set()
+    table_rows: dict[str, int] = {name: 0 for name in TABLES}
+    source_rows: dict[str, int] = {}
     file_count = 0
     for batch_dir in batch_dirs:
         manifest = load_manifest(batch_dir)
@@ -357,16 +367,19 @@ def upload_batch(
             ):
                 raise RuntimeError(f"Committed batch is missing object: {key}")
         _log("batch_already_committed", batch_id=manifest.batch_id, manifest_key=manifest_key)
-        return UploadSummary(manifest.batch_id, uploaded=0, skipped=len(manifest.files) + 1, object_count=len(manifest.files) + 1)
+        return UploadSummary(
+            manifest.batch_id,
+            uploaded=0,
+            skipped=len(manifest.files) + 1,
+            object_count=len(manifest.files) + 1,
+        )
 
     for item in manifest.files:
         source_path = batch_dir / item.relative_path
         if sha256_file(source_path) != item.sha256 or source_path.stat().st_size != item.byte_count:
             raise ValueError(f"Local artifact no longer matches manifest: {source_path}")
         key = _object_key(prefix, manifest, item.relative_path)
-        if _matches(
-            store, key, item.sha256, item.byte_count, retry_attempts=retry_attempts
-        ):
+        if _matches(store, key, item.sha256, item.byte_count, retry_attempts=retry_attempts):
             skipped += 1
             continue
         metadata = {
@@ -382,9 +395,7 @@ def upload_batch(
             ),
             attempts=retry_attempts,
         )
-        if not _matches(
-            store, key, item.sha256, item.byte_count, retry_attempts=retry_attempts
-        ):
+        if not _matches(store, key, item.sha256, item.byte_count, retry_attempts=retry_attempts):
             raise RuntimeError(f"Upload validation failed: {key}")
         uploaded += 1
 
@@ -422,7 +433,7 @@ def upload_batches(
     *,
     prefix: str = "olist/raw",
     retry_attempts: int = 4,
-) -> List[UploadSummary]:
+) -> list[UploadSummary]:
     return [
         upload_batch(path, store, prefix=prefix, retry_attempts=retry_attempts)
         for path in batch_dirs
@@ -437,7 +448,9 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=Path("data/raw"))
     parser.add_argument("--build-dir", type=Path, default=Path("data/processed/ingestion_batches"))
-    parser.add_argument("--source-version", default=os.getenv("OLIST_SOURCE_VERSION", DEFAULT_SOURCE_VERSION))
+    parser.add_argument(
+        "--source-version", default=os.getenv("OLIST_SOURCE_VERSION", DEFAULT_SOURCE_VERSION)
+    )
     parser.add_argument("--prefix", default=os.getenv("S3_RAW_PREFIX", "olist/raw"))
     parser.add_argument("--backend", choices=("local", "s3"), default="local")
     parser.add_argument("--local-store", type=Path, default=Path("data/processed/mock_s3"))

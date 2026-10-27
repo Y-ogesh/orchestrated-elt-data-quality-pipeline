@@ -8,9 +8,9 @@ This is intentional. Open the top-level `power_bi/OlistELTReporting/OlistELTRepo
 
 All 14 Import partitions call `Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, ...)`; none hardcodes the placeholder. There is exactly one `SnowflakeServer` definition, in `OlistELTReporting.SemanticModel/definition/expressions.tmdl`. Running the deterministic generator intentionally restores its tracked default, so finish regeneration before setting the local Desktop value and do not accept later external source changes during the same validation session.
 
-### PBIP opens with blank report pages
+### PBIP opens with blank or incomplete report pages
 
-The two named page shells are intentional. The repository safely generates the semantic model, but it does not fabricate unsupported visual-container JSON. Build the visuals from `power_bi/report_spec.yaml`, then validate interactions and totals before treating Milestone 9 as complete.
+The tracked project contains 33 native visual definitions across two completed pages. Run `make power-bi-project` and confirm deterministic generation reports 33 visuals. If Desktop still opens blank pages, verify that the entire `OlistELTReporting.Report/definition/pages/` tree was cloned and that no merge, sync, or antivirus tool removed nested `visual.json` files. Do not recreate visuals until the tracked PBIR files and repository status have been checked.
 
 ### The backend validator reports missing `S3_BUCKET`
 
