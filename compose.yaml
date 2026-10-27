@@ -23,7 +23,7 @@ x-airflow: &airflow
     AWS_CONFIG_FILE: /run/aws/config
     AWS_PROFILE: olist-elt-pipeline
     AWS_REGION: us-east-1
-    S3_BUCKET: yogesh-olist-elt-data-pipeline
+    S3_BUCKET: "${S3_BUCKET:?Set S3_BUCKET in ignored .env}"
     S3_RAW_PREFIX: olist/raw
     SNOWFLAKE_STAGE: OLIST_S3_STAGE
     OLIST_RUN_SNOWFLAKE_INTEGRATION: "1"
