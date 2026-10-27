@@ -229,7 +229,7 @@ The five pipeline skips are four Airflow-runtime tests (passed separately) and t
 
 ## Milestone 9 result
 
-**Completed and validated on 2026-10-25.** Real Snowflake backend validation and a Power BI Desktop runtime refresh succeeded. The source-controlled PBIP/TMDL artifact opened with 15 tables, 41 measures, 12 relationships, two polished pages, and 33 native visuals.
+**Completed and validated on 2026-10-26.** Real Snowflake backend validation and a Power BI Desktop runtime refresh succeeded. The source-controlled PBIP/TMDL artifact opened with 15 tables, 41 measures, 12 relationships, two polished pages, and 33 native visuals.
 
 | Check | Actual result |
 |---|---|
@@ -246,7 +246,7 @@ The five pipeline skips are four Airflow-runtime tests (passed separately) and t
 | Relationship checks | 0 order-date, item-product, or item-seller orphans |
 | Production accounting | 1,550,922 source = 1,550,922 accepted + 0 rejected/missing; 0 traceable production rejected lines |
 | Latest quality result | 156 pass / 1 warning / 0 failures; nine sources passed at the validated publication |
-| Current freshness at final Desktop refresh | Warning: all nine sources at 346 hours; below 720-hour error threshold |
+| Current freshness at final Desktop refresh | Warning: all nine sources at 367 hours; below 720-hour error threshold |
 | Current publication | Version `M7_30F3580F9026_`; validated run `m8_publication_retry_20261016` |
 | Reproducible assets | Semantic YAML, exact DAX, two-page report YAML, deterministic PBIP/TMDL generator and project, deployment/validation Python, SQL, JSON evidence, build guide |
 | PBIP/TMDL validation | 14 imported tables + one measure table; 41 measures; 12 relationships; two completed named pages; PBIP/PBIR JSON accepted by Microsoft schemas; semantic model accepted by Microsoft's TMDL serializer |

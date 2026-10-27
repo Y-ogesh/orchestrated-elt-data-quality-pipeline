@@ -27,7 +27,7 @@
                 }
               },
               "queryRef": "_Measures.Data Freshness Age Hours",
-              "nativeQueryRef": "Data Freshness Age Hours"
+              "nativeQueryRef": "Freshness Age (Hours)"
             }
           ]
         }
@@ -55,6 +55,13 @@
       "label": [
         {
           "properties": {
+            "displayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
             "fontSize": {
               "expr": {
                 "Literal": {

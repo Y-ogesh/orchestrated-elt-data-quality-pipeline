@@ -2,7 +2,7 @@
 
 ## Status and purpose
 
-**Milestone 9 status: Completed and validated.** The source-controlled PBIP opens in Power BI Desktop and refreshes all 14 Import tables from Snowflake. Its 15-table semantic model contains 41 measures and 12 relationships, and the two polished report pages contain 33 native PBIR visuals. Live DAX totals, slicers, cross-filtering, disconnected operational behavior, and screenshots were validated on 2026-10-25.
+**Milestone 9 status: Completed and validated.** The source-controlled PBIP opens in Power BI Desktop and refreshes all 14 Import tables from Snowflake. Its 15-table semantic model contains 41 measures and 12 relationships, and the two polished report pages contain 33 native PBIR visuals. Live DAX totals, slicers, cross-filtering, disconnected operational behavior, and screenshots were validated on 2026-10-26.
 
 The intended report serves two audiences:
 
@@ -71,7 +71,7 @@ All currency is Brazilian real (BRL). “Payment value” means tendered payment
 | Rejected Rows | distinct traceable production load-error source lines | production only; synthetic probes excluded | 0 |
 | Quality outcomes | latest successful quality task | validated execution | 156 pass / 1 warning / 0 failures |
 | Latest validated run | reporting pointer joined to publication history | current published version | `m8_publication_retry_20261016` |
-| Current freshness | age from RAW `_loaded_at`, not business timestamps | warn after 168h; error after 720h | warn; 9 sources at 338h on Desktop validation |
+| Current freshness | age from RAW `_loaded_at`, not business timestamps | warn after 168h; error after 720h | warn; 9 sources at 367h on Desktop validation |
 
 The profiling report’s 7,827 “arrived after estimated date” count is a broader source-timestamp observation. The dashboard’s 7,826 is intentionally restricted to orders whose source status is `delivered`, matching the published reporting metric.
 
@@ -123,9 +123,9 @@ These steps reproduce the validated local connection without storing an account 
 
 1. Back up and close the existing manually created PBIX. The repository project is separate and does not overwrite it.
 2. On Windows, clone/copy the repository to a normal local path and open `power_bi/OlistELTReporting/OlistELTReporting.pbip` in a current Power BI Desktop. Do not open an individual TMDL file as the report.
-3. In **Transform data → Edit parameters**, replace `SnowflakeServer` with the approved Snowflake server/account host. Leave the documented warehouse/database/role defaults unless your approved environment differs.
-4. In **Data source settings**, authenticate through the supported Snowflake connector flow. Never paste credentials, tokens, or private-key contents into tracked project files.
-5. Refresh. Confirm 14 imported source tables plus the disconnected Measures table, 10 active and two inactive relationships, Date marked with `DATE_DAY`, two calculated Date columns, and 41 measures.
+3. In **Transform data → Edit parameters**, replace `SnowflakeServer` with the approved Snowflake server/account host. Leave the documented warehouse/database/role defaults unless your approved environment differs. Select **Close & Apply**, or select **Apply changes** from the report-canvas pending-changes banner; editing the value without applying it leaves the connector scope on the placeholder.
+4. In **Data source settings**, confirm the Snowflake scope shows the approved host rather than `SET_IN_POWER_BI_DESKTOP`, then authenticate through the supported connector flow. Never paste credentials, tokens, or private-key contents into tracked project files.
+5. Refresh one small dimension first, then refresh the full model. Confirm 14 imported source tables plus the disconnected Measures table, 10 active and two inactive relationships, Date marked with `DATE_DAY`, two calculated Date columns, and 41 measures.
 6. Review or extend the two completed pages from `power_bi/report_spec.yaml`; regenerate the PBIR definitions after source changes.
 7. Configure the documented slicers and interactions. Category/seller visuals must use item-safe measures and must not allocate order-level payments across items. Pipeline-health tables remain disconnected from business slicers.
 8. Compare every unfiltered KPI and each monthly row with `sql/power_bi/002_validation_queries.sql` and `reports/power_bi_backend_validation.json`.
@@ -138,6 +138,6 @@ Official references: [connect Power BI to Snowflake](https://learn.microsoft.com
 
 ## Validation boundary and limitations
 
-The three operational views and all documented backend totals were executed against real Snowflake on 2026-10-19. Power BI Desktop refreshed the same source set on 2026-10-25. The final live freshness result was 346 hours and `warn`; it will continue to age until another load. The latest validated publication remains the Milestone 8 publication.
+The three operational views and all documented backend totals were executed against real Snowflake on 2026-10-19. Power BI Desktop refreshed the same source set on 2026-10-26. The final live freshness result was 367 hours and `warn`; it will continue to age until another load. The latest validated publication remains the Milestone 8 publication.
 
 Runtime validation confirmed both pages and all 33 visuals rendered without model or visual errors. The Year-Month slicer reduced the Executive cards to the selected month, the category slicer reduced item-grain category results while leaving order/payment totals unallocated, and a seller selection cross-filtered the late-delivery category chart. Disconnected pipeline-health cards stayed unchanged. A DAX `ROW` query reconciled every required KPI, including 99,441 orders, R$16,008,872.12 tendered payment value, R$13,591,643.70 merchandise value, R$2,251,909.54 freight value, 7,826 late deliveries, 88,644 on-time deliveries, eight unknown-timeliness orders, 1,550,922 accepted rows, zero rejected rows, and 156/1/0 quality outcomes.

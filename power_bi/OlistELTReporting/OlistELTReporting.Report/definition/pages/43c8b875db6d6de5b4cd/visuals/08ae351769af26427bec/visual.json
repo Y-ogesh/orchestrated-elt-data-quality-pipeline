@@ -27,7 +27,7 @@
                 }
               },
               "queryRef": "Categories.PRODUCT_CATEGORY_NAME_ENGLISH",
-              "nativeQueryRef": "PRODUCT_CATEGORY_NAME_ENGLISH",
+              "nativeQueryRef": "Product Category",
               "active": true
             }
           ]

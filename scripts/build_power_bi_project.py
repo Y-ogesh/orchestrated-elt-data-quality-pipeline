@@ -568,30 +568,42 @@ def visual_filter(name, field, kind="Advanced"):
     }
 
 
-def card_visual(page, measure, x, y, width, height, z, label_font_size=None):
+def card_visual(
+    page,
+    measure,
+    x,
+    y,
+    width,
+    height,
+    z,
+    label_font_size=None,
+    display_label=None,
+):
     field = measure_field(measure)
     query_ref = f"_Measures.{measure}"
+    native_ref = display_label or measure
     visual = {
         "visualType": "cardVisual",
         "query": {
-            "queryState": {"Data": {"projections": [projection(field, query_ref, measure)]}},
+            "queryState": {
+                "Data": {"projections": [projection(field, query_ref, native_ref)]}
+            },
             "sortDefinition": {
                 "sort": [{"field": field, "direction": "Descending"}],
                 "isDefaultSort": True,
             },
         },
     }
+    label_properties = {
+        "displayUnits": {"expr": {"Literal": {"Value": "0D"}}},
+    }
     if label_font_size is not None:
-        visual["objects"] = {
-            "label": [
-                {
-                    "properties": {
-                        "fontSize": {"expr": {"Literal": {"Value": f"{label_font_size}D"}}}
-                    },
-                    "selector": {"id": "default"},
-                }
-            ]
+        label_properties["fontSize"] = {
+            "expr": {"Literal": {"Value": f"{label_font_size}D"}}
         }
+    visual["objects"] = {
+        "label": [{"properties": label_properties, "selector": {"id": "default"}}]
+    }
     return {
         "$schema": SCHEMA_VISUAL,
         "name": visual_id(page, f"card:{measure}"),
@@ -612,10 +624,13 @@ def chart_visual(
     height,
     z,
     visual_type="lineChart",
+    category_label=None,
 ):
     table, column = category
     category_value = column_field(table, column)
     measure_value = measure_field(measure)
+    sort_field = category_value if visual_type == "lineChart" else measure_value
+    sort_direction = "Ascending" if visual_type == "lineChart" else "Descending"
     return {
         "$schema": SCHEMA_VISUAL,
         "name": visual_id(page, f"chart:{label}"),
@@ -629,7 +644,7 @@ def chart_visual(
                             projection(
                                 category_value,
                                 f"{table}.{column}",
-                                column,
+                                category_label or column,
                                 active=True,
                             )
                         ]
@@ -639,7 +654,7 @@ def chart_visual(
                     },
                 },
                 "sortDefinition": {
-                    "sort": [{"field": measure_value, "direction": "Descending"}],
+                    "sort": [{"field": sort_field, "direction": sort_direction}],
                     "isDefaultSort": True,
                 },
             },
@@ -677,7 +692,7 @@ def table_visual(page, label, fields, x, y, width, height, z):
     }
 
 
-def slicer_visual(page, label, table, column, x, y, width, height, z):
+def slicer_visual(page, label, table, column, x, y, width, height, z, display_label=None):
     field = column_field(table, column)
     return {
         "$schema": SCHEMA_VISUAL,
@@ -688,12 +703,25 @@ def slicer_visual(page, label, table, column, x, y, width, height, z):
             "query": {
                 "queryState": {
                     "Values": {
-                        "projections": [projection(field, f"{table}.{column}", column, active=True)]
+                        "projections": [
+                            projection(
+                                field,
+                                f"{table}.{column}",
+                                display_label or column,
+                                active=True,
+                            )
+                        ]
                     }
                 }
             },
             "objects": {
-                "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Basic'"}}}}}]
+                "data": [
+                    {
+                        "properties": {
+                            "mode": {"expr": {"Literal": {"Value": "'Dropdown'"}}}
+                        }
+                    }
+                ]
             },
         },
         "filterConfig": {"filters": [visual_filter(f"{page}:{label}", field, "Categorical")]},
@@ -711,9 +739,20 @@ def report_visuals():
         page_one.append(card_visual(executive, measure, 15 + 305 * index, 10, 290, 90, index))
     page_one.extend(
         [
-            slicer_visual(executive, "Month", "Date", "Year Month", 15, 110, 395, 70, 4),
             slicer_visual(
-                executive, "Status", "Report Orders", "ORDER_STATUS", 425, 110, 395, 70, 5
+                executive, "Month", "Date", "Year Month", 15, 110, 395, 70, 4, "Year Month"
+            ),
+            slicer_visual(
+                executive,
+                "Status",
+                "Report Orders",
+                "ORDER_STATUS",
+                425,
+                110,
+                395,
+                70,
+                5,
+                "Order Status",
             ),
             slicer_visual(
                 executive,
@@ -725,6 +764,7 @@ def report_visuals():
                 400,
                 70,
                 6,
+                "Product Category",
             ),
             chart_visual(
                 executive,
@@ -736,6 +776,7 @@ def report_visuals():
                 600,
                 240,
                 7,
+                category_label="Year Month",
             ),
             chart_visual(
                 executive,
@@ -747,6 +788,7 @@ def report_visuals():
                 600,
                 240,
                 8,
+                category_label="Year Month",
             ),
             chart_visual(
                 executive,
@@ -759,6 +801,7 @@ def report_visuals():
                 255,
                 9,
                 "barChart",
+                "Order Status",
             ),
             chart_visual(
                 executive,
@@ -771,6 +814,7 @@ def report_visuals():
                 255,
                 10,
                 "barChart",
+                "Product Category",
             ),
             table_visual(
                 executive,
@@ -821,9 +865,21 @@ def report_visuals():
     )
     for offset, (measure, x, y, width) in enumerate(pipeline_cards, start=5):
         page_two.append(
-            card_visual(operations, measure, x, y, width, 82, offset, label_font_size=11)
+            card_visual(
+                operations,
+                measure,
+                x,
+                y,
+                width,
+                82,
+                offset,
+                label_font_size=10,
+            )
         )
     for offset, measure in enumerate(operation_measures[8:], start=8):
+        display_label = {
+            "Data Freshness Age Hours": "Freshness Age (Hours)",
+        }.get(measure)
         page_two.append(
             card_visual(
                 operations,
@@ -834,13 +890,25 @@ def report_visuals():
                 72,
                 offset,
                 label_font_size=9,
+                display_label=display_label,
             )
         )
     page_two.extend(
         [
-            slicer_visual(operations, "Month", "Date", "Year Month", 15, 270, 395, 70, 15),
             slicer_visual(
-                operations, "Status", "Report Orders", "ORDER_STATUS", 425, 270, 395, 70, 16
+                operations, "Month", "Date", "Year Month", 15, 270, 395, 70, 15, "Year Month"
+            ),
+            slicer_visual(
+                operations,
+                "Status",
+                "Report Orders",
+                "ORDER_STATUS",
+                425,
+                270,
+                395,
+                70,
+                16,
+                "Order Status",
             ),
             slicer_visual(
                 operations,
@@ -852,20 +920,20 @@ def report_visuals():
                 400,
                 70,
                 17,
+                "Product Category",
             ),
             table_visual(
                 operations,
                 "Seller Operations",
                 [
                     ("Sellers", "SELLER_STATE", "column"),
-                    ("Sellers", "SELLER_ID", "column"),
                     ("_Measures", "Item Orders", "measure"),
                     ("_Measures", "Item Merchandise Value", "measure"),
                     ("_Measures", "Late Delivery Rate for Selected Items", "measure"),
                 ],
                 15,
                 350,
-                400,
+                300,
                 350,
                 18,
             ),
@@ -878,9 +946,9 @@ def report_visuals():
                     ("Source Freshness", "FRESHNESS_AGE_HOURS", "column"),
                     ("Source Freshness", "FRESHNESS_STATUS", "column"),
                 ],
-                430,
+                330,
                 350,
-                350,
+                380,
                 350,
                 19,
             ),
@@ -889,12 +957,13 @@ def report_visuals():
                 "Category Late Deliveries",
                 ("Categories", "PRODUCT_CATEGORY_NAME_ENGLISH"),
                 "Late Deliveries for Selected Items",
-                795,
+                725,
                 350,
-                440,
+                510,
                 350,
                 20,
                 "barChart",
+                "Product Category",
             ),
         ]
     )

@@ -4,7 +4,9 @@
 
 ### PBIP opens but requests a server or credentials
 
-This is intentional. Open the top-level `power_bi/OlistELTReporting/OlistELTReporting.pbip`, set the `SnowflakeServer` Power Query parameter in Desktop, and authenticate through **Data source settings**. The PBIP contains Import-mode query metadata but no server-specific account name or credentials. Do not replace the placeholder with a password, token, or key path in tracked source.
+This is intentional. Open the top-level `power_bi/OlistELTReporting/OlistELTReporting.pbip`, set the `SnowflakeServer` Power Query parameter in Desktop, then use **Close & Apply** (or the report-canvas **Apply changes** banner) before refreshing. Until the pending query change is applied, Desktop continues to resolve the connector scope as `SET_IN_POWER_BI_DESKTOP;OLIST_ELT_WH`. Authenticate through **Data source settings** only after the applied scope shows the approved host. The PBIP contains Import-mode query metadata but no server-specific account name or credentials. Do not replace the placeholder with a password, token, or key path in tracked source.
+
+All 14 Import partitions call `Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse, ...)`; none hardcodes the placeholder. There is exactly one `SnowflakeServer` definition, in `OlistELTReporting.SemanticModel/definition/expressions.tmdl`. Running the deterministic generator intentionally restores its tracked default, so finish regeneration before setting the local Desktop value and do not accept later external source changes during the same validation session.
 
 ### PBIP opens with blank report pages
 

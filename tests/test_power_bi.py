@@ -88,6 +88,24 @@ class PowerBiAssetTests(unittest.TestCase):
         self.assertIn("\tdataCategory: Time", table_text)
         self.assertIn("SET_IN_POWER_BI_DESKTOP", expressions)
         self.assertNotIn("snowflakecomputing.com", expressions.lower())
+        self.assertEqual(1, expressions.count("expression SnowflakeServer ="))
+
+        import_tables = [
+            path
+            for path in (definition / "tables").glob("*.tmdl")
+            if path.name != "_Measures.tmdl"
+        ]
+        self.assertEqual(14, len(import_tables))
+        for path in import_tables:
+            partition = path.read_text(encoding="utf-8")
+            self.assertEqual(
+                1,
+                partition.count(
+                    "Snowflake.Databases(SnowflakeServer, SnowflakeWarehouse,"
+                ),
+                f"{path.name} must use the shared Snowflake parameters",
+            )
+            self.assertNotIn("SET_IN_POWER_BI_DESKTOP", partition)
 
         order_customer_relationship = next(
             block

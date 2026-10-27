@@ -50,6 +50,24 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "label": [
+        {
+          "properties": {
+            "displayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
     }
   },
   "filterConfig": {

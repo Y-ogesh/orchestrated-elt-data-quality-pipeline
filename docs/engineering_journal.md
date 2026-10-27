@@ -161,10 +161,10 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Validated eight project/report JSON files against Microsoft's published PBIP/PBIR schemas. Microsoft's Analysis Services 19.106.1 TMDL serializer parsed the semantic model as 15 tables, 12 relationships, and 41 measures. Seven focused repository tests pass, and lint passes for the builder/tests.
 - Kept Milestone 9 partially implemented and all work uncommitted. Desktop open/refresh, visual construction, interaction/filter validation, screenshots, and the final completion commit remain.
 
-## 2026-10-25 — Milestone 9 Power BI Desktop completion
+## 2026-10-26 — Milestone 9 Power BI Desktop completion
 
 - Opened the PBIP in Power BI Desktop on Windows, restored the Snowflake server value only in the local Desktop session, and refreshed all 14 Import tables without storing the account host or credentials in tracked source.
 - Verified the 15-table model, 41 measures, 12 relationships, both polished report pages, and all 33 native visuals. The compact seller-performance table completed its live query and rendered item-safe order, merchandise, and late-delivery measures; the late-delivery category chart received more space.
-- Reconciled the requested DAX KPIs exactly. Final live freshness was 346 hours with `warn`; the earlier publication-time freshness evidence remains historical rather than being overwritten.
+- Reconciled the requested DAX KPIs exactly. Final live freshness was 367 hours with `warn`; the earlier publication-time freshness evidence remains historical rather than being overwritten.
 - Tested Year-Month filtering, category filtering at item grain, and seller cross-filtering. Order/payment cards did not inherit item-grain category or seller filters, avoiding item/payment fanout, while disconnected operational cards remained stable.
 - Captured genuine Executive Overview, Operations & Data Quality, and Model view screenshots under `docs/screenshots/`. No connection, user, or authentication details are visible.

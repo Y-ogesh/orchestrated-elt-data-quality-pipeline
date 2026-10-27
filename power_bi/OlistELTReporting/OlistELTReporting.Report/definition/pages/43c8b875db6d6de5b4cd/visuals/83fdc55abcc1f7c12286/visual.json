@@ -27,7 +27,7 @@
                 }
               },
               "queryRef": "Report Orders.ORDER_STATUS",
-              "nativeQueryRef": "ORDER_STATUS",
+              "nativeQueryRef": "Order Status",
               "active": true
             }
           ]
@@ -41,7 +41,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
                 }
               }
             }
