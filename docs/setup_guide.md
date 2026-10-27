@@ -44,6 +44,7 @@ Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separ
 |---|---|---|
 | `make download` | Download and safely extract the official ZIP | Ignored `data/raw/*.csv` |
 | `make test` | Run offline unit tests | Python cache only |
+| `make lint` | Run repository-wide Ruff checks | Ruff cache only |
 | `make profile` | Recompute aggregate evidence | `reports/data_profile.json` |
 | `make validate` | Validate all rows, contracts, keys, and FKs | Console only |
 | `make ingest-local` | Build deterministic batches and upload to the local S3 substitute | Ignored `data/processed/` |
@@ -57,6 +58,8 @@ Credentialed S3/Snowflake integration can install `.[cloud]`. dbt uses the separ
 | `make power-bi-project` | Deterministically regenerate the PBIP/TMDL source project | `power_bi/OlistELTReporting/`; no data or credentials |
 | `make power-bi-validate` | Validate existing Power BI reporting views and KPIs against Snowflake | Sanitized aggregate JSON evidence |
 | `make dbt-docs-local` | Generate initial lineage/docs artifacts with an explicitly empty catalog | Ignored `dbt/target/` |
+| `make docs` | Validate required documents and repository-relative links | Console only |
+| `make final-check` | Run lint, local tests, docs/links, and static dbt parsing | Ignored caches and `dbt/target/` |
 | `make clean` | Remove Python bytecode caches | Cache directories only |
 
 ## Configuration and secrets
@@ -160,7 +163,7 @@ PYTHONPATH=src python -m olist_pipeline.power_bi --apply
 
 Omit `--apply` for read-only validation after the views exist. The shared settings loader also requires the documented non-secret S3 bucket variables, although this command performs no S3 operations. The command writes only aggregate evidence to `reports/power_bi_backend_validation.json`; it never reads or prints key material.
 
-Generate or refresh the deterministic project source with `make power-bi-project`, then open `power_bi/OlistELTReporting/OlistELTReporting.pbip` in a current Power BI Desktop on Windows. Set the `SnowflakeServer` Power Query parameter and apply the pending query change before opening data-source settings or refreshing; otherwise Desktop still uses the tracked placeholder scope. Authenticate through Desktop's Snowflake connector and refresh one small table before refreshing the full model. The warehouse, database, and role parameters contain only non-secret project defaults; credentials remain external. Follow [the dashboard guide](dashboard.md), keep `.pbi/localSettings.json` and `.pbi/cache.abf` ignored, and validate both pages before changing Milestone 9 status.
+Generate or refresh the deterministic project source with `make power-bi-project`, then open `power_bi/OlistELTReporting/OlistELTReporting.pbip` in a current Power BI Desktop on Windows. Set the `SnowflakeServer` Power Query parameter and apply the pending query change before opening data-source settings or refreshing; otherwise Desktop still uses the tracked placeholder scope. Authenticate through Desktop's Snowflake connector and refresh one small table before refreshing the full model. The warehouse, database, and role parameters contain only non-secret project defaults; credentials remain external. Follow [the dashboard guide](dashboard.md), keep `.pbi/localSettings.json` and `.pbi/cache.abf` ignored, and revalidate both completed pages after any model/report change.
 
 ## Updating the source snapshot
 

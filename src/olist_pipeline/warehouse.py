@@ -4,9 +4,10 @@ import argparse
 import json
 import os
 import uuid
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, Optional, Protocol, Sequence, Tuple
+from typing import Optional, Protocol
 
 from .dataset import TABLES
 from .ingestion import load_manifest
@@ -60,19 +61,15 @@ class WarehousePlanSummary:
 
 
 class WarehouseBackend(Protocol):
-    def start_run(self, run_id: str, batches: int, expected_rows: int) -> None:
-        ...
+    def start_run(self, run_id: str, batches: int, expected_rows: int) -> None: ...
 
-    def completed_batch(self, batch_id: str) -> Optional[CompletedBatch]:
-        ...
+    def completed_batch(self, batch_id: str) -> Optional[CompletedBatch]: ...
 
-    def count_batch_rows(self, manifest: BatchManifest) -> int:
-        ...
+    def count_batch_rows(self, manifest: BatchManifest) -> int: ...
 
     def validate_file(
         self, run_id: str, manifest: BatchManifest, item: ManifestFile
-    ) -> List[Mapping[str, object]]:
-        ...
+    ) -> list[Mapping[str, object]]: ...
 
     def record_validation_errors(
         self,
@@ -80,19 +77,13 @@ class WarehouseBackend(Protocol):
         manifest: BatchManifest,
         item: ManifestFile,
         errors: Sequence[Mapping[str, object]],
-    ) -> None:
-        ...
+    ) -> None: ...
 
-    def begin_batch(self, run_id: str, manifest: BatchManifest) -> None:
-        ...
+    def begin_batch(self, run_id: str, manifest: BatchManifest) -> None: ...
 
-    def copy_file(
-        self, run_id: str, manifest: BatchManifest, item: ManifestFile
-    ) -> CopyResult:
-        ...
+    def copy_file(self, run_id: str, manifest: BatchManifest, item: ManifestFile) -> CopyResult: ...
 
-    def count_file_rows(self, manifest: BatchManifest, item: ManifestFile) -> int:
-        ...
+    def count_file_rows(self, manifest: BatchManifest, item: ManifestFile) -> int: ...
 
     def record_file_success(
         self,
@@ -100,25 +91,17 @@ class WarehouseBackend(Protocol):
         manifest: BatchManifest,
         item: ManifestFile,
         result: CopyResult,
-    ) -> None:
-        ...
+    ) -> None: ...
 
-    def complete_batch(self, run_id: str, manifest: BatchManifest) -> None:
-        ...
+    def complete_batch(self, run_id: str, manifest: BatchManifest) -> None: ...
 
-    def validate_batch_keys(self, manifest: BatchManifest) -> None:
-        ...
+    def validate_batch_keys(self, manifest: BatchManifest) -> None: ...
 
-    def commit(self) -> None:
-        ...
+    def commit(self) -> None: ...
 
-    def rollback(self) -> None:
-        ...
+    def rollback(self) -> None: ...
 
-    def record_batch_failure(
-        self, run_id: str, manifest: BatchManifest, message: str
-    ) -> None:
-        ...
+    def record_batch_failure(self, run_id: str, manifest: BatchManifest, message: str) -> None: ...
 
     def finish_run(
         self,
@@ -129,8 +112,7 @@ class WarehouseBackend(Protocol):
         batches_skipped: int,
         rows_loaded: int,
         error_message: Optional[str],
-    ) -> None:
-        ...
+    ) -> None: ...
 
 
 class WarehouseLoader:
@@ -177,13 +159,11 @@ class WarehouseLoader:
                         f"Uncommitted rows exist for batch {manifest.batch_id}: {existing_rows}"
                     )
 
-                validation_errors: List[Tuple[ManifestFile, Sequence[Mapping[str, object]]]] = []
+                validation_errors: list[tuple[ManifestFile, Sequence[Mapping[str, object]]]] = []
                 for item in manifest.files:
                     errors = self.backend.validate_file(current_run, manifest, item)
                     if errors:
-                        self.backend.record_validation_errors(
-                            current_run, manifest, item, errors
-                        )
+                        self.backend.record_validation_errors(current_run, manifest, item, errors)
                         validation_errors.append((item, errors))
                 if validation_errors:
                     count = sum(len(errors) for _, errors in validation_errors)
@@ -204,9 +184,7 @@ class WarehouseLoader:
                                 f"copy reported {result.rows_loaded}, warehouse contains "
                                 f"{actual_rows}"
                             )
-                        self.backend.record_file_success(
-                            current_run, manifest, item, result
-                        )
+                        self.backend.record_file_success(current_run, manifest, item, result)
                         batch_files_loaded += 1
                         batch_rows_loaded += actual_rows
                     self.backend.validate_batch_keys(manifest)
@@ -421,7 +399,7 @@ def validate_remote_warehouse(
     batch_dirs: Sequence[Path],
 ) -> Mapping[str, int]:
     manifests = [load_manifest(path) for path in sorted(batch_dirs)]
-    expected_rows: Dict[str, int] = {table: 0 for table in TABLES}
+    expected_rows: dict[str, int] = {table: 0 for table in TABLES}
     expected_files = 0
     for manifest in manifests:
         for item in manifest.files:
@@ -452,7 +430,7 @@ def validate_remote_warehouse(
         f"{quote_fqn(names.database, 'INFORMATION_SCHEMA', 'COLUMNS')} WHERE table_schema=%s",
         (names.raw_schema.upper(),),
     )
-    actual_columns: Dict[str, set] = {}
+    actual_columns: dict[str, set] = {}
     for table_name, column_name in cursor.fetchall():
         actual_columns.setdefault(str(table_name).lower(), set()).add(str(column_name).lower())
     for table in TABLES:
@@ -461,8 +439,7 @@ def validate_remote_warehouse(
             raise WarehouseLoadError(f"RAW column contract mismatch for {table}")
 
     cursor.execute(
-        f"SELECT table_name,row_count FROM "
-        f"{names.table(names.audit_schema, 'RAW_TABLE_COUNTS')}"
+        f"SELECT table_name,row_count FROM {names.table(names.audit_schema, 'RAW_TABLE_COUNTS')}"
     )
     actual_rows = {str(table): int(count) for table, count in cursor.fetchall()}
     if actual_rows != expected_rows:
@@ -565,7 +542,7 @@ class SnowflakeBackend:
 
     def validate_file(
         self, run_id: str, manifest: BatchManifest, item: ManifestFile
-    ) -> List[Mapping[str, object]]:
+    ) -> list[Mapping[str, object]]:
         table = self._validation_table(run_id, item.table)
         self._execute(validation_table_sql(item.table, table))
         cursor = self._execute(build_validation_sql(self.names, manifest, item, table))
@@ -624,9 +601,7 @@ class SnowflakeBackend:
             ),
         )
 
-    def copy_file(
-        self, run_id: str, manifest: BatchManifest, item: ManifestFile
-    ) -> CopyResult:
+    def copy_file(self, run_id: str, manifest: BatchManifest, item: ManifestFile) -> CopyResult:
         cursor = self._execute(build_copy_sql(self.names, manifest, item, run_id))
         columns = [str(value[0]).lower() for value in (cursor.description or ())]
         rows = cursor.fetchall()
@@ -688,7 +663,7 @@ class SnowflakeBackend:
             if not keys:
                 continue
             table = self.names.table(self.names.raw_schema, item.table)
-            columns = ', '.join(f'"{key.upper()}"' for key in keys)
+            columns = ", ".join(f'"{key.upper()}"' for key in keys)
             cursor = self._execute(
                 f"SELECT COUNT(*) FROM (SELECT {columns} FROM {table} "
                 f"GROUP BY {columns} HAVING COUNT(*) > 1 "
@@ -706,9 +681,7 @@ class SnowflakeBackend:
     def rollback(self) -> None:
         self.connection.rollback()
 
-    def record_batch_failure(
-        self, run_id: str, manifest: BatchManifest, message: str
-    ) -> None:
+    def record_batch_failure(self, run_id: str, manifest: BatchManifest, message: str) -> None:
         expected_rows = sum(item.row_count for item in manifest.files)
         self._execute(
             f"INSERT INTO {self.batch_audit} "
@@ -766,9 +739,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         "action", choices=("validate-local", "plan", "bootstrap", "load", "validate-remote")
     )
     parser.add_argument("--sql-dir", type=Path, default=Path("sql/snowflake"))
-    parser.add_argument(
-        "--batch-dir", type=Path, default=Path("data/processed/ingestion_batches")
-    )
+    parser.add_argument("--batch-dir", type=Path, default=Path("data/processed/ingestion_batches"))
     args = parser.parse_args(argv)
     try:
         batch_dirs = [path.parent for path in sorted(args.batch_dir.glob("*/manifest.json"))]

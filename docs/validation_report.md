@@ -253,3 +253,24 @@ The five pipeline skips are four Airflow-runtime tests (passed separately) and t
 | Power BI/UI state | Both pages and all 33 visuals rendered; Year-Month, category, and seller cross-filter behavior validated; disconnected operational cards stayed unchanged; three genuine screenshots captured |
 
 `reports/power_bi_backend_validation.json` remains the measured backend evidence, while `sql/power_bi/002_validation_queries.sql` and the saved DAX query provide independent reconciliation paths. Desktop returned the required KPI row exactly: 99,441 orders; R$16,008,872.12 tendered payment value; R$160.99 AOV; R$13,591,643.70 merchandise; R$2,251,909.54 freight; 96,096 customers; 32,951 products; 3,095 sellers; 96,478 delivered orders; 7,826 late; 88,644 on time; 8 unknown; 1,550,922 accepted; 0 rejected; and quality 156 pass / 1 warning / 0 failure. The report screenshots are in `docs/screenshots/`.
+
+## Milestone 10 result
+
+**Completed and validated on 2026-10-27.** Finalization reused the current committed cloud/Desktop evidence and did not trigger duplicate AWS, Snowflake, dbt warehouse, Docker/Airflow, or Power BI runs. The complete evidence map, audit classification, reconciled metrics, runtime caveats, cleanup guidance, and limitations are in [the final audit](final_audit.md).
+
+| Check | Actual result |
+|---|---|
+| Evidence reconciliation | PASS — S3, RAW, dbt, MARTS, quality, orchestration, monitoring/publication, and Power BI figures agree with their committed reports |
+| Local repository tests | PASS — 46 passed, 7 expected cloud/Airflow-environment skips |
+| Targeted static/component tests | PASS — 17 passed, 4 expected pinned-Airflow-container skips |
+| dbt static parse | PASS — dbt Core 1.12.5 / `dbt-snowflake` 1.12.1; no warehouse execution |
+| Repository Ruff | PASS — all tracked Python source/tests/scripts satisfy configured Python 3.9 rules |
+| Power BI deterministic generation | PASS — 64 project files, 0 hash changes; 14 imports, 41 measures, 12 relationships, 2 pages, 33 visuals |
+| Documentation and links | PASS — 19 required documents and repository-relative links |
+| Architecture/status review | PASS — completed Power BI visuals/runtime state replaces stale page-shell language |
+| Screenshots | PASS — three readable PNGs present; 2332×1338, 2332×1336, and 2742×1022 |
+| Secrets/runtime artifacts | PASS — `.env`, local dbt profiles, keys, caches, targets, logs, and Power BI local state ignored; no credential/key/hostname pattern tracked |
+| Cost/cleanup review | PASS — S3 versioning caveat, scoped object deletion, Snowflake X-Small auto-suspend, Docker volume cleanup, and no credit claim documented |
+| GitHub readiness | PASS — recruiter-facing README, MIT license, lightweight CI, screenshots, final audit, and reproducible commands present |
+
+No performance improvement, production deployment, enterprise scale, business impact, availability SLO, or reliability guarantee is inferred. The recorded timings describe different validated operations and are retained only as execution evidence.

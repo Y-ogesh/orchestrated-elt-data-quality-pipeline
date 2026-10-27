@@ -2,22 +2,20 @@
 
 import argparse
 import json
+from collections.abc import Iterable, Mapping
 from datetime import date
 from pathlib import Path
-from typing import Dict, Iterable, Mapping, Optional
+from typing import Optional
 
 
 def _date(value: str) -> date:
     return date.fromisoformat(value[:10])
 
 
-def expected_model_rows(profile: Mapping[str, object]) -> Dict[str, int]:
+def expected_model_rows(profile: Mapping[str, object]) -> dict[str, int]:
     tables = profile["tables"]
     business_rules = profile["business_rules"]
-    expected = {
-        f"stg_{name}": int(table["rows"])
-        for name, table in tables.items()
-    }
+    expected = {f"stg_{name}": int(table["rows"]) for name, table in tables.items()}
     expected.update(
         {
             "int_order_item_totals": int(business_rules["orders_with_items"]),
@@ -30,9 +28,7 @@ def expected_model_rows(profile: Mapping[str, object]) -> Dict[str, int]:
             "dim_order_customer": int(tables["customers"]["rows"]),
             "dim_product": int(tables["products"]["rows"]),
             "dim_seller": int(tables["sellers"]["rows"]),
-            "dim_category": int(
-                tables["products"]["distinct_counts"]["product_category_name"]
-            )
+            "dim_category": int(tables["products"]["distinct_counts"]["product_category_name"])
             + int(tables["products"]["null_counts"]["product_category_name"] > 0),
             "dim_geography": int(
                 tables["geolocation"]["distinct_counts"]["geolocation_zip_code_prefix"]

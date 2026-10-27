@@ -3,10 +3,10 @@
 import json
 import shutil
 import time
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Mapping, Optional, Protocol, TypeVar
-
+from typing import Callable, Optional, Protocol, TypeVar
 
 T = TypeVar("T")
 
@@ -26,14 +26,11 @@ class ObjectMetadata:
 
 
 class ObjectStore(Protocol):
-    def head(self, key: str) -> ObjectMetadata:
-        ...
+    def head(self, key: str) -> ObjectMetadata: ...
 
-    def upload_file(self, source: Path, key: str, metadata: Mapping[str, str]) -> None:
-        ...
+    def upload_file(self, source: Path, key: str, metadata: Mapping[str, str]) -> None: ...
 
-    def put_bytes(self, payload: bytes, key: str, metadata: Mapping[str, str]) -> None:
-        ...
+    def put_bytes(self, payload: bytes, key: str, metadata: Mapping[str, str]) -> None: ...
 
 
 class LocalObjectStore:
@@ -97,7 +94,9 @@ class S3ObjectStore:
         try:
             import boto3
         except ImportError as exc:
-            raise RuntimeError("Install the cloud dependency group: pip install -e '.[cloud]'") from exc
+            raise RuntimeError(
+                "Install the cloud dependency group: pip install -e '.[cloud]'"
+            ) from exc
         session = boto3.Session(profile_name=profile, region_name=region)
         self.client = session.client("s3")
 
@@ -138,7 +137,12 @@ def is_retryable_exception(exc: Exception) -> bool:
     response = getattr(exc, "response", {})
     code = str(response.get("Error", {}).get("Code", ""))
     status = response.get("ResponseMetadata", {}).get("HTTPStatusCode")
-    return code in {"SlowDown", "RequestTimeout", "InternalError", "ServiceUnavailable"} or status in {
+    return code in {
+        "SlowDown",
+        "RequestTimeout",
+        "InternalError",
+        "ServiceUnavailable",
+    } or status in {
         429,
         500,
         502,

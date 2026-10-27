@@ -13,6 +13,7 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 | 7. Airflow orchestration | Ingest/load/build/validate/publish/audit DAG, retries, historical batch orchestration and failure recovery | **Completed and validated** | Scheduled/manual/recovery runs passed; failed quality gate blocked publication; reporting/production fingerprints unchanged; overlap and timeout enforcement verified |
 | 8. Failure handling, recovery and monitoring | Typed audit observations, rejected-row accounting, isolated quarantine, recovery, monitoring summaries | **Completed and validated** | Five new real DAG scenarios; 3 = 1 accepted + 2 rejected rows; corrected merge adds zero on rerun; 74 publication rows rolled back; 73 terminal events and seven publications reconcile |
 | 9. Power BI and portfolio release | Semantic model, business measures, dashboards, screenshots, final runbook | **Completed and validated** | PBIP opened and refreshed in Desktop; 15 tables, 41 measures, 12 relationships, 33 visuals, slicer/cross-filter tests, KPI reconciliation, and genuine screenshots passed |
+| 10. Final validation and portfolio readiness | Cross-milestone evidence reconciliation, local/static regression, README, security hygiene, CI and final audit | **Completed and validated** | All headline metrics reconcile to committed evidence; 46 local tests pass; Ruff, dbt parse, deterministic PBIP generation, docs/links, secret and artifact checks pass |
 
 ## Milestone 1 acceptance criteria
 
@@ -130,6 +131,19 @@ Status definitions: **Completed and validated**, **Implemented but unverified**,
 - [x] Refresh, slicers, relationships, interactions, and filtered totals validated in Power BI.
 - [x] Genuine redacted screenshots captured under `docs/screenshots/`.
 - [x] Final Milestone 9 completion commit created only after the preceding UI evidence exists.
+
+## Milestone 10 acceptance criteria
+
+- [x] End-to-end architecture and every component runbook reviewed against committed evidence.
+- [x] Source, S3, RAW, dbt, MARTS, audit/publication, and Power BI counts reconciled without rerunning cloud workloads.
+- [x] Initial load, incremental replay, duplicate handling, idempotency, quarantine, failure/retry, rollback, corrected-source recovery, and reporting preservation evidence verified.
+- [x] README finalized with business context, stack, scale, verified outcomes, reproducibility, screenshots, limitations, and documentation links.
+- [x] Architecture, decision, setup, and troubleshooting statements updated to the completed Power BI state.
+- [x] Local tests, repository-wide Ruff, dbt static parse, Power BI deterministic generation, docs/links, and whitespace checks pass.
+- [x] Secrets, private keys, local profiles, caches, logs, generated data, and runtime artifacts remain ignored/untracked.
+- [x] Cost-awareness and scoped cleanup guidance confirmed for S3, Snowflake, Docker/Airflow, and Power BI local state.
+- [x] Final audit classification and evidence map preserved in `docs/final_audit.md`.
+- [x] GitHub CI and MIT project license added for portfolio handoff.
 
 ## Delivery conventions
 

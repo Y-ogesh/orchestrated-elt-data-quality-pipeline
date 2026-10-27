@@ -1,17 +1,16 @@
 """Canonical source-dataset contract used by profiling and validation."""
 
 from dataclasses import dataclass
-from typing import Dict, Tuple
 
 
 @dataclass(frozen=True)
 class TableContract:
     filename: str
-    required_columns: Tuple[str, ...]
-    natural_key: Tuple[str, ...]
+    required_columns: tuple[str, ...]
+    natural_key: tuple[str, ...]
 
 
-TABLES: Dict[str, TableContract] = {
+TABLES: dict[str, TableContract] = {
     "customers": TableContract(
         "olist_customers_dataset.csv",
         (

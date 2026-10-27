@@ -5,9 +5,10 @@ import csv
 import hashlib
 import json
 from collections import Counter
+from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
+from typing import Optional
 
 from .dataset import DATE_COLUMNS, FOREIGN_KEYS, NUMERIC_COLUMNS, TABLES
 
@@ -20,20 +21,20 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _key(row: Mapping[str, str], columns: Sequence[str]) -> Tuple[str, ...]:
+def _key(row: Mapping[str, str], columns: Sequence[str]) -> tuple[str, ...]:
     return tuple(row[column] for column in columns)
 
 
-def profile_table(path: Path, table_name: str) -> Dict[str, object]:
+def profile_table(path: Path, table_name: str) -> dict[str, object]:
     contract = TABLES[table_name]
     null_counts: Counter = Counter()
-    distinct_values: MutableMapping[str, Set[str]] = {}
-    exact_rows: Set[Tuple[str, ...]] = set()
-    natural_keys: Set[Tuple[str, ...]] = set()
-    date_ranges: Dict[str, List[Optional[str]]] = {
+    distinct_values: MutableMapping[str, set[str]] = {}
+    exact_rows: set[tuple[str, ...]] = set()
+    natural_keys: set[tuple[str, ...]] = set()
+    date_ranges: dict[str, list[Optional[str]]] = {
         column: [None, None] for column in DATE_COLUMNS.get(table_name, ())
     }
-    numeric_ranges: Dict[str, List[Optional[float]]] = {
+    numeric_ranges: dict[str, list[Optional[float]]] = {
         column: [None, None] for column in NUMERIC_COLUMNS.get(table_name, ())
     }
     row_count = 0
@@ -95,8 +96,7 @@ def profile_table(path: Path, table_name: str) -> Dict[str, object]:
         "natural_key": list(contract.natural_key),
         "natural_key_duplicate_rows": natural_key_duplicate_count,
         "date_ranges": {
-            column: {"min": limits[0], "max": limits[1]}
-            for column, limits in date_ranges.items()
+            column: {"min": limits[0], "max": limits[1]} for column, limits in date_ranges.items()
         },
         "numeric_ranges": {
             column: {"min": limits[0], "max": limits[1]}
@@ -105,18 +105,18 @@ def profile_table(path: Path, table_name: str) -> Dict[str, object]:
     }
 
 
-def _read_key_set(path: Path, columns: Sequence[str]) -> Set[Tuple[str, ...]]:
+def _read_key_set(path: Path, columns: Sequence[str]) -> set[tuple[str, ...]]:
     with path.open(newline="", encoding="utf-8-sig") as stream:
         return {_key(row, columns) for row in csv.DictReader(stream)}
 
 
-def profile_relationships(data_dir: Path) -> List[Dict[str, object]]:
-    results: List[Dict[str, object]] = []
+def profile_relationships(data_dir: Path) -> list[dict[str, object]]:
+    results: list[dict[str, object]] = []
     for child, child_columns, parent, parent_columns in FOREIGN_KEYS:
         parent_keys = _read_key_set(data_dir / TABLES[parent].filename, parent_columns)
         child_path = data_dir / TABLES[child].filename
         orphan_rows = 0
-        orphan_keys: Set[Tuple[str, ...]] = set()
+        orphan_keys: set[tuple[str, ...]] = set()
         with child_path.open(newline="", encoding="utf-8-sig") as stream:
             for row in csv.DictReader(stream):
                 key = _key(row, child_columns)
@@ -136,18 +136,24 @@ def profile_relationships(data_dir: Path) -> List[Dict[str, object]]:
     return results
 
 
-def profile_business_rules(data_dir: Path) -> Dict[str, object]:
+def profile_business_rules(data_dir: Path) -> dict[str, object]:
     item_totals: Counter = Counter()
     payment_totals: Counter = Counter()
-    item_orders: Set[str] = set()
-    payment_orders: Set[str] = set()
+    item_orders: set[str] = set()
+    payment_orders: set[str] = set()
 
-    with (data_dir / TABLES["order_items"].filename).open(newline="", encoding="utf-8-sig") as stream:
+    with (data_dir / TABLES["order_items"].filename).open(
+        newline="", encoding="utf-8-sig"
+    ) as stream:
         for row in csv.DictReader(stream):
             item_orders.add(row["order_id"])
-            item_totals[row["order_id"]] += round(float(row["price"]) + float(row["freight_value"]), 2)
+            item_totals[row["order_id"]] += round(
+                float(row["price"]) + float(row["freight_value"]), 2
+            )
 
-    with (data_dir / TABLES["order_payments"].filename).open(newline="", encoding="utf-8-sig") as stream:
+    with (data_dir / TABLES["order_payments"].filename).open(
+        newline="", encoding="utf-8-sig"
+    ) as stream:
         for row in csv.DictReader(stream):
             payment_orders.add(row["order_id"])
             payment_totals[row["order_id"]] += round(float(row["payment_value"]), 2)
@@ -159,7 +165,7 @@ def profile_business_rules(data_dir: Path) -> Dict[str, object]:
     }
     mismatches = {key: value for key, value in differences.items() if abs(value) > 0.01}
 
-    order_dates: Dict[str, Dict[str, str]] = {}
+    order_dates: dict[str, dict[str, str]] = {}
     with (data_dir / TABLES["orders"].filename).open(newline="", encoding="utf-8-sig") as stream:
         for row in csv.DictReader(stream):
             order_dates[row["order_id"]] = row
@@ -180,14 +186,20 @@ def profile_business_rules(data_dir: Path) -> Dict[str, object]:
         "orders_with_items_without_payments": len(item_orders - payment_orders),
         "orders_with_payments_without_items": len(payment_orders - item_orders),
         "shared_orders_item_payment_difference_gt_0_01": len(mismatches),
-        "max_absolute_item_payment_difference": max((abs(v) for v in differences.values()), default=0),
+        "max_absolute_item_payment_difference": max(
+            (abs(v) for v in differences.values()), default=0
+        ),
         "delivered_before_purchase": delivered_before_purchase,
         "delivered_after_estimated_date": delivered_after_estimate,
     }
 
 
-def profile_dataset(data_dir: Path) -> Dict[str, object]:
-    missing_files = [contract.filename for contract in TABLES.values() if not (data_dir / contract.filename).is_file()]
+def profile_dataset(data_dir: Path) -> dict[str, object]:
+    missing_files = [
+        contract.filename
+        for contract in TABLES.values()
+        if not (data_dir / contract.filename).is_file()
+    ]
     if missing_files:
         raise FileNotFoundError("Missing dataset files: " + ", ".join(missing_files))
     return {

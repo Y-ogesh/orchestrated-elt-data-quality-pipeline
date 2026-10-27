@@ -168,3 +168,13 @@ The first local Milestone 2 commit directly parented the initial repository comm
 - Reconciled the requested DAX KPIs exactly. Final live freshness was 367 hours with `warn`; the earlier publication-time freshness evidence remains historical rather than being overwritten.
 - Tested Year-Month filtering, category filtering at item grain, and seller cross-filtering. Order/payment cards did not inherit item-grain category or seller filters, avoiding item/payment fanout, while disconnected operational cards remained stable.
 - Captured genuine Executive Overview, Operations & Data Quality, and Model view screenshots under `docs/screenshots/`. No connection, user, or authentication details are visible.
+
+## 2026-10-27 — Milestone 10 final validation and portfolio readiness
+
+- Started from clean merged `main` and created `milestone-10-final-validation`; no cloud resources, Docker services, Airflow DAGs, dbt warehouse models, or Power BI Desktop sessions were rerun.
+- Reconciled all headline counts and reporting metrics to the committed S3, Snowflake, dbt, quality, incremental, orchestration, monitoring, and Power BI evidence. Preserved historical timestamps and explicitly treated the Power BI backend JSON as the earlier backend-only capture.
+- Corrected stale architecture, decision, setup, and troubleshooting language that still described blank Power BI page shells after the completed Desktop work. Updated the model diagram to the validated one-to-many Order Customers → Orders relationship.
+- Added a recruiter-facing README summary, technology stack, dashboard preview, limitations, MIT license, CI workflow, final evidence/classification audit, and 1.0.0 project metadata. No unsupported production, scale, impact, performance-improvement, or reliability claim was added.
+- Repository-wide Ruff initially identified 106 early-module style findings. Applied Python 3.9-compatible typing/import/formatting cleanup to ten files; the full local suite remained 46 pass / 7 expected skips and Ruff then passed.
+- Static dbt parsing, documentation/link checks, deterministic PBIP regeneration, screenshot inventory, whitespace review, and tracked-secret/runtime-artifact scans passed. The PBIP generator reproduced 64 files with zero hash changes and retained 33 visuals.
+- Kept `.env`, rendered dbt profiles, keys, caches, logs, targets, local Power BI state, and source data ignored. Prepared the requested local documentation commit only; no push or merge was performed.
